@@ -12,3 +12,6 @@ Also uses the algorithms library, which contains generic classes for addressing 
 It was never my intention to create the shortest program possible. I did try to create clear and simple implementations.
 
 ## Day 1
+A simple exercise to start this year's edition. Part 1 is trivial. A helper method just counts the number of increases 
+in the list in values. For part 2, I created a new list frm the original one (creating the sliding window values) and
+reused the helper for counting. Runs in less than 15 ms on my laptop. 
