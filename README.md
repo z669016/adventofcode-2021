@@ -15,3 +15,10 @@ It was never my intention to create the shortest program possible. I did try to 
 A simple exercise to start this year's edition. Part 1 is trivial. A helper method just counts the number of increases 
 in the list in values. For part 2, I created a new list frm the original one (creating the sliding window values) and
 reused the helper for counting. Runs in less than 15 ms on my laptop. 
+
+## Day 2
+I've created a ```Submarine``` class, with a ```move``` method taking a ```Command``` as an input. The command has
+a direction and a distance attribute. This approach made it easy to process the input. For part 1 the input is 
+transformed into commands and the commands were used to move the submarine.
+For part 2, I extended the ```Submarine``` class and changed the ```move``` method according to instructions, then 
+processed the command list again... pretty straight forward.
