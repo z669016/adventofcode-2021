@@ -2,31 +2,10 @@ package com.putoet.day2;
 
 import java.util.Objects;
 
-public class Command {
-    public final Direction direction;
-    public final int distance;
+public record Command(Direction direction, int distance) {
 
-    public Command(Direction direction, int distance) {
-        this.direction = direction;
-        this.distance = distance;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Command)) return false;
-        Command command = (Command) o;
-        return distance == command.distance && direction == command.direction;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(direction, distance);
-    }
-
-    @Override
-    public String toString() {
-        return "Command{" + direction + ", " + distance + '}';
+    public Command {
+        Objects.requireNonNull(direction);
     }
 
     public static Command with(Direction direction, int distance) {
