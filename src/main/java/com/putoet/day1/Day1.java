@@ -9,16 +9,17 @@ import java.util.List;
 public class Day1 extends Day {
     private final List<Integer> measurements;
 
-    public Day1() {
+    public Day1(String[] args) {
+        super(args);
         this.measurements = ResourceLines.intList("/day1.txt");
     }
 
     public static void main(String[] args) {
-        final Day day = new Day1();
+        final Day day = new Day1(args);
         day.challenge(args);
     }
 
-    private static int countIncreases(List<Integer> measurements) {
+    public static int countIncreases(List<Integer> measurements) {
         int count = 0;
         int prev = measurements.get(0);
         for (int x = 1; x < measurements.size(); x++) {
