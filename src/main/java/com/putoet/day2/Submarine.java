@@ -1,9 +1,15 @@
 package com.putoet.day2;
 
+import java.util.List;
+
 public class Submarine {
     protected long depth;
     protected long horizontalPosition;
 
+    public Submarine move(List<Command> command) {
+        command.forEach(this::move);
+        return this;
+    }
     public Submarine move(Command command) {
         switch (command.direction) {
             case FORWARD -> horizontalPosition += command.distance;

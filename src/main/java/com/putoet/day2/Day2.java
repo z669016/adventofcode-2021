@@ -22,17 +22,13 @@ public class Day2 extends Day {
 
     @Override
     public void part1() {
-        final Submarine submarine = new Submarine();
-        commands.forEach(submarine::move);
-
+        final Submarine submarine = new Submarine().move(commands);
         System.out.println("Submarine position is " + submarine.depth() * submarine.horizontalPosition());
     }
 
     @Override
     public void part2() {
-        final Submarine2 submarine = new Submarine2();
-        commands.forEach(submarine::move);
-
+        final Submarine submarine = new Submarine2().move(commands);
         System.out.println("Submarine position is " + submarine.depth() * submarine.horizontalPosition());
     }
 }
