@@ -22,3 +22,7 @@ a direction and a distance attribute. This approach made it easy to process the 
 transformed into commands and the commands were used to move the submarine.
 For part 2, I extended the ```Submarine``` class and changed the ```move``` method according to instructions, then 
 processed the command list again... pretty straight forward.
+
+## Day 3
+Solved the puzzles using counting an filtering streams (just used ```List<String>``` and ```charAt()```).
+
