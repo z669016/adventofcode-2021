@@ -20,8 +20,8 @@ public class Day3 extends Day {
 
     @Override
     public void part1() {
-        final int gammaRate = Diagnostics.gammaRate(diagnostics);
-        final int epsilonRate = Diagnostics.epsilonRate(diagnostics);
+        final int gammaRate = Diagnostics.gammaRating(diagnostics);
+        final int epsilonRate = Diagnostics.epsilonRating(diagnostics);
 
         System.out.println("Gamma rate is " + gammaRate);
         System.out.println(("Epsilon rate is " + epsilonRate));
@@ -30,7 +30,7 @@ public class Day3 extends Day {
 
     @Override
     public void part2() {
-        final int oxygenGeneratorRate = Diagnostics.oxygenGeneratorRate(diagnostics);
+        final int oxygenGeneratorRate = Diagnostics.oxygenGeneratorRating(diagnostics);
         final int co2ScrubberRating = Diagnostics.co2ScrubberRating(diagnostics);
 
         System.out.println("Oxygen rate is " + oxygenGeneratorRate);

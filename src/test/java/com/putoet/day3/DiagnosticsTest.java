@@ -23,18 +23,18 @@ class DiagnosticsTest {
     );
 
     @Test
-    void gammaRate() {
-        assertEquals(22, Diagnostics.gammaRate(DIAGNOSTICS));
+    void gammaRating() {
+        assertEquals(22, Diagnostics.gammaRating(DIAGNOSTICS));
     }
 
     @Test
-    void epsilonRate() {
-        assertEquals(9, Diagnostics.epsilonRate(DIAGNOSTICS));
+    void epsilonRating() {
+        assertEquals(9, Diagnostics.epsilonRating(DIAGNOSTICS));
     }
 
     @Test
-    void oxygenGeneratorRate() {
-        assertEquals(23, Diagnostics.oxygenGeneratorRate(DIAGNOSTICS));
+    void oxygenGeneratorRating() {
+        assertEquals(23, Diagnostics.oxygenGeneratorRating(DIAGNOSTICS));
     }
 
     @Test
