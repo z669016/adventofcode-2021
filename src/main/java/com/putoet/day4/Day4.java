@@ -19,7 +19,7 @@ public class Day4 extends Day {
 
     public static void main(String[] args) {
         final Day day = new Day4(args);
-        day.challenge(args);
+        day.challenge();
     }
 
     private void init() {

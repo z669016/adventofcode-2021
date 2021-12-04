@@ -16,7 +16,7 @@ public class Day1 extends Day {
 
     public static void main(String[] args) {
         final Day day = new Day1(args);
-        day.challenge(args);
+        day.challenge();
     }
 
     public static int countIncreases(List<Integer> measurements) {

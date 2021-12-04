@@ -17,7 +17,7 @@ public class Day2 extends Day {
 
     public static void main(String[] args) {
         final Day day = new Day2(args);
-        day.challenge(args);
+        day.challenge();
     }
 
     @Override
