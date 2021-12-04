@@ -6,7 +6,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BingoBoardTest {
+class BingoCardTest {
     private static final List<String> BOARD = List.of(
             "14 21 17 24  4",
             "10 16 15  9 19",
@@ -24,14 +24,14 @@ class BingoBoardTest {
 
     @Test
     void of() {
-        final BingoBoard board = BingoBoard.of(BOARD);
+        final BingoCard board = BingoCard.of(BOARD);
         assertArrayEquals(NUMBERS, board.numbers());
     }
 
 
     @Test
     void score() {
-        final BingoBoard board = BingoBoard.of(BOARD);
+        final BingoCard board = BingoCard.of(BOARD);
         final List<Integer> calls = List.of(7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21);
         calls.forEach(number -> assertFalse(board.call(number)));
 
@@ -41,7 +41,7 @@ class BingoBoardTest {
 
     @Test
     void callRow() {
-        final BingoBoard board = BingoBoard.of(BOARD);
+        final BingoCard board = BingoCard.of(BOARD);
 
         assertFalse(board.call(17));
         assertFalse(board.call(14));
@@ -52,7 +52,7 @@ class BingoBoardTest {
 
     @Test
     void callColumn() {
-        final BingoBoard board = BingoBoard.of(BOARD);
+        final BingoCard board = BingoCard.of(BOARD);
 
         assertFalse(board.call(15));
         assertFalse(board.call(23));

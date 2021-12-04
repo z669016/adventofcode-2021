@@ -24,6 +24,8 @@
     <javatuples.version>1.2</javatuples.version>
     <algorithms.version>1.1.3</algorithms.version>
     <aoc.version>1.4.13</aoc.version>
+    <jcolor.version>5.0.1</jcolor.version>
+
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
     <maven-project-info-reports-plugin.version>3.1.2</maven-project-info-reports-plugin.version>
@@ -83,6 +85,11 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.diogonunes</groupId>
+      <artifactId>JColor</artifactId>
+      <version>${jcolor.version}</version>
     </dependency>
   </dependencies>
 

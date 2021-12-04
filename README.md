@@ -27,11 +27,11 @@ processed the command list again... pretty straight forward.
 Solved the puzzles using counting and filtering streams (just used ```List<String>``` and ```charAt()```).
 
 ## Day 4
-Started with creating a ```BingoBoard``` class on which I could ```call``` numbers and which would keep track of marked 
+Started with creating a ```BingoCard``` class on which I could ```call``` numbers and which would keep track of marked 
 numbers. The ```call``` method would return true if a row of column would be completely marked. The board could also
 calculate it's ```score```.
-Next I created a ```Bingo``` class which would play a bingo game on a list of boards given a list of numbers to call. 
-The ```play``` method would return the first board which returns true on the called number. Part 1 will simply print 
-the score of that first board. For part 2 I added a ```playForLast```method that removes each completed board from the 
-list and returns only the last board that completes.
+Next I created a ```Bingo``` class which would play a bingo game on a list of cards given a list of numbers to call. 
+The ```play``` method would return the first card which returns true on the called number. Part 1 will simply print 
+the score of that first card. For part 2, I added a ```playForLast```method that removes each completed cards from the 
+list and returns only the last card that completes.
 

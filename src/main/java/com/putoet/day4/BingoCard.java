@@ -1,24 +1,30 @@
 package com.putoet.day4;
 
+import com.diogonunes.jcolor.Attribute;
+
 import java.util.List;
-import java.util.Objects;
 import java.util.OptionalInt;
 
-public class BingoBoard {
+import static com.diogonunes.jcolor.Ansi.colorize;
+import static com.diogonunes.jcolor.Attribute.BLACK_TEXT;
+import static com.diogonunes.jcolor.Attribute.WHITE_BACK;
+
+public class BingoCard {
     public static final int HEIGHT = 5;
     public static final int WIDTH = 5;
-    public static String BOLD = "\033[0;1m";
-    public static String PLAIN = "\033[0;0m";
+
     private final int[][] numbers;
     private final boolean[][] marked = new boolean[HEIGHT][WIDTH];
+
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private OptionalInt lastCalled = OptionalInt.empty();
 
-    public BingoBoard(int[][] numbers) {
+    public BingoCard(int[][] numbers) {
         this.numbers = numbers;
     }
 
-    public static BingoBoard of(List<String> board) {
-        Objects.requireNonNull(board);
+    public static BingoCard of(List<String> board) {
+        assert board != null;
         assert board.size() == HEIGHT;
 
         final int[][] numbers = new int[HEIGHT][WIDTH];
@@ -31,19 +37,15 @@ public class BingoBoard {
                 numbers[y][x] = Integer.parseInt(split[x]);
         }
 
-        return new BingoBoard(numbers);
+        return new BingoCard(numbers);
     }
 
     public int[][] numbers() {
         return numbers;
     }
 
-    public OptionalInt lastDraw() {
-        return lastCalled;
-    }
-
     public int score() {
-        if (lastDraw().isEmpty())
+        if (lastCalled.isEmpty())
             throw new IllegalStateException("No numbers called yet");
 
         int sum = 0;
@@ -67,6 +69,10 @@ public class BingoBoard {
             }
         }
 
+        return complete();
+    }
+
+    public boolean complete() {
         return rowComplete() || columnComplete();
     }
 
@@ -91,7 +97,7 @@ public class BingoBoard {
                 if (marked[y][x])
                     count++;
             }
-            if (count == WIDTH)
+            if (count == HEIGHT)
                 return true;
         }
 
@@ -100,13 +106,14 @@ public class BingoBoard {
 
     @Override
     public String toString() {
+        final Attribute[] BOLD = new Attribute[]{BLACK_TEXT(), WHITE_BACK()};
+        final Attribute[] CLEAR = new Attribute[]{};
+
         final StringBuilder sb = new StringBuilder();
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 if (x > 0) sb.append(' ');
-                if (marked[y][x]) sb.append(BOLD);
-                sb.append(String.format("%02d", numbers[y][x]));
-                if (marked[y][x]) sb.append(PLAIN);
+                sb.append(colorize(String.format("%2d", numbers[y][x]), marked[y][x] ? BOLD : CLEAR));
             }
             sb.append("\n");
         }
