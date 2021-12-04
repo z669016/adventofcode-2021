@@ -6,7 +6,7 @@ to read a resource file and transform the content into a ```List<String>```, or 
 file containing comma separated values and returning a List of these values, optionally after transformation from 
 ```String``` to ```Integer```.
 
-Also uses the algorithms library, which contains generic classes for addressing classic compute problems (from the book 
+Also uses the algorithm library, which contains generic classes for addressing classic compute problems (from the book 
 **Classic Computer Science Problems In Java** (c) Manning.com - 2020) 
 
 It was never my intention to create the shortest program possible. I did try to create clear and simple implementations.
@@ -24,5 +24,14 @@ For part 2, I extended the ```Submarine``` class and changed the ```move``` meth
 processed the command list again... pretty straight forward.
 
 ## Day 3
-Solved the puzzles using counting an filtering streams (just used ```List<String>``` and ```charAt()```).
+Solved the puzzles using counting and filtering streams (just used ```List<String>``` and ```charAt()```).
+
+## Day 4
+Started with creating a ```BingoBoard``` class on which I could ```call``` numbers and which would keep track of marked 
+numbers. The ```call``` method would return true if a row of column would be completely marked. The board could also
+calculate it's ```score```.
+Next I created a ```Bingo``` class which would play a bingo game on a list of boards given a list of numbers to call. 
+The ```play``` method would return the first board which returns true on the called number. Part 1 will simply print 
+the score of that first board. For part 2 I added a ```playForLast```method that removes each completed board from the 
+list and returns only the last board that completes.
 
