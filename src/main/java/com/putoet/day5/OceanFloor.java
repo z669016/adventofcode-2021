@@ -43,8 +43,8 @@ public record OceanFloor(Grid grid, List<Vent> vents) {
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     private static char[][] grid(List<Vent> vents) {
-        final int maxX = vents.stream().mapToInt(vent -> Math.max(vent.start().x, vent.end().x)).max().getAsInt();
-        final int maxY = vents.stream().mapToInt(vent -> Math.max(vent.start().y, vent.end().y)).max().getAsInt();
+        final int maxX = vents.stream().mapToInt(vent -> Math.max(vent.start().x(), vent.end().x())).max().getAsInt();
+        final int maxY = vents.stream().mapToInt(vent -> Math.max(vent.start().y(), vent.end().y())).max().getAsInt();
 
         final char[][] grid = new char[maxY + 1][maxX + 1];
         for (char[] row : grid) {
@@ -54,32 +54,32 @@ public record OceanFloor(Grid grid, List<Vent> vents) {
     }
 
     private static void map(char[][] grid, Point point) {
-        if (grid[point.y][point.x] == '.')
-            grid[point.y][point.x] = '0';
+        if (grid[point.y()][point.x()] == '.')
+            grid[point.y()][point.x()] = '0';
 
-        grid[point.y][point.x] = (char) (grid[point.y][point.x] + 1);
+        grid[point.y()][point.x()] = (char) (grid[point.y()][point.x()] + 1);
     }
 
     private static Point direction(Vent vent) {
         final Point direction;
-        if (vent.start().y > vent.end().y) {
-            if (vent.start().x < vent.end().x)
+        if (vent.start().y() > vent.end().y()) {
+            if (vent.start().x() < vent.end().x())
                 direction = Point.SOUTH_EAST;
-            else if (vent.start().x == vent.end().x)
+            else if (vent.start().x() == vent.end().x())
                 direction = Point.SOUTH;
             else
                 direction = Point.SOUTH_WEST;
         }
-        else if (vent.start().y == vent.end().y) {
-            if (vent.start().x < vent.end().x)
+        else if (vent.start().y() == vent.end().y()) {
+            if (vent.start().x() < vent.end().x())
                 direction = Point.EAST;
             else
                 direction = Point.WEST;
         }
         else {
-            if (vent.start().x < vent.end().x)
+            if (vent.start().x() < vent.end().x())
                 direction = Point.NORTH_EAST;
-            else if (vent.start().x == vent.end().x)
+            else if (vent.start().x() == vent.end().x())
                 direction = Point.NORTH;
             else
                 direction = Point.NORTH_WEST;

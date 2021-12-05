@@ -24,7 +24,7 @@ public class Day5 extends Day {
     @Override
     public void part1() {
         final OceanFloor oceanFloor = OceanFloor.of(ResourceLines.list("/day5.txt"),
-                line -> line.start().x == line.end().x || line.start().y == line.end().y);
+                line -> line.start().x() == line.end().x() || line.start().y() == line.end().y());
 
         System.out.println("Overlap of single-line vents is " + oceanFloor.overlap());
     }
