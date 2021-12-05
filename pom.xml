@@ -23,7 +23,7 @@
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <javatuples.version>1.2</javatuples.version>
     <algorithms.version>1.1.3</algorithms.version>
-    <aoc.version>1.4.13</aoc.version>
+    <aoc.version>1.4.14</aoc.version>
     <jcolor.version>5.0.1</jcolor.version>
 
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>

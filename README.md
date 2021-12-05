@@ -35,3 +35,19 @@ The ```play``` method would return the first card which returns true on the call
 the score of that first card. For part 2, I added a ```playForLast```method that removes each completed cards from the 
 list and returns only the last card that completes.
 
+## Day 5
+Started with a ```Vent``` record which represents a vent with a starting ```Point``` and an end ```Point```. Then
+created an OceanFloor record with a ```Grid``` and ```List``` of vents. The ```overlap()``` method of the ocean
+floor simply counts all cells in the grid with a value greater tha '1'. This works as an empty cell contains '.' which
+is smaller than '1'.
+
+To create the grid, find min and max X and Y values of the vents (and add 1), and beware that no assumption can be made 
+on how start and end point are positioned relative to each other (above, below, left or right). To "walk" the positions
+of a vent, I determined the direction based on the X and Y positions of the start and end coordinates. Then just walk 
+from start to end of the vent and update position using the direction (just add the points). This works for part 1 and 
+part 2. Getting the direction right was a bit tricky (nasty if/else construction).
+
+I created a static method to create an OceanFloor from the input data using a filter, which determines if a vent
+should be included or not.For part 2 the filter always returns true, for part 1 it only returns true if X or Y of
+the start and end point are equal.
+
