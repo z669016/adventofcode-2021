@@ -2,45 +2,37 @@ package com.putoet.day6;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 public class LanternFishModel {
-    private final List<Integer> school;
-    private final int days;
-    private final long[] cache;
+    public static long progress(List<Integer> school, int days) {
+        return school.stream().mapToLong(init -> progress(days, init)).sum();
+    }
 
-    public LanternFishModel(List<Integer> school, int days) {
-        assert school != null;
-        assert days > 0;
-
-        this.school = school;
-        this.days = days;
-        this.cache = new long[257];
-
+    private static long progress(int days, int init) {
+        final long[] cache = new long[days];
         Arrays.fill(cache, -1);
-    }
 
-    public long run() {
-        return school.stream().mapToLong(init ->repeatsFor(days, init)).sum();
-    }
+        final int daysLeft = days - ((init + 1) % 7);
+        return 1 + new Function<Integer,Long>() {
+            @Override
+            public Long apply(Integer daysLeft) {
+                if (daysLeft < 0)
+                    return 0L;
 
-    protected long repeatsFor(int daysLeft, int init) {
-        daysLeft = daysLeft - ((init + 1) % 7);
-        return 1 + repeatsFor(daysLeft);
-    }
+                if (daysLeft < 7)
+                    return 1L;
 
-    private long repeatsFor(int daysLeft) {
-        if (daysLeft < 0)
-            return 0;
+                if (cache[daysLeft] != -1)
+                    return cache[daysLeft];
 
-        if (daysLeft < 7)
-            return 1;
+                final long result =  1 +                         // count the current
+                        this.apply(daysLeft - 7) +      // add the next cycle
+                        this.apply(daysLeft - 9);       // add the offspring
+                cache[daysLeft] = result;
 
-        if (cache[daysLeft] != -1)
-            return cache[daysLeft];
-
-        final long result =  1 + repeatsFor(daysLeft - 9) + repeatsFor(daysLeft - 7);
-        cache[daysLeft] = result;
-
-        return result;
+                return result;
+            }
+        }.apply(daysLeft);
     }
 }

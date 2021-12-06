@@ -21,15 +21,11 @@ public class Day6 extends Day {
 
     @Override
     public void part1() {
-        final LanternFishModel model = new LanternFishModel(school, 80);
-        final long result = model.run();
-        System.out.println("After 80 days the school has " + result + " fish.");
+        System.out.println("After 80 days the school has " + LanternFishModel.progress(school, 80) + " fish.");
     }
 
     @Override
     public void part2() {
-        final LanternFishModel model = new LanternFishModel(school, 256);
-        final long result = model.run();
-        System.out.println("After 256 days the school has " + result + " fish.");
+        System.out.println("After 256 days the school has " + LanternFishModel.progress(school, 256) + " fish.");
     }
 }
