@@ -51,3 +51,12 @@ I created a static method to create an OceanFloor from the input data using a fi
 should be included or not.For part 2 the filter always returns true, for part 1 it only returns true if X or Y of
 the start and end point are equal.
 
+## Day 6
+For part 1 the brute force method worked like a charm (just create a list and process the list for each day, adding 
+new fish when needed). I expected this method would not work for part 2, as it would probably increase the number of 
+days or the input list to some insane number. Well, 256 days wasn't that much, but way too much for the problem at 
+hand.
+Solved part 2 by writing a recursive solution. That initially didn't run well either, so I added a cache for the 
+calculations 9if a number of fish for a certain date is calculated, store the value and don't recalculate next time).
+
+In the end, the solution is a ridiculously small algorithm ...
