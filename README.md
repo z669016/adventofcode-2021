@@ -63,3 +63,12 @@ time). After having the puzzle solved, I rewrote the class to remove the ```cach
 not a more readable solution, but fun to do (feels a bit Javascript style coding),   
 
 In the end, the solution is a ridiculously small algorithm ...
+
+## Day 7
+As opposed to yesterday, I did grasp this one from the start. Created a model class again (```FuelModel```), to
+calculate the fuel consumption for all crabs (```altitudeFuelCost```), and a method to find the optimal-altitude and 
+usage at that altitude (```optimalAltitude```)going over a range from minimum (including) to maximum (including) 
+altitude in the input.
+Part two required a different method for computing the fuel consumption, so I parameterized that method and passed
+it into the ```altitudeFuelCost```, and ```optimalAltitude```. For the complicated computation, I decided to cache 
+the fuel consumption once calculated. Overall quite straight forward.
