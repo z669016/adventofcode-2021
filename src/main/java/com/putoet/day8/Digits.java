@@ -2,31 +2,33 @@ package com.putoet.day8;
 
 import com.putoet.statistics.Permutator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalInt;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Digits {
-    public final static Map<Integer, Set<Character>> SEGMENTS = Map.of(
-            0, Set.of('a', 'b', 'c', 'e','f','g'),
-            1, Set.of('c', 'f'),
-            2, Set.of('a', 'c', 'd', 'e', 'g'),
-            3, Set.of('a', 'c', 'd', 'f', 'g'),
-            4, Set.of('b', 'c', 'd', 'f'),
-            5, Set.of('a', 'b', 'd', 'f', 'g'),
-            6, Set.of('a', 'b', 'd', 'e', 'f', 'g'),
-            7, Set.of('a', 'c', 'f'),
-            8, Set.of('a', 'b', 'c', 'd', 'e', 'f', 'g'),
-            9, Set.of('a', 'b', 'c', 'd', 'f', 'g')
+    public final static Map<Integer, String> SEGMENTS = Map.of(
+            0, "abcefg",
+            1, "cf",
+            2, "acdeg",
+            3, "acdfg",
+            4, "bcdf",
+            5, "abdfg",
+            6, "abdefg",
+            7, "acf",
+            8, "abcdefg",
+            9, "abcdfg"
     );
 
-    public static final List<List<Character>> ENCODINGS =
-            new Permutator<Character>().permute(List.of('a', 'b', 'c', 'd', 'e', 'f', 'g'));
-    
-    public static List<Character> encoding(List<String> samples) {
-        for (List<Character> encoding : ENCODINGS) {
+    public static final List<String> ENCODINGS =
+            new Permutator<Character>().permute(List.of('a', 'b', 'c', 'd', 'e', 'f', 'g')).stream()
+                    .map(list -> list.stream().map(Object::toString).collect(Collectors.joining()))
+                    .collect(Collectors.toList());
+
+    public static String encoding(List<String> samples) {
+        for (String encoding : ENCODINGS) {
             if (samples.stream().allMatch(sample -> decode(encoding, sample).isPresent()))
                 return encoding;
         }
@@ -34,9 +36,9 @@ public class Digits {
         throw new IllegalArgumentException("No encoding found for " + samples);
     }
 
-    public static OptionalInt decode(List<Character> encoding, List<String> digits) {
+    public static OptionalInt decode(String encoding, List<String> digits) {
         assert encoding != null;
-        assert encoding.size() == 7;
+        assert encoding.length() == 7;
         assert digits != null;
         assert digits.size() == 4;
 
@@ -52,18 +54,23 @@ public class Digits {
     }
 
 
-    public static OptionalInt decode(List<Character> encoding, String digit) {
+    public static OptionalInt decode(String encoding, String digit) {
         assert encoding != null;
-        assert encoding.size() == 7;
+        assert encoding.length() == 7;
         assert digit != null;
 
-        final Set<Character> digitAsList = digit.chars().mapToObj(i -> (char) i).collect(Collectors.toSet());
-        final Map<Set<Character>, Integer> mapper = mapper(encoding);
-        final Integer decoded = mapper.get(digitAsList);
+        final Map<String, Integer> mapper = mapper(encoding);
+        final Integer decoded = mapper.get(sortedDigits(digit));
         return decoded != null ? OptionalInt.of(decoded) : OptionalInt.empty();
     }
 
-    public static Map<Set<Character>,Integer> mapper(List<Character> encoding) {
+    private static String sortedDigits(String digits) {
+        final char[] temp = digits.toCharArray();
+        Arrays.sort(temp);
+        return String.valueOf(temp);
+    }
+
+    public static Map<String, Integer> mapper(String encoding) {
         return Map.of(
                 encodingFor(0, encoding), 0,
                 encodingFor(1, encoding), 1,
@@ -78,19 +85,22 @@ public class Digits {
         );
     }
 
-    private static Set<Character> encodingFor(int number, List<Character> encoding) {
-        return switch (number) {
-            case 0 -> Set.of(encoding.get(0), encoding.get(1), encoding.get(2), encoding.get(4), encoding.get(5), encoding.get(6));
-            case 1 -> Set.of(encoding.get(2), encoding.get(5));
-            case 2 -> Set.of(encoding.get(0), encoding.get(2), encoding.get(3), encoding.get(4), encoding.get(6));
-            case 3 -> Set.of(encoding.get(0), encoding.get(2), encoding.get(3), encoding.get(5), encoding.get(6));
-            case 4 -> Set.of(encoding.get(1), encoding.get(2), encoding.get(3), encoding.get(5));
-            case 5 -> Set.of(encoding.get(0), encoding.get(1), encoding.get(3), encoding.get(5), encoding.get(6));
-            case 6 -> Set.of(encoding.get(0), encoding.get(1), encoding.get(3), encoding.get(4), encoding.get(5), encoding.get(6));
-            case 7 -> Set.of(encoding.get(0), encoding.get(2), encoding.get(5));
-            case 8 -> Set.of(encoding.get(0), encoding.get(1), encoding.get(2), encoding.get(3), encoding.get(4), encoding.get(5), encoding.get(6));
-            case 9 -> Set.of(encoding.get(0), encoding.get(1), encoding.get(2), encoding.get(3), encoding.get(5), encoding.get(6));
+    private static String encodingFor(int number, String encoding) {
+        final char[] characters = switch (number) {
+            case 0 -> new char[]{encoding.charAt(0), encoding.charAt(1), encoding.charAt(2), encoding.charAt(4), encoding.charAt(5), encoding.charAt(6)};
+            case 1 -> new char[]{encoding.charAt(2), encoding.charAt(5)};
+            case 2 -> new char[]{encoding.charAt(0), encoding.charAt(2), encoding.charAt(3), encoding.charAt(4), encoding.charAt(6)};
+            case 3 -> new char[]{encoding.charAt(0), encoding.charAt(2), encoding.charAt(3), encoding.charAt(5), encoding.charAt(6)};
+            case 4 -> new char[]{encoding.charAt(1), encoding.charAt(2), encoding.charAt(3), encoding.charAt(5)};
+            case 5 -> new char[]{encoding.charAt(0), encoding.charAt(1), encoding.charAt(3), encoding.charAt(5), encoding.charAt(6)};
+            case 6 -> new char[]{encoding.charAt(0), encoding.charAt(1), encoding.charAt(3), encoding.charAt(4), encoding.charAt(5), encoding.charAt(6)};
+            case 7 -> new char[]{encoding.charAt(0), encoding.charAt(2), encoding.charAt(5)};
+            case 8 -> new char[]{encoding.charAt(0), encoding.charAt(1), encoding.charAt(2), encoding.charAt(3), encoding.charAt(4), encoding.charAt(5), encoding.charAt(6)};
+            case 9 -> new char[]{encoding.charAt(0), encoding.charAt(1), encoding.charAt(2), encoding.charAt(3), encoding.charAt(5), encoding.charAt(6)};
             default -> throw new IllegalArgumentException("Invalid number for encoding: " + number);
         };
+
+        Arrays.sort(characters);
+        return String.valueOf(characters);
     }
 }

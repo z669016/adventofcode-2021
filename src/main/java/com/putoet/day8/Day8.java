@@ -57,7 +57,7 @@ public class Day8 extends Day {
     }
 
     public OptionalInt decode(SignalPattern signalPattern) {
-        final List<Character> encoding = Digits.encoding(signalPattern.pattern());
+        final String encoding = Digits.encoding(signalPattern.pattern());
         return Digits.decode(encoding, signalPattern.displayDigits());
     }
 

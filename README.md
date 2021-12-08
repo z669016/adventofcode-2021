@@ -72,3 +72,9 @@ altitude in the input.
 Part two required a different method for computing the fuel consumption, so I parameterized that method and passed
 it into the ```altitudeFuelCost```, and ```optimalAltitude```. For the complicated computation, I decided to cache 
 the fuel consumption once calculated. Overall quite straight forward.
+
+## Day 8
+Part 1 is really simple, just count the strings of length 2, 3, 4 or 7 ... done. Part 2 is a bit more tricky. I used 
+a brute force on this one ... I' ve created a list of all possible permutations of "abcdefg". Then checked which 
+permutation would get me a valid number on all teh encoded values on the left, and then used that permutation to decode
+the values on the right.
