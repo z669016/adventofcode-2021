@@ -78,3 +78,10 @@ Part 1 is really simple, just count the strings of length 2, 3, 4 or 7 ... done.
 a brute force on this one ... I' ve created a list of all possible permutations of "abcdefg". Then checked which 
 permutation would get me a valid number on all teh encoded values on the left, and then used that permutation to decode
 the values on the right.
+
+## Day 9
+A grid again,so probably not too difficult. for part 1, just search for all locations in the grid that do not have
+an adjacent lower number(walk the entire grid and collect the points), and then calculate the "risk" for these 
+points and sum them. Part 2 continues on part 1, create a basin around all lowest points (part 1), and create a set 
+of all points around it (move outward like a breadth-first-search, using a queue) until you encounter a '9'. Then take 
+the 3 largest sets to calculate the score.
