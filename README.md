@@ -85,3 +85,23 @@ an adjacent lower number(walk the entire grid and collect the points), and then 
 points and sum them. Part 2 continues on part 1, create a basin around all lowest points (part 1), and create a set 
 of all points around it (move outward like a breadth-first-search, using a queue) until you encounter a '9'. Then take 
 the 3 largest sets to calculate the score.
+
+## Day 10
+A nice puzzle today and not so complicated. I started with using a queue to do the matching. The ```Chunk.validate``` 
+method checks a chunk by pushing any open-symbol onto the stack and on every close-symbol it checks if the close-symbol
+matches the open-symbol at the top of the stack. The method returns the validated state (```CORRUPTED```), and the 
+symbol that was identified as corrupted. When the end of the chunk was encountered and the stack wasn't empty the chunk
+was considered ```INCOMPLETE``` and the method would return the incomplete state and the list of close-symbols that is 
+expected based on the open-symbols still on the stack (as all of these are missing their close-symbol).
+For part 1, the ```corrupted``` method validates the input and returns a list of the corrupted results, then the 
+```corruptedScore``` method calculates the score. For part 2, the ```incomplete``` method validates the input and 
+returns a list of the uncompleted results, then the ```incompleteScore``` method calculates the score for the missing 
+chunk parts. 
+
+## Day 11
+Again not too difficult today. The tricky part is to ensure the energy level will not be raised anymore once an octopus 
+has flashed during a step. So at the beginning of each step the energy level must be raised by 1, then all octopuses 
+must flash not more than once, and finally the flash-status on all octopuses must be reset for the next step.
+Part 1 needs to sum all flash count for 100 steps. Part 2 needs to loop until the flash count equals the number of
+octopuses.
+
