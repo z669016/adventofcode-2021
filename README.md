@@ -105,3 +105,11 @@ must flash not more than once, and finally the flash-status on all octopuses mus
 Part 1 needs to sum all flash count for 100 steps. Part 2 needs to loop until the flash count equals the number of
 octopuses.
 
+## Day 12
+Today was fun ... I expected I would need a specialized version of my ```GenericSearch.findAll``` (based of 
+```GenericSearch.bsf```), so I started with a ```Cave``` class (which would know its neighbours) and a ```Maze``` class
+that holds a list of caves and a ```start``` and ```end``` cave attribute. Then I developed the ```MazeSearch```, with 
+methods to search the maze. The ```MazeSearch.successors``` would return all neighbours for a cave but would remove
+small caves from the list if the had already been visited (which means they are already in the current path).
+Part 2 allowed for the same approach but uses a specialized ```MazeSearch.successorsOneSmall```, which allows one small
+cave to be visited twice.
