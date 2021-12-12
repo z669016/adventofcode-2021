@@ -23,7 +23,7 @@ public class Octopus {
     public boolean flash() {
         if (energyLevel > 9 && !flashed) {
             flashed = true;
-            neighbours.forEach(Octopus::raise);
+            neighbours.forEach(Octopus::raiseNotFlashed);
             energyLevel = 0;
             return true;
         }
@@ -31,6 +31,11 @@ public class Octopus {
     }
 
     public void raise() {
+        flashed = false;
+        raiseNotFlashed();
+    }
+
+    private void raiseNotFlashed() {
         if (!flashed)
             energyLevel++;
     }

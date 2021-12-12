@@ -65,8 +65,6 @@ public record Cavern(Octopus[][] octopuses) {
                 }
         } while (flashed);
 
-        Arrays.stream(octopuses).flatMap(Arrays::stream).forEach(Octopus::step);
-
         return count;
     }
 
