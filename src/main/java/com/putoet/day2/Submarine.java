@@ -22,12 +22,4 @@ public class Submarine {
 
     public long depth() { return depth; }
     public long horizontalPosition() { return horizontalPosition; }
-
-    @Override
-    public String toString() {
-        return "Submarine{" +
-                "depth=" + depth +
-                ", horizontalPosition=" + horizontalPosition +
-                '}';
-    }
 }

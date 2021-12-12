@@ -1,15 +1,7 @@
 package com.putoet.day5;
 
 import com.putoet.day.Day;
-import com.putoet.day4.Bingo;
-import com.putoet.day4.BingoCard;
 import com.putoet.resources.ResourceLines;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Day5 extends Day {
     protected Day5(String[] args) {

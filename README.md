@@ -106,10 +106,11 @@ Part 1 needs to sum all flash count for 100 steps. Part 2 needs to loop until th
 octopuses.
 
 ## Day 12
-Today was fun ... I expected I would need a specialized version of my ```GenericSearch.findAll``` (based of 
+Today was fun ... I expected I would need a specialized version of the ```GenericSearch.findAll``` (based of 
 ```GenericSearch.bsf```), so I started with a ```Cave``` class (which would know its neighbours) and a ```Maze``` class
 that holds a list of caves and a ```start``` and ```end``` cave attribute. Then I developed the ```MazeSearch```, with 
-methods to search the maze. The ```MazeSearch.successors``` would return all neighbours for a cave but would remove
-small caves from the list if the had already been visited (which means they are already in the current path).
-Part 2 allowed for the same approach but uses a specialized ```MazeSearch.successorsOneSmall```, which allows one small
-cave to be visited twice.
+methods to search the maze for all possible ```paths```. The ```MazeSearch.successors``` would return all neighbours 
+for a cave but would remove small caves from the list if they had already been visited (i.e. they are already in the 
+current path). Part 2 allowed for the same approach but uses a specialized ```MazeSearch.successorsOneSmall```, which 
+allows one small cave to be visited twice (only allow small caves as a successor, if it hasn't been visited or has been 
+visited only once and no other small cave was visited more than once up until that point).
