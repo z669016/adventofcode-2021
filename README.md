@@ -114,3 +114,13 @@ for a cave but would remove small caves from the list if they had already been v
 current path). Part 2 allowed for the same approach but uses a specialized ```MazeSearch.successorsOneSmall```, which 
 allows one small cave to be visited twice (only allow small caves as a successor, if it hasn't been visited or has been 
 visited only once and no other small cave was visited more than once up until that point).
+
+## Day 13
+Folding a grid ...yeah right. Not difficult, but nasty to get right, especially if the folding line (horizontal or 
+vertical) is not in the middle of the paper... 
+
+First step is to create a list of points and a list of folding instructions from the input. Then create a grid from the 
+list of points (setting the dots in the grid as '#'). Then implement the ```foldUp``` and ```foldLeft```. First create 
+a new empty grid based on the size calculation of the new grid (beware the folding line might not be in the middle). 
+Then copy part sof the old grid into the new one (copy first top/left part just top-down or left to right), and then
+copy the bottom/right part reversed (bottom-up or right to left). When you have one, the second is pretty similar.
