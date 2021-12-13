@@ -1,6 +1,7 @@
 package com.putoet.day13;
 
 import com.putoet.grid.Point;
+import org.javatuples.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,17 +25,80 @@ public class TransparentPaper {
         mx = grid[0].length;
     }
 
+    public static TransparentPaper of(List<String> input) {
+        assert input != null;
+        assert !input.isEmpty();
+
+        final List<Point> dots = new ArrayList<>();
+        final Pair<Integer,Integer> mxmy = findDots(dots, input);
+
+        final char[][] grid = emptyGrid(mxmy.getValue0(), mxmy.getValue1());
+        dots.forEach(dot -> grid[dot.y()][dot.x()] = DOT);
+
+        return new TransparentPaper(grid);
+    }
+
+    private static Pair<Integer,Integer> findDots(List<Point> dots, List<String> input) {
+        int mx = Integer.MIN_VALUE;
+        int my = Integer.MIN_VALUE;
+        int offset = 0;
+
+        String line = input.get(offset);
+        while (line.trim().length() > 0) {
+            final Point dot = asPoint(line);
+            mx = Math.max(mx, dot.x());
+            my = Math.max(my, dot.y());
+            dots.add(dot);
+            line = input.get(++offset);
+        }
+        
+        mx++;
+        my++;
+
+        return Pair.with(mx, my);
+    }
+
+    private static char[][] emptyGrid(int mx, int my) {
+        final char[][] grid = new char[my][mx];
+        for (char[] row : grid) {
+            Arrays.fill(row, EMPTY);
+        }
+        return grid;
+    }
+
+    public static Point asPoint(String line) {
+        assert line != null;
+        final String[] split = line.trim().split(",");
+        return Point.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+    }
+
     public long dots() {
         long count = 0;
 
         for (int y = 0; y < my; y++) {
-            for (int x = 0; x <mx; x++) {
+            for (int x = 0; x < mx; x++) {
                 if (grid[y][x] == DOT)
                     count++;
             }
         }
 
         return count;
+    }
+
+    public TransparentPaper fold(List<FoldingInstruction> instructions) {
+        TransparentPaper paper = this;
+        for (FoldingInstruction instruction : instructions) {
+            paper = paper.fold(instruction);
+        }
+
+        return paper;
+    }
+
+    public TransparentPaper fold(FoldingInstruction instruction) {
+        return switch (instruction.along()) {
+            case X -> foldLeft(instruction.offset());
+            case Y -> foldUp(instruction.offset());
+        };
     }
 
     public TransparentPaper foldLeft(int foldLine) {
@@ -44,10 +108,7 @@ public class TransparentPaper {
         final int rightX = mx - foldLine - 1;
         int newMx = Math.max(foldLine, rightX);
 
-        final char[][] newGrid = new char[my][newMx];
-        for (char[] row : newGrid) {
-            Arrays.fill(row, EMPTY);
-        }
+        final char[][] newGrid = emptyGrid(newMx, my);
 
         foldLeftCopyLeft(grid, newGrid, foldLine, newMx - foldLine);
         foldLeftCopyRight(grid, newGrid, foldLine + 1);
@@ -73,7 +134,6 @@ public class TransparentPaper {
         }
     }
 
-
     public TransparentPaper foldUp(int foldLine) {
         assert foldLine > 0;
         assert foldLine < my;
@@ -81,10 +141,7 @@ public class TransparentPaper {
         final int bottomY = my - foldLine - 1;
         int newMy = Math.max(foldLine, bottomY);
 
-        final char[][] newGrid = new char[newMy][mx];
-        for (char[] row : newGrid) {
-            Arrays.fill(row, EMPTY);
-        }
+        final char[][] newGrid = emptyGrid(mx, newMy);
 
         foldUpCopyTop(grid, newGrid, foldLine, newMy - foldLine);
         foldUpCopyBottom(grid, newGrid, foldLine + 1);
@@ -108,42 +165,6 @@ public class TransparentPaper {
                     newGrid[newGrid.length - 1 - y][x] = grid[y + from][x];
             }
         }
-    }
-
-    public static TransparentPaper of(List<String> input) {
-        assert input != null;
-        assert !input.isEmpty();
-
-        final List<Point> dots = new ArrayList<>();
-
-        int mx = Integer.MIN_VALUE;
-        int my = Integer.MIN_VALUE;
-        int offset = 0;
-        String line = input.get(offset);
-        while (line.trim().length() > 0) {
-            final Point dot = asPoint(line);
-            mx = Math.max(mx, dot.x());
-            my = Math.max(my, dot.y());
-            dots.add(dot);
-            line = input.get(++offset);
-        }
-        mx++;
-        my++;
-
-        final char[][] grid = new char[my][mx];
-        for (char[] row : grid) {
-            Arrays.fill(row, EMPTY);
-        }
-
-        dots.forEach(dot -> grid[dot.y()][dot.x()] = DOT);
-
-        return new TransparentPaper(grid);
-    }
-
-    public static Point asPoint(String line) {
-        assert line != null;
-        final String[] split = line.trim().split(",");
-        return Point.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
     }
 
     @Override

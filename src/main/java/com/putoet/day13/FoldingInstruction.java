@@ -9,6 +9,10 @@ public record FoldingInstruction(com.putoet.day13.FoldingInstruction.Along along
 
     public enum Along {X, Y}
 
+    public static FoldingInstruction of(Along along, int offset) {
+        return new FoldingInstruction(along,offset);
+    }
+
     public static Optional<FoldingInstruction> of(String line) {
         assert line != null;
         line = line.trim();

@@ -63,7 +63,7 @@ class TransparentPaperTest {
                 ...........
                 """;
 
-        paper = paper.foldUp(7);
+        paper = paper.fold(FoldingInstruction.of(FoldingInstruction.Along.Y, 7));
         assertEquals(PAPER, paper.toString());
         assertEquals(17, paper.dots());
     }
@@ -80,7 +80,12 @@ class TransparentPaperTest {
                 .....
                 """;
 
-        paper = paper.foldUp(7).foldLeft(5);
+        final List<FoldingInstruction> instructions = List.of(
+                FoldingInstruction.of(FoldingInstruction.Along.Y, 7),
+                FoldingInstruction.of(FoldingInstruction.Along.X, 5)
+        );
+
+        paper = paper.fold(instructions);
         assertEquals(PAPER, paper.toString());
         assertEquals(16, paper.dots());
     }
