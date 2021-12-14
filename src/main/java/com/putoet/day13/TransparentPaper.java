@@ -51,7 +51,7 @@ public class TransparentPaper {
             dots.add(dot);
             line = input.get(++offset);
         }
-        
+
         mx++;
         my++;
 

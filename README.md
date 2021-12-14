@@ -124,3 +124,22 @@ list of points (setting the dots in the grid as '#'). Then implement the ```fold
 a new empty grid based on the size calculation of the new grid (beware the folding line might not be in the middle). 
 Then copy part sof the old grid into the new one (copy first top/left part just top-down or left to right), and then
 copy the bottom/right part reversed (bottom-up or right to left). When you have one, the second is pretty similar.
+
+## Day 14
+Looking at the challenge for part 1, the second part will most likely crash the part1 solution due to an extreme number
+of repetitions or and extreme growing list. I started with a ```PairInsertionRule``` record that returns the element 
+to be inserted based on the transformation starting element.
+The ```PairInsertionRules``` record reads and processes the input and provides the ```template()``` and the 
+```rules()``` (which is a ```List<PairInsertionRule>```). For part one I've added a ```transform(int count)``` method
+to the ```PairInsertionRules``` that transforms the template the requested number of times by applying the 
+insertion rules. The final string grows fast so this probably won't work on part 2.
+For part 2, I changed the approach and now the transformation first creates a list of element pairs from the input, 
+and then transforms the element list into a new one, continuously updating the count of the element pairs. for 
+calculating the occurrences of all individual elements, just sum the element count of the first element of each element 
+pair, and add 1 for the final element. This means that during transformation, you need to remember the last element of 
+the list. It may sound a bit fuzzy,but the code should be clear.
+
+
+
+two new 
+elements (```first()``` and ```second()```) from the original one.
