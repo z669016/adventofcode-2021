@@ -139,6 +139,14 @@ calculating the occurrences of all individual elements, just sum the element cou
 pair, and add 1 for the final element. This means that during transformation, you need to remember the last element of 
 the list. It may sound a bit fuzzy,but the code should be clear.
 
+## Day 15
+This sound like a Dijkstra problem, which you can solve using a specialized BFS as well. The challenge is ensuring you
+stay on the shortest path, and purge search path that are no longer the shortest route to the current position. Which 
+you can do by keeping a map of the shortest route (so far) up to the current point in your search. As a search state, I
+used the current ```Point``` in the grid and the total risk level up until that point. This work well and very fast.
+For part 2, the most tricky part (for me) was the expanding of the ```Cave``` to a size 5 times larger and initializing
+the risk levels correctly. Once that challenge was solved, the search didn't need any optimization and ran in less than 
+1.5 second.
 
 
 two new 
