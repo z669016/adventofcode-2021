@@ -148,6 +148,11 @@ For part 2, the most tricky part (for me) was the expanding of the ```Cave``` to
 the risk levels correctly. Once that challenge was solved, the search didn't need any optimization and ran in less than 
 1.5 second.
 
-
-two new 
-elements (```first()``` and ```second()```) from the original one.
+## Day 16
+Wow ... that took quite some work ... Translation of the hex-string into binary String of zeroes and ones is straight 
+forward. Then I created a```PacketParser``` that you could use to iterate over the binary data string. The ```next()``` 
+returns a ```Pair<Token,Long>``` identifying the token type and the token value.
+For part one, I just filtered all VERSION_ID tokens and added their values.
+Part 2 was a bit more delicate, so I created a ```Calculator``` that took a string of hexData. From that it created a 
+parser and parsed the input recursively to calculate the values. Not my everyday job, so it took a while to get it 
+right.
