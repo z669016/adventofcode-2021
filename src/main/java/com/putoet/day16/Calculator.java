@@ -79,29 +79,25 @@ public class Calculator {
 
     private static List<Long> compute(PacketParser parser) {
         final List<Long> values = new ArrayList<>();
+        final Set<Token> skip = Set.of(Token.VERSION, Token.TYPE_ID, Token.END);
 
-        while (parser.hasNext()) {
-            final Pair<Token, Long> pair = parser.next();
+        Pair<Token, Long> pair = parser.next();
+        while (parser.hasNext() && skip.contains(pair.getValue0()))
+            pair = parser.next();
 
-            if (Set.of(Token.VERSION, Token.TYPE_ID, Token.END).contains(pair.getValue0()))
-                continue;
-
-            if (pair.getValue0() == Token.LITERAL_VALUE) {
-                return List.of(pair.getValue1());
-            } else if (pair.getValue0() == Token.SUB_PACKET_LENGTH) {
+        switch (pair.getValue0()) {
+            case LITERAL_VALUE -> values.add(pair.getValue1());
+            case SUB_PACKET_LENGTH -> {
                 final PacketParser sub = parser.subPacket(pair.getValue1());
                 while (sub.hasNext()) {
                     values.add(computeOne(sub));
                 }
-                return values;
-            } else if (pair.getValue0() == Token.SUB_PACKET_COUNT) {
+            }
+            case SUB_PACKET_COUNT -> {
                 final int count = (int) pair.getValue1().longValue();
                 for (int i = 0; i < count; i++) {
                     values.add(computeOne(parser));
                 }
-                return values;
-            } else {
-                throw new IllegalStateException("Invalid type id " + pair.getValue0());
             }
         }
         return values;
