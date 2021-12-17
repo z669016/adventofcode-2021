@@ -13,22 +13,22 @@ It was never my intention to create the shortest program possible. I did try to 
 
 ## Day 1
 A simple exercise to start this year's edition. Part 1 is trivial. A helper method just counts the number of increases 
-in the list in values. For part 2, I created a new list frm the original one (creating the sliding window values) and
+in the list in values. For part 2, I created a new list from the original one (creating the sliding window values) and
 reused the helper for counting. Runs in less than 15 ms on my laptop. 
 
 ## Day 2
-I've created a ```Submarine``` class, with a ```move``` method taking a ```Command``` as an input. The command has
-a direction and a distance attribute. This approach made it easy to process the input. For part 1 the input is 
+I've created a ```Submarine``` class, with a ```move``` method taking a ```Command``` record as an input. The command 
+has a direction and a distance attribute. This approach made it easy to process the input. For part 1 the input is 
 transformed into commands and the commands were used to move the submarine.
-For part 2, I extended the ```Submarine``` class and changed the ```move``` method according to instructions, then 
-processed the command list again... pretty straight forward.
+For part 2, I inherited from the initial ```Submarine``` class and changed the ```move``` method according to 
+instructions, then processed the command list again... pretty straight forward.
 
 ## Day 3
 Solved the puzzles using counting and filtering streams (just used ```List<String>``` and ```charAt()```).
 
 ## Day 4
 Started with creating a ```BingoCard``` class on which I could ```call``` numbers and which would keep track of marked 
-numbers. The ```call``` method would return true if a row of column would be completely marked. The board could also
+numbers. The ```call``` method would return true if a row of column would be completely marked. The card could also
 calculate it's ```score```.
 Next I created a ```Bingo``` class which would play a bingo game on a list of cards given a list of numbers to call. 
 The ```play``` method would return the first card which returns true on the called number. Part 1 will simply print 
@@ -38,18 +38,18 @@ list and returns only the last card that completes.
 ## Day 5
 Started with a ```Vent``` record which represents a vent with a starting ```Point``` and an end ```Point```. Then
 created an OceanFloor record with a ```Grid``` and ```List``` of vents. The ```overlap()``` method of the ocean
-floor simply counts all cells in the grid with a value greater tha '1'. This works as an empty cell contains '.' which
+floor simply counts all cells in the grid with a value greater than '1'. This works as an empty cell contains '.' which
 is smaller than '1'.
 
 To create the grid, find min and max X and Y values of the vents (and add 1), and beware that no assumption can be made 
 on how start and end point are positioned relative to each other (above, below, left or right). To "walk" the positions
 of a vent, I determined the direction based on the X and Y positions of the start and end coordinates. Then just walk 
-from start to end of the vent and update position using the direction (just add the points). This works for part 1 and 
-part 2. Getting the direction right was a bit tricky (nasty if/else construction).
+from start to end of the vent and update ```position``` using the direction (just add the points). This works for part 
+1 and part 2. Getting the direction right was a bit tricky (nasty if/else construction).
 
 I created a static method to create an OceanFloor from the input data using a filter, which determines if a vent
-should be included or not.For part 2 the filter always returns true, for part 1 it only returns true if X or Y of
-the start and end point are equal.
+should be included or not. For part 2 the filter always returns true, for part 1 it only returns true if X or Y of
+the start and end point are equal (so the vents are a straight horizontal or vertical line.
 
 ## Day 6
 For part 1 the brute force method ```LanternFishModel.progress(...)``` worked like a charm (just create a list and 
@@ -60,14 +60,14 @@ but way too much for the problem at hand.
 Solved part 2 by writing a recursive solution. That initially didn't run well either (as expected), so I added a cache
 for the calculations (if a number of fish for a certain date is calculated, store the value and don't recalculate next 
 time). After having the puzzle solved, I rewrote the class to remove the ```cache``` attribute at class level. Maybe 
-not a more readable solution, but fun to do (feels a bit Javascript style coding),   
+not a very readable solution, but fun to do (feels a bit Javascript style coding),   
 
 In the end, the solution is a ridiculously small algorithm ...
 
 ## Day 7
 As opposed to yesterday, I did grasp this one from the start. Created a model class again (```FuelModel```), to
 calculate the fuel consumption for all crabs (```altitudeFuelCost```), and a method to find the optimal-altitude and 
-usage at that altitude (```optimalAltitude```)going over a range from minimum (including) to maximum (including) 
+usage at that altitude (```optimalAltitude```) going over a range from minimum (including) to maximum (including) 
 altitude in the input.
 Part two required a different method for computing the fuel consumption, so I parameterized that method and passed
 it into the ```altitudeFuelCost```, and ```optimalAltitude```. For the complicated computation, I decided to cache 
@@ -75,16 +75,16 @@ the fuel consumption once calculated. Overall quite straight forward.
 
 ## Day 8
 Part 1 is really simple, just count the strings of length 2, 3, 4 or 7 ... done. Part 2 is a bit more tricky. I used 
-a brute force on this one ... I' ve created a list of all possible permutations of "abcdefg". Then checked which 
-permutation would get me a valid number on all teh encoded values on the left, and then used that permutation to decode
+a brute force on this one by creating a list of all possible permutations of "abcdefg". Then checked which 
+permutation would get me a valid number on all the encoded values on the left, and then used that permutation to decode
 the values on the right.
 
 ## Day 9
 A grid again,so probably not too difficult. for part 1, just search for all locations in the grid that do not have
-an adjacent lower number(walk the entire grid and collect the points), and then calculate the "risk" for these 
+an adjacent lower number (walk the entire grid and collect the points), and then calculate the "risk" for these 
 points and sum them. Part 2 continues on part 1, create a basin around all lowest points (part 1), and create a set 
 of all points around it (move outward like a breadth-first-search, using a queue) until you encounter a '9'. Then take 
-the 3 largest sets to calculate the score.
+the 3 largest basin sets to calculate the score.
 
 ## Day 10
 A nice puzzle today and not so complicated. I started with using a queue to do the matching. The ```Chunk.validate``` 
@@ -101,36 +101,36 @@ chunk parts.
 ## Day 11
 Again not too difficult today. The tricky part is to ensure the energy level will not be raised anymore once an octopus 
 has flashed during a step. So at the beginning of each step the energy level must be raised by 1, then all octopuses 
-must flash not more than once, and finally the flash-status on all octopuses must be reset for the next step.
-Part 1 needs to sum all flash count for 100 steps. Part 2 needs to loop until the flash count equals the number of
-octopuses.
+must flash not more than once, and finally the flash-status on all octopuses must be reset at beginning of the next 
+step. Part 1 needs to sum all flash count for 100 steps. Part 2 needs to loop until the flash count equals the number 
+of octopuses.
 
 ## Day 12
 Today was fun ... I expected I would need a specialized version of the ```GenericSearch.findAll``` (based of 
 ```GenericSearch.bsf```), so I started with a ```Cave``` class (which would know its neighbours) and a ```Maze``` class
-that holds a list of caves and a ```start``` and ```end``` cave attribute. Then I developed the ```MazeSearch```, with 
+that holds a list of caves and a ```start``` and ```end``` cave. Then I developed the ```MazeSearch```, with 
 methods to search the maze for all possible ```paths```. The ```MazeSearch.successors``` would return all neighbours 
 for a cave but would remove small caves from the list if they had already been visited (i.e. they are already in the 
 current path). Part 2 allowed for the same approach but uses a specialized ```MazeSearch.successorsOneSmall```, which 
-allows one small cave to be visited twice (only allow small caves as a successor, if it hasn't been visited or has been 
+allows one small cave to be visited twice (only allow small caves as a successor if it hasn't been visited, or has been 
 visited only once and no other small cave was visited more than once up until that point).
 
 ## Day 13
 Folding a grid ...yeah right. Not difficult, but nasty to get right, especially if the folding line (horizontal or 
-vertical) is not in the middle of the paper... 
+vertical) is not in the middle of the ```TransparentPaper``` paper.
 
 First step is to create a list of points and a list of folding instructions from the input. Then create a grid from the 
 list of points (setting the dots in the grid as '#'). Then implement the ```foldUp``` and ```foldLeft```. First create 
-a new empty grid based on the size calculation of the new grid (beware the folding line might not be in the middle). 
-Then copy part sof the old grid into the new one (copy first top/left part just top-down or left to right), and then
+a new empty grid based on a size calculation of the new grid (beware the folding line might not be in the middle). 
+Then copy parts of the old grid into the new one (copy first top/left part just top-down or left to right), and then
 copy the bottom/right part reversed (bottom-up or right to left). When you have one, the second is pretty similar.
 
 ## Day 14
-Looking at the challenge for part 1, the second part will most likely crash the part1 solution due to an extreme number
+Looking at the challenge for part 1, the second part will most likely crash the part 1 solution due to an extreme number
 of repetitions or and extreme growing list. I started with a ```PairInsertionRule``` record that returns the element 
 to be inserted based on the transformation starting element.
 The ```PairInsertionRules``` record reads and processes the input and provides the ```template()``` and the 
-```rules()``` (which is a ```List<PairInsertionRule>```). For part one I've added a ```transform(int count)``` method
+```rules()``` (which is a ```List<PairInsertionRule>```). For part 1 I've added a ```transform(int count)``` method
 to the ```PairInsertionRules``` that transforms the template the requested number of times by applying the 
 insertion rules. The final string grows fast so this probably won't work on part 2.
 For part 2, I changed the approach and now the transformation first creates a list of element pairs from the input, 
@@ -142,17 +142,33 @@ the list. It may sound a bit fuzzy,but the code should be clear.
 ## Day 15
 This sound like a Dijkstra problem, which you can solve using a specialized BFS as well. The challenge is ensuring you
 stay on the shortest path, and purge search path that are no longer the shortest route to the current position. Which 
-you can do by keeping a map of the shortest route (so far) up to the current point in your search. As a search state, I
-used the current ```Point``` in the grid and the total risk level up until that point. This work well and very fast.
+you can do by keeping a map of the shortest route (so far) up to the current point. As a search state, I
+used the current ```Point``` in the grid and the total risk level up until that point. This work well as 
+it allows the use of a ```PriorityQueue``` ordered by the ```totalRiskLevel``` as an optimization.
 For part 2, the most tricky part (for me) was the expanding of the ```Cave``` to a size 5 times larger and initializing
-the risk levels correctly. Once that challenge was solved, the search didn't need any optimization and ran in less than 
-1.5 second.
+the risk levels correctly. Once that challenge was solved, the search didn't need any additional optimization.
 
 ## Day 16
 Wow ... that took quite some work ... Translation of the hex-string into binary String of zeroes and ones is straight 
-forward. Then I created a```PacketParser``` that you could use to iterate over the binary data string. The ```next()``` 
-returns a ```Pair<Token,Long>``` identifying the token type and the token value.
-For part one, I just filtered all VERSION_ID tokens and added their values.
-Part 2 was a bit more delicate, so I created a ```Calculator``` that took a string of hexData. From that it created a 
-parser and parsed the input recursively to calculate the values. Not my everyday job, so it took a while to get it 
-right.
+forward. Indeed, I used a String presentation of the binary, for that is easier to parse. Then I created a
+```PacketParser``` that could iterate over the binary data string. The ```next()```returns a ```Pair<Token,Long>``` 
+identifying the token type and the token value.
+For part one, I just filtered all VERSION_ID tokens and added their values. Part 2 was a bit more delicate, so I 
+created a ```Calculator``` that took a string of hexData. From that it created a parser and parsed the input 
+recursively to calculate the values. Not my everyday job, so it took a while to get it right.
+
+## Day 17
+Sometimes, when I think a lot, I make mistakes ... and this was just one of those days. I started of way too difficult,
+took several detours and ended op with less than 100 lines of readable code. This is so annoying.
+
+It's no use to check for hits with velocity.x < 1 (because after with velocity.x == 0 the probe would only go straight 
+down, and with velocity.x < 0 it would move in the wrong direction), and also not useful to check with 
+velocity.x > bottomRight.x because after only one step you would be past the target area regardless of the velocity.y.
+Velocity.y should be at least bottomRight.y and probably less that abs(bottomRight.y). 
+
+Knowing this, I used a double loop over the velocity.x and velocity.y ranges to determine every possible combinations
+of possibly correct velocity.x and velocity.y values. Then create a hit list of all combinations that indeed end up in 
+the target area. For part 1, get the highest value for velocity.y from the hit list and from that velocity.y determine 
+the maximum height. For part 2 (now so simple), take the size of the hit list.
+
+
