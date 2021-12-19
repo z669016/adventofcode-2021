@@ -171,4 +171,13 @@ of possibly correct velocity.x and velocity.y values. Then create a hit list of 
 the target area. For part 1, get the highest value for velocity.y from the hit list and from that velocity.y determine 
 the maximum height. For part 2 (now so simple), take the size of the hit list.
 
+## Day 18
+Started over again twice, and was finally able to make it. Choosing the right data structure to start with appears
+to be vital. Changing the approach half way is very difficult, at least to me.
+
+It also took a while to have the right order of actions. I stored the numbers in a tree, and walked the tree searching
+for explosions going from left to right  depth first. That's fine for explosions, which only occur at the lowest level,
+This fails on split actions that can occur on every level, so those need to be taken left to right top first.
+
+It's almost frustrating how quickly the answer gets calculated compared to the time it took towrite the correct code :-(
 
