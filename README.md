@@ -181,3 +181,15 @@ This fails on split actions that can occur on every level, so those need to be t
 
 It's almost frustrating how quickly the answer gets calculated compared to the time it took towrite the correct code :-(
 
+## Day 19
+Matrix rotation:
+(x, y) -> (y, x) -> (-x, -y) -> (-y, -x)
+(x, -y) -> (-y, x)
+(-x, y) -> (y, -x)
+Cube rotation:
+(x, y, z) -> (x, z, y) -> (x, -y, -z) -> (x, -z, -y),
+(-x, y, z) -> (-x, z, y) -> (-x, -y, -z) -> (-x, -z, -y),
+(x, y, z) -> (z, y, x) -> (-x, y, -z) -> (-z, y, -x),
+(x, -y, z) -> (z, -y, x) -> (-x, -y, -z) -> (-z, -y, -x),
+(x, y, z) -> (y, x, z) -> (-x, -y, z) -> (-y, -x, z)
+(x, y, -z) -> (y, x, -z) -> (-x, -y, -z) -> (-y, -x, -z)
