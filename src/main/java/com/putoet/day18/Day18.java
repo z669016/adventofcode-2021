@@ -6,7 +6,7 @@ import com.putoet.resources.ResourceLines;
 import java.util.List;
 
 public class Day18 extends Day {
-    private final List<String> input = ResourceLines.list("/day19.txt");
+    private final List<String> input = ResourceLines.list("/day18.txt");
 
     protected Day18(String[] args) {
         super(args);
@@ -40,16 +40,15 @@ public class Day18 extends Day {
                 SnailFishNumber second = SnailFishNumbers.of(input.get(b));
                 first = first.add(second);
                 first.reduce();
-                max = Math.max(max,first.magnitude());
+                max = Math.max(max, first.magnitude());
 
                 first = SnailFishNumbers.of(input.get(a));
                 second = SnailFishNumbers.of(input.get(b));
                 second = second.add(first);
                 second.reduce();
-                max = Math.max(max,second.magnitude());
+                max = Math.max(max, second.magnitude());
             }
         }
-        System.out.println("the largest magnitude of any sum of two different snail fish numbers from the homework assignment is " +max);
+        System.out.println("the largest magnitude of any sum of two different snail fish numbers from the homework assignment is " + max);
     }
-
 }

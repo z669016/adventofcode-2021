@@ -72,6 +72,7 @@ class RegularSnailFishNumberTest {
     void moveLeftFrom() {
         final SnailFishNumber other = SnailFishNumbers.of(9);
         final SnailFishNumber compound = mock(CompoundSnailFishNumber.class);
+        number.setParent(compound);
         number.moveLeftFrom(other, compound);
         assertEquals(20L, number.magnitude());
 
@@ -82,6 +83,7 @@ class RegularSnailFishNumberTest {
     void moveRightFrom() {
         final SnailFishNumber other = SnailFishNumbers.of(7);
         final SnailFishNumber compound = mock(CompoundSnailFishNumber.class);
+        number.setParent(compound);
         number.moveRightFrom(other, compound);
         assertEquals(18L, number.magnitude());
 

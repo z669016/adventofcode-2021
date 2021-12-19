@@ -72,7 +72,7 @@ class CompoundSnailFishNumberTest {
         reduceTest("[[[[6,7],[6,7]],[[7,7],[0,7]]],[[[8,7],[7,7]],[[8,8],[8,0]]]]", "[[[[2,4],7],[6,[0,5]]],[[[6,8],[2,8]],[[2,1],[4,5]]]]", "[[[[7,0],[7,7]],[[7,7],[7,8]]],[[[7,7],[8,8]],[[7,7],[8,7]]]]");
         reduceTest("[[[[7,0],[7,7]],[[7,7],[7,8]]],[[[7,7],[8,8]],[[7,7],[8,7]]]]", "[7,[5,[[3,8],[1,4]]]]", "[[[[7,7],[7,8]],[[9,5],[8,7]]],[[[6,8],[0,8]],[[9,9],[9,0]]]]");
 
-        final List<SnailFishNumber> numbers = SnailFishNumbers.of(ResourceLines.list("/day19.txt"));
+        final List<SnailFishNumber> numbers = SnailFishNumbers.of(ResourceLines.list("/day18.txt"));
         SnailFishNumber root = numbers.get(0);
         for (int idx = 1; idx < numbers.size(); idx++) {
             root = root.add(numbers.get(idx));
@@ -96,7 +96,7 @@ class CompoundSnailFishNumberTest {
 
     @Test
     void sample2() {
-        final List<SnailFishNumber> numbers = SnailFishNumbers.of(ResourceLines.list("/day19-2.txt"));
+        final List<SnailFishNumber> numbers = SnailFishNumbers.of(ResourceLines.list("/day18-2.txt"));
         SnailFishNumber root = numbers.get(0);
         for (int idx = 1; idx < numbers.size(); idx++) {
             root = root.add(numbers.get(idx));
@@ -108,7 +108,7 @@ class CompoundSnailFishNumberTest {
 
     @Test
     void max() {
-        final List<String> input = ResourceLines.list("/day19-2.txt");
+        final List<String> input = ResourceLines.list("/day18-2.txt");
         long max = Long.MIN_VALUE;
         for (int a = 0; a < input.size(); a++) {
             for (int b = 0; b < input.size(); b++) {
