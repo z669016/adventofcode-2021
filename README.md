@@ -182,14 +182,24 @@ This fails on split actions that can occur on every level, so those need to be t
 It's almost frustrating how quickly the answer gets calculated compared to the time it took towrite the correct code :-(
 
 ## Day 19
-Matrix rotation:
-(x, y) -> (y, x) -> (-x, -y) -> (-y, -x)
-(x, -y) -> (-y, x)
-(-x, y) -> (y, -x)
-Cube rotation:
-(x, y, z) -> (x, z, y) -> (x, -y, -z) -> (x, -z, -y),
-(-x, y, z) -> (-x, z, y) -> (-x, -y, -z) -> (-x, -z, -y),
-(x, y, z) -> (z, y, x) -> (-x, y, -z) -> (-z, y, -x),
-(x, -y, z) -> (z, -y, x) -> (-x, -y, -z) -> (-z, -y, -x),
-(x, y, z) -> (y, x, z) -> (-x, -y, z) -> (-y, -x, z)
-(x, y, -z) -> (y, x, -z) -> (-x, -y, -z) -> (-y, -x, -z)
+Not solved yet...
+
+## Day 20
+What seemed to be a relatively simple puzzle turned out to be very nasty and I needed the help of the Reddit blogs
+to understand the issue. And even then ... it took a while to understand the problem.
+
+I've created ```Image``` record to hold the picture and an ```ImageEnhanced``` record (I love those stateless objects)
+to manipulate the image and hold the algorithms' transformation table (array). Before the transformation, I increased 
+the size of the image with a clean row/column all around. That certainly simplified the enhancement process.
+
+The trick was in "flashing" ... huh? Yes, indeed ... the fist character in the algorithm table was a '#' and the last 
+one was a '.'. This means, if all pixels around the pixel to transformed are dark then the current pixel will bbe lit
+(entry 0 in the transformation table). AND ... this is the case for the entire infinite universe around the original 
+image. The last entry in the transformation table (entry 512) is '.', which means, if all pixels in the block of 9 are 
+lit, then the new status will be off (dark). AND ... this is the case for the entire infinite universe around the 
+original image. SO, the infinite universe will be "flashing"... And that is what you need to take into account!
+
+My sample transformation table, didn't have this typical behaviour. I really wonder who thought of this edge case. I 
+certainly didn't.
+
+The transformation itself is easy and fast, so part 2 was just a repetition of part 1.
