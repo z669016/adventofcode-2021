@@ -8,51 +8,85 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Transformer {
-    private static final List<Function<Point3D, Point3D>> transformXFunctions = List.of(
-            (Point3D p) -> Point3D.of(p.x(), p.y(), p.z()),
-            (Point3D p) -> Point3D.of(p.x(), p.z(), p.y()),
-            (Point3D p) -> Point3D.of(p.x(), -p.y(), p.z()),
-            (Point3D p) -> Point3D.of(p.x(), p.y(), -p.z()),
-            (Point3D p) -> Point3D.of(p.x(), -p.y(), -p.z()),
-            (Point3D p) -> Point3D.of(p.x(), -p.z(), -p.y()),
+    public static final int ROTATION_COUNT = 4;
+    public static final int FLIP_COUNT = 2;
 
-            (Point3D p) -> Point3D.of(-p.x(), p.y(), p.z()),
-            (Point3D p) -> Point3D.of(-p.x(), p.z(), p.y()),
-            (Point3D p) -> Point3D.of(-p.x(), -p.y(), p.z()),
-            (Point3D p) -> Point3D.of(-p.x(), p.y(), -p.z()),
-            (Point3D p) -> Point3D.of(-p.x(), -p.y(), -p.z()),
-            (Point3D p) -> Point3D.of(-p.x(), -p.z(), -p.y())
-    );
-    private static final List<Function<Point3D, Point3D>> transformYFunctions = List.of(
-            (Point3D p) -> Point3D.of(p.x(), p.y(), p.z()),
+    private static final Function<Point3D, Point3D> rotateAroundXAxis = p -> Point3D.of(p.x(), p.z(), -p.y())
+    private static final Function<Point3D, Point3D> rotateAroundYAxis = p -> Point3D.of(p.z(), p.y(), -p.x());
+    private static final Function<Point3D, Point3D> rotateAroundZAxis = p -> Point3D.of(p.y(), -p.x(), p.z());
+    private static final Function<Point3D, Point3D> flipX = p -> Point3D.of(-p.x(), p.y(), p.z());
+    private static final Function<Point3D, Point3D> flipY = p -> Point3D.of(p.x(), -p.y(), p.z());
+    private static final Function<Point3D, Point3D> flipZ = p -> Point3D.of(-p.x(), p.y(), -p.z());
+    private static final Function<Point3D, Point3D> nope = p -> p;
 
-            (Point3D p) -> Point3D.of(p.z(), p.y(), p.x()),
-            (Point3D p) -> Point3D.of(-p.z(), p.y(), p.x()),
-            (Point3D p) -> Point3D.of(p.z(), p.y(), -p.x()),
-            (Point3D p) -> Point3D.of(-p.z(), p.y(), -p.x()),
+    private static List<Scanner> createTransformedScanners(List<Scanner> scanners) {
+        final Map<Integer, List<Scanner>> transformedScanners = new HashMap<>();
+        transformedScanners.put(scanners.get(0).id(), new ArrayList<>());
+        transformedScanners.get(scanners.get(0).id()).add(scanners.get(0));
 
-            (Point3D p) -> Point3D.of(p.z(), -p.y(), p.x()),
-            (Point3D p) -> Point3D.of(-p.z(), -p.y(), p.x()),
-            (Point3D p) -> Point3D.of(p.z(), -p.y(), -p.x()),
-            (Point3D p) -> Point3D.of(-p.z(), -p.y(), -p.x())
-    );
-    private static final List<Function<Point3D, Point3D>> transformZFunctions = List.of(
-            (Point3D p) -> Point3D.of(p.x(), p.y(), p.z()),
+        for (Scanner scanner : scanners) {
+            final List<Scanner> transformed = new ArrayList<>();
+            for (int zRotation = 0; zRotation < ROTATION_COUNT; zRotation++) {
+                for (int yRotation = 0; yRotation < ROTATION_COUNT; yRotation++) {
+                    for (int xRotation = 0; xRotation < ROTATION_COUNT; xRotation++) {
+                        for (int zFlip = 0; zFlip < FLIP_COUNT; zFlip++) {
+                            for (int yFlip = 0; yFlip < FLIP_COUNT; yFlip++) {
+                                for (int xFlip = 0; xFlip < FLIP_COUNT; xFlip++) {
+                                    transformed.add(transformScanner(scanner, zRotation, yRotation,xRotation,zFlip,yFlip,xFlip));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            transformedScanners.put(scanner.id(), transformed);
+        }
 
-            (Point3D p) -> Point3D.of(p.y(), p.x(), p.z()),
-            (Point3D p) -> Point3D.of(-p.y(), p.x(), p.z()),
-            (Point3D p) -> Point3D.of(p.y(), -p.x(), p.z()),
-            (Point3D p) -> Point3D.of(-p.y(), -p.x(), p.z()),
+    }
 
-            (Point3D p) -> Point3D.of(p.y(), p.x(), -p.z()),
-            (Point3D p) -> Point3D.of(-p.y(), p.x(), -p.z()),
-            (Point3D p) -> Point3D.of(p.y(), -p.x(), -p.z()),
-            (Point3D p) -> Point3D.of(-p.y(), -p.x(), -p.z())
-    );
+    private static Scanner transformScanner(Scanner scanner, int zRotation, int yRotation, int xRotation, int zFlip, int yFlip, int xFlip) {
+        return new Scanner(scanner.id(), scanner.beacons().stream()
+                .map(p -> {
+                    for (int i = 0; i < zRotation; i++)
+                        p = rotateAroundZAxis.apply(p);
+                    return p;
+                })
+                .map(p -> {
+                    for (int i = 0; i < yRotation; i++)
+                        p = rotateAroundYAxis.apply(p);
+                    return p;
+                })
+                .map(p -> {
+                    for (int i = 0; i < xRotation; i++)
+                        p = rotateAroundXAxis.apply(p);
+                    return p;
+                })
+                .map(p -> {
+                    for (int i = 0; i < zFlip; i++)
+                        p = flipZ.apply(p);
+                    return p;
+                })
+                .map(p -> {
+                    for (int i = 0; i < yFlip; i++)
+                        p = flipY.apply(p);
+                    return p;
+                })
+                .map(p -> {
+                    for (int i = 0; i < xFlip; i++)
+                        p = flipX.apply(p);
+                    return p;
+                })
+                .collect(Collectors.toSet())
+        );
+    }
 
     public static List<Scanner> transform(List<Scanner> scanners) {
-        final Scanner[] transformedScanners = new Scanner[scanners.size()];
-        transformedScanners[0] = scanners.get(0);
+        final Map<Integer, List<Scanner> transformedScanners = new HashMap<>();
+        transformedScanners.put(scanners.get(0).id(), new ArrayList<>());
+        transformedScanners.get(scanners.get(0).id()).add(scanners.get(0));
+
+        /
+
 
         boolean didTransform = true;
         while (didTransform) {
@@ -136,5 +170,27 @@ public class Transformer {
         final Set<Point3D> intersection = new HashSet<>(from);
         intersection.retainAll(transformed);
         return intersection;
+    }
+
+    private List<Function<Point3D, Point3D>> transformationTable() {
+        final List<Function<Point3D, Point3D>> transformationTable = new ArrayList<>();
+
+        Function<Point3D, Point3D> transformation = nope;
+        for (int zRotation = 0; zRotation < ROTATION_COUNT; zRotation++) {
+            transformation = transformation.andThen(rotateAroundZAxis);
+            for (int yRotation = 0; yRotation < ROTATION_COUNT; yRotation++) {
+                for (int xRotation = 0; xRotation < ROTATION_COUNT; xRotation++) {
+                    for (int zFlip = 0; zFlip < FLIP_COUNT; zFlip++) {
+                        for (int yFlip = 0; yFlip < FLIP_COUNT; yFlip++) {
+                            for (int xFlip = 0; xFlip < FLIP_COUNT; xFlip++) {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return transformationTable;
     }
 }
