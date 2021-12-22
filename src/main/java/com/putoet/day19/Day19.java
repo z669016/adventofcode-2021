@@ -4,10 +4,7 @@ import com.putoet.day.Day;
 import com.putoet.grid.Point3D;
 import com.putoet.resources.ResourceLines;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Day19 extends Day {
     private final List<String> input = ResourceLines.list("/day19.txt");
@@ -25,13 +22,24 @@ public class Day19 extends Day {
 
     @Override
     public void part1() {
-        transformed = Transformer.transform(scanners);
-        final Set<Point3D> beacons = Scanners.beacons(transformed);
-
-        transformed.stream()
-                .filter(Objects::nonNull)
-                .forEach(s -> System.out.println(s.id()));
-
-        System.out.println(beacons.size() + " beacons found");
+        final Scanner base = scanners.remove(0);
+        final List<Point3D> scannerLocations = new ArrayList<>(Collections.singleton(Point3D.ORIGIN));
+        while (scanners.size() > 0) {
+            System.out.println("pool size:" + scanners.size());
+            long time = System.currentTimeMillis();
+            outer: for (Scanner scanner : scanners) {
+                for (List<Point3D> rotation : scanner.rotations()) {
+                    final Optional<Point3D> transformation = base.findTranslation(rotation);
+                    if (transformation.isPresent()) {
+                        scannerLocations.add(transformation.get());
+//                        base.add(rotation, new Scanner(scanner.id(), transformation));
+//                        scanners.remove(scanner);
+                        break outer;
+                    }
+                }
+            }
+            System.out.println("ms:" + (System.currentTimeMillis() - time));
+        }
+        System.out.println("part1:" + base.coords.size());
     }
 }

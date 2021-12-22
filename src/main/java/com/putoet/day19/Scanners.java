@@ -2,11 +2,12 @@ package com.putoet.day19;
 
 import com.putoet.grid.Point3D;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Scanners {
-    private Scanners() {}
+    private Scanners() {
+    }
 
     public static List<Scanner> of(List<String> lines) {
         final List<Scanner> scanners = new ArrayList<>();
@@ -15,12 +16,12 @@ public class Scanners {
             final String scannerIdLine = lines.get(offset);
             offset++;
 
-            final Set<Point3D> beacons = new HashSet<>();
-            while(offset < lines.size() && lines.get(offset).length() > 0) {
+            final List<Point3D> beacons = new ArrayList<>();
+            while (offset < lines.size() && lines.get(offset).length() > 0) {
                 beacons.add(point3d(lines.get(offset)));
                 offset++;
             }
-            scanners.add(new Scanner(scannerId,beacons));
+            scanners.add(new Scanner(scannerId, beacons));
             scannerId++;
         }
 
@@ -34,13 +35,5 @@ public class Scanners {
         assert split.length == 3;
 
         return Point3D.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
-    }
-
-    public static Set<Point3D> beacons(List<Scanner> scanners) {
-        return scanners.stream()
-                .filter(Objects::nonNull)
-                .map(Scanner::beacons)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
     }
 }
