@@ -3,16 +3,18 @@ package com.putoet.day19;
 import com.putoet.day.Day;
 import com.putoet.grid.Point3D;
 import com.putoet.resources.ResourceLines;
+import org.javatuples.Pair;
 
-import java.util.*;
+import java.util.List;
 
 public class Day19 extends Day {
-    private final List<String> input = ResourceLines.list("/day19.txt");
-    private final List<Scanner> scanners = new ArrayList<>(Scanners.of(ResourceLines.list("/day19.txt")));
-    private List<Scanner> transformed;
+    private final List<Scanner> scanners;
+    private List<Point3D> scannerLocations;
 
     protected Day19(String[] args) {
         super(args);
+
+        scanners = Scanners.of(ResourceLines.list("/day19.txt"));
     }
 
     public static void main(String[] args) {
@@ -22,24 +24,15 @@ public class Day19 extends Day {
 
     @Override
     public void part1() {
-        final Scanner base = scanners.remove(0);
-        final List<Point3D> scannerLocations = new ArrayList<>(Collections.singleton(Point3D.ORIGIN));
-        while (scanners.size() > 0) {
-            System.out.println("pool size:" + scanners.size());
-            long time = System.currentTimeMillis();
-            outer: for (Scanner scanner : scanners) {
-                for (List<Point3D> rotation : scanner.rotations()) {
-                    final Optional<Point3D> transformation = base.findTranslation(rotation);
-                    if (transformation.isPresent()) {
-                        scannerLocations.add(transformation.get());
-//                        base.add(rotation, new Scanner(scanner.id(), transformation));
-//                        scanners.remove(scanner);
-                        break outer;
-                    }
-                }
-            }
-            System.out.println("ms:" + (System.currentTimeMillis() - time));
-        }
-        System.out.println("part1:" + base.coords.size());
+        final Pair<Scanner,List<Point3D>> locations = Scanners.scannerLocations(scanners);
+        scannerLocations = locations.getValue1();
+
+        final Scanner baseScanner = locations.getValue0();
+        System.out.println("There are " + baseScanner.beacons().size() + " beacons");
+    }
+
+    @Override
+    public void part2() {
+        System.out.println("There maximum distance between two scanners is " + Scanners.maxDistance(scannerLocations));
     }
 }

@@ -182,7 +182,26 @@ This fails on split actions that can occur on every level, so those need to be t
 It's almost frustrating how quickly the answer gets calculated compared to the time it took towrite the correct code :-(
 
 ## Day 19
-Not solved yet...
+My goodness, that caused me quite some headache. My initial idea, was to use scanner 0 as the base scanner, and assume 
+its scanner location to be (0,0,0). Then do all possible rotations on the other scanners and save these (to 
+prevent recalculation). Then keep looping over all remaining scanners and find a rotated scanner that has 12 (or 
+more) beacons in common with the base scanner. 
+
+To see if the rotated scanner has 12 beacons in common with the base scanner, calculate the difference between the 
+beacons of the base scanner and the rotated scanner. The beacons that both scanners have in common have the same 
+distance, and that distance (x,y,z) is equal to the location of the rotated scanner (relative to the scanner of the
+base scanner, which is (0,0,0)). Then add all beacons of the rotated scanner (after adding the scanner position to 
+the beacon position), but prevent doubles in the list.
+
+Loop over these steps until all scanners have been located and all unique beacons have been added to the base scanner
+beacon list.
+
+Initially, I really didn't get the 24 transformations right... I checked Reddit
+for this one and found a reference on [How to get all 24 rotations of a 3-dimensional array?](https://stackoverflow.com/questions/16452383/how-to-get-all-24-rotations-of-a-3-dimensional-array])
+so I added those methods to my ```Point3D``` class. 
+
+For part 1, count the unique beacons in the beacons list of the base scanner. For part 2, calculate the max distance
+between all scanner locations.
 
 ## Day 20
 What seemed to be a relatively simple puzzle turned out to be very nasty and I needed the help of the Reddit blogs
