@@ -1,38 +1,124 @@
 package com.putoet.day21;
 
+import org.javatuples.Pair;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+
 public class DiracDice {
-    private long score1;
-    private long score2;
-    private int pos1;
-    private int pos2;
-    private long turn;
-    private boolean flip = true;
-    final Die die = new Die();
+    private final boolean quantum;
+    private final Die die;
+    private int positionOne;
+    private int positionTwo;
+    private boolean turnOne = true;
 
-    public DiracDice(int startPos1, int startPos2) {
-        pos1 = startPos1;
-        pos2 = startPos2;
+    public DiracDice(int startPos1, int startPos2, Die die) {
+        assert die != null;
+
+        this.positionOne = startPos1;
+        this.positionTwo = startPos2;
+        this.die = die;
+
+        this.quantum = die instanceof QuantumDie;
     }
 
-    void play() {
-        while (score1 < 1000 && score2 < 1000) {
-            if (flip) {
-                pos1 = pos1 + die.get();
-                if (pos1 > 10)
-                    pos1 -= 10;
-                score1 += pos1;
+    private static int nextPosition(int position, int diceRoll) {
+        return ((position - 1 + diceRoll) % 10) + 1;
+    }
+
+    public Pair<BigInteger, BigInteger> play(int endScore) {
+        if (!quantum)
+            return playRegular(endScore);
+        else
+            return playQuantum(endScore);
+    }
+
+    private Pair<BigInteger, BigInteger> playRegular(int endScore) {
+        long score1 = 0;
+        long score2 = 0;
+        while (score1 < endScore && score2 < endScore) {
+            if (turnOne) {
+                positionOne = nextPosition(positionOne, die.get() % 10);
+                score1 += positionOne;
             } else {
-                pos2 = pos2 + die.get();
-                if (pos2 > 10)
-                    pos2 -= 10;
-                score2 += pos2;
+                positionTwo = nextPosition(positionTwo, die.get() % 10);
+                score2 += positionTwo;
             }
-            flip = !flip;
+            turnOne = !turnOne;
         }
+
+        return Pair.with(BigInteger.valueOf(score1), BigInteger.valueOf(score2));
     }
 
-    public long looserScore() {
-        return Math.min(score1, score2);
+    private Pair<BigInteger, BigInteger> playQuantum(int endScore) {
+        final Map<String, Pair<BigInteger, BigInteger>> cache = new HashMap<>();
+        return playQuantum(cache, 0, 0, positionOne, positionTwo, 0, 0, endScore);
+    }
+
+    private Pair<BigInteger, BigInteger> playQuantum(Map<String, Pair<BigInteger, BigInteger>> cache,
+                                                     int scoreOne,
+                                                     int scoreTwo,
+                                                     int positionOne,
+                                                     int positionTwo,
+                                                     int turn,
+                                                     int throwSum,
+                                                     int endScore) {
+
+        // a new universe was started after each throw, continue with playerOne if turn < 3
+        boolean turnOne = turn < 3;
+
+        // Return (1,0) if player one has won
+        if (scoreOne >= endScore)
+            return Pair.with(BigInteger.ONE, BigInteger.ZERO);
+
+        // Return (0,1) if player two has won
+        if (scoreTwo >= endScore)
+            return Pair.with(BigInteger.ZERO, BigInteger.ONE);
+
+        // calculate the cache key and check if the result of the game is already known; if so return the known value
+        final String cacheKey = String.format("%d-%d-%d-%d-%d-%d", positionOne, scoreOne, positionTwo, scoreTwo, turn, throwSum);
+        if (cache.containsKey(cacheKey)) {
+            return cache.get(cacheKey);
+        }
+
+        // the winner count starts at 0 for each universe
+        BigInteger winsOne = BigInteger.ZERO;
+        BigInteger winsTwo = BigInteger.ZERO;
+
+        // if turn == 2 this is the last turn for player one, and his score must be updated
+        boolean lastThrowOne = turn == 2;
+        // if turn == 5 this is the last turn for player two, and his score must be updated
+        boolean lastThrowTwo = turn == 5;
+
+        // calculate the turn for the next universe
+        int nextTurn = (turn + 1) % 6;
+
+        // roll the dice three times and create three new universes
+        for (int roll = 1; roll <= 3; roll++) {
+
+            // get the result from the new universe
+            final Pair<BigInteger, BigInteger> pair = playQuantum(
+                    cache,
+                    turnOne && lastThrowOne ? scoreOne + nextPosition(positionOne, roll) : scoreOne,
+                    !turnOne && lastThrowTwo ? scoreTwo + nextPosition(positionTwo, roll) : scoreTwo,
+                    turnOne ? nextPosition(positionOne, roll) : positionOne,
+                    !turnOne ? nextPosition(positionTwo, roll) : positionTwo,
+                    nextTurn,
+                    turn % 3 == 0 ? 0 : throwSum + roll,
+                    endScore
+            );
+
+            // update the totals
+            winsOne = winsOne.add(pair.getValue0());
+            winsTwo = winsTwo.add(pair.getValue1());
+        }
+
+        // cache the results
+        final Pair<BigInteger, BigInteger> pair = Pair.with(winsOne, winsTwo);
+        cache.put(cacheKey, pair);
+
+        return pair;
     }
 
     public int turns() {
