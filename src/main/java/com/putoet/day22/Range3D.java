@@ -1,12 +1,16 @@
 package com.putoet.day22;
 
+import com.putoet.grid.Point;
 import com.putoet.grid.Point3D;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public record Range3D(Point3D min, Point3D max) {
     public static final Pattern LINE_PATTERN = Pattern.compile("x=([-+]?\\d+)..([-+]?\\d+),y=([-+]?\\d+)..([-+]?\\d+),z=([-+]?\\d+)..([-+]?\\d+)");
@@ -16,7 +20,6 @@ public record Range3D(Point3D min, Point3D max) {
     public static final int MAX_Y = 4;
     public static final int MIN_Z = 5;
     public static final int MAX_Z = 6;
-
 
     public Range3D {
         assert min.x() <= max.x();
@@ -83,72 +86,14 @@ public record Range3D(Point3D min, Point3D max) {
         if (!overlap(other))
             return Optional.empty();
 
-        int min_x = (Math.max(min.x(), other.min.x()));
-        int max_x = (Math.min(max.x(), other.max.x()));
-        int min_y = (Math.max(min.y(), other.min.y()));
-        int max_y = (Math.min(max.y(), other.max.y()));
-        int min_z = (Math.max(min.z(), other.min.z()));
-        int max_z = (Math.min(max.z(), other.max.z()));
+        int min_x = Math.max(min.x(), other.min.x());
+        int max_x = Math.min(max.x(), other.max.x());
+        int min_y = Math.max(min.y(), other.min.y());
+        int max_y = Math.min(max.y(), other.max.y());
+        int min_z = Math.max(min.z(), other.min.z());
+        int max_z = Math.min(max.z(), other.max.z());
 
         return Optional.of(Range3D.of(Point3D.of(min_x, min_y, min_z), Point3D.of(max_x, max_y, max_z)));
-    }
-
-    private List<Range3D> bottomOverlap(Range3D other) {
-        final List<Range3D> blocks = new ArrayList<>();
-        int min_x, max_x, min_y, max_y;
-
-        if (min.x() < other.min.x()) {
-            min_x = min.x();
-            max_x = other.min.x() - 1;
-            min_y = min.y();
-            max_y = max.y();
-            blocks.add(Range3D.of(Point3D.of(min_x, min_y, 0), Point3D.of(max_x, max_y, 0)));
-        }
-
-        min_x = other.min.x();
-        max_x = other.max.x();
-        min_y = min.y();
-        max_y = other.min.y() - 1;
-        blocks.add(Range3D.of(Point3D.of(min_x, min_y, 0), Point3D.of(max_x, max_y, 0)));
-
-        if (min.x() < other.min.x()) {
-            min_x = other.max.x() + 1;
-            max_x = max.x();
-            min_y = min.y();
-            max_y = max.y();
-            blocks.add(Range3D.of(Point3D.of(min_x, min_y, 0), Point3D.of(max_x, max_y, 0)));
-        }
-
-        return blocks;
-    }
-
-    private List<Range3D> topOverlap(Range3D other) {
-        final List<Range3D> blocks = new ArrayList<>();
-        int min_x, max_x, min_y, max_y;
-
-        if (min.x() < other.min.x()) {
-            min_x = min.x();
-            max_x = other.min.x() - 1;
-            min_y = min.y();
-            max_y = max.y();
-            blocks.add(Range3D.of(Point3D.of(min_x, min_y, 0), Point3D.of(max_x, max_y, 0)));
-        }
-
-        min_x = other.min.x();
-        max_x = other.max.x();
-        min_y = min.y();
-        max_y = other.min.y() - 1;
-        blocks.add(Range3D.of(Point3D.of(min_x, min_y, 0), Point3D.of(max_x, max_y, 0)));
-
-        if (min.x() < other.min.x()) {
-            min_x = other.max.x() + 1;
-            max_x = max.x();
-            min_y = min.y();
-            max_y = max.y();
-            blocks.add(Range3D.of(Point3D.of(min_x, min_y, 0), Point3D.of(max_x, max_y, 0)));
-        }
-
-        return blocks;
     }
 
     public boolean contains(Range3D other) {
@@ -159,5 +104,13 @@ public record Range3D(Point3D min, Point3D max) {
 
     public long point3DCount() {
         return point3DCount(this);
+    }
+
+    public Set<Point3D> toSet() {
+        return IntStream.range(min.x(), max.x() + 1).mapToObj(x ->
+            IntStream.range(min.y(), max.y() + 1).mapToObj(y ->
+                IntStream.range(min.z(), max.z() + 1).mapToObj(z-> Point3D.of(x, y, z)).collect(Collectors.toSet())
+        ).flatMap(Collection::stream).collect(Collectors.toSet()))
+                .flatMap(Collection::stream).collect(Collectors.toSet());
     }
 }

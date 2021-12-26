@@ -3,14 +3,8 @@ package com.putoet.day22;
 import com.putoet.grid.Point3D;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public record Command(boolean onOff, Range3D range) {
-    public static final Pattern LINE_PATTERN = Pattern.compile("(on|off) (x=([-+]?\\d+)..([-+]?\\d+),y=([-+]?\\d+)..([-+]?\\d+),z=([-+]?\\d+)..([-+]?\\d+))");
-    public static final int ON_OFF = 1;
-    public static final int RANGE = 2;
-
+public record Command(boolean on, Range3D range) {
     public static List<Command> of(List<String> lines) {
         return lines.stream().map(Command::of).toList();
     }
@@ -18,14 +12,11 @@ public record Command(boolean onOff, Range3D range) {
     public static Command of(String line) {
         assert line != null;
 
-        final Matcher matcher = LINE_PATTERN.matcher(line);
-        if (!matcher.matches())
-            throw new IllegalArgumentException("Invalid line " + line);
+        final String[] split = line.split(" ");
+        if (split.length == 2)
+            return new Command("on".equals(split[0]), Range3D.of(split[1]));
 
-        return new Command(
-                "on".equals(matcher.group(ON_OFF)),
-                Range3D.of(matcher.group(RANGE))
-        );
+        throw new IllegalArgumentException("Invalid line " + line);
     }
 
     public static Range3D range(List<Command> commands) {

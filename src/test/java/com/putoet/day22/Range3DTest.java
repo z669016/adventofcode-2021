@@ -3,6 +3,8 @@ package com.putoet.day22;
 import com.putoet.grid.Point3D;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class Range3DTest {
@@ -14,8 +16,23 @@ class Range3DTest {
 
     @Test
     void point3DCount() {
-        Range3D range = Range3D.of(Point3D.ORIGIN, Point3D.of(1,1,1));
-        assertEquals(8,range.point3DCount());
+        Range3D range = Range3D.of(Point3D.ORIGIN, Point3D.of(1, 1, 1));
+        assertEquals(8, range.point3DCount());
+    }
+
+    @Test
+    void toSet() {
+        Range3D range = Range3D.of("x=10..12,y=10..12,z=10..12");
+        Set<Point3D> set = range.toSet();
+        assertEquals(27, set.size());
+
+        range = Range3D.of("x=9..11,y=9..11,z=9..11");
+        set = range.toSet();
+        assertEquals(27, set.size());
+
+        range = Range3D.of("x=10..10,y=10..10,z=10..10");
+        set = range.toSet();
+        assertEquals(1, set.size());
     }
 
     @Test
