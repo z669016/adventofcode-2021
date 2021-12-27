@@ -222,3 +222,10 @@ My sample transformation table, didn't have this typical behaviour. I really won
 certainly didn't.
 
 The transformation itself is easy and fast, so part 2 was just a repetition of part 1.
+
+## Day 21
+The game with the regular die is straight forward, just remember that the positions on the board start with 1, and 
+not with 0 (subtract one before you do modulo 10).
+The quantum die is tricky as it plays many many many games with the same outcomes, so you need to cache the results of 
+all possible positions. I started with a ```Die``` interface and hoped it could be reused for part 2, well no. So that
+part of the code is basically useless for part 2.
