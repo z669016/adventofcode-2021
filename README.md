@@ -204,7 +204,7 @@ For part 1, count the unique beacons in the beacons list of the base scanner. Fo
 between all scanner locations.
 
 ## Day 20
-What seemed to be a relatively simple puzzle turned out to be very nasty and I needed the help of the Reddit blogs
+What seemed to be a relatively simple puzzle turned out to be very nasty, and I needed the help of the Reddit blogs
 to understand the issue. And even then ... it took a while to understand the problem.
 
 I've created ```Image``` record to hold the picture and an ```ImageEnhanced``` record (I love those stateless objects)
@@ -229,3 +229,18 @@ not with 0 (subtract one before you do modulo 10).
 The quantum die is tricky as it plays many many many games with the same outcomes, so you need to cache the results of 
 all possible positions. I started with a ```Die``` interface and hoped it could be reused for part 2, well no. So that
 part of the code is basically useless for part 2.
+
+## Day 22
+I used a ```Range3D``` class containing a ```Point3D``` min and ```Point3D``` max, and a ```Command``` class containing
+the on/off command and te range to process the input. The ```Range3D``` class can determine overlap and containment.
+
+For part 1, the ```Reactor``` class only processes commands with a range that is contained in the range of
+(-50, -50, -50) ... (50, 50, 50) by creating a ```Set<Point3D>``` and removing/adding the points in the range of 
+the command, and returns the size of the result set. This of course doesn't work for part 2 where ranges will probably be too big.
+
+For part 2, I decided to carve out overlapping parts, so I added a ```carve``` method to the Range3D, that carves out 
+the other range from the current range (carve out block to the left and right according to x-axis, the block below and 
+above according to y-axis, and the block in front and behind according to z-axis). Then ```Reactor``` processes the 
+commands and returns the sum of the range sizes (```point3DCount```) of all on-commands. I refactored part 1 to use
+the same approach as well.
+

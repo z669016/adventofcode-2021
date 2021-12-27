@@ -4,18 +4,20 @@ import com.putoet.resources.ResourceLines;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReactorTest {
 
     @Test
-    void size() {
+    void processLimited() {
         final List<Command> commands = Command.of(ResourceLines.list("/day22.txt"));
-        final Reactor reactor = new Reactor();
-        reactor.process(commands);
+        assertEquals(590784, Reactor.processLimited(commands));
+    }
 
-        assertEquals(590784, reactor.size());
+    @Test
+    void process() {
+        final List<Command> commands = Command.of(ResourceLines.list("/day22-2.txt"));
+        assertEquals(2758514936282235L, Reactor.process(commands));
     }
 }

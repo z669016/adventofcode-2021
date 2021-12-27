@@ -1,12 +1,8 @@
 package com.putoet.day22;
 
-import com.putoet.grid.Point;
 import com.putoet.grid.Point3D;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -25,6 +21,10 @@ public record Range3D(Point3D min, Point3D max) {
         assert min.x() <= max.x();
         assert min.y() <= max.y();
         assert min.z() <= max.z();
+    }
+
+    public static List<Range3D> of(List<String> lines) {
+        return lines.stream().map(Range3D::of).toList();
     }
 
     public static Range3D of(String line) {
@@ -46,26 +46,6 @@ public record Range3D(Point3D min, Point3D max) {
         );
     }
 
-    public static Range3D range(List<Range3D> ranges) {
-        assert ranges != null;
-        assert !ranges.isEmpty();
-
-        int min_x = Integer.MAX_VALUE, min_y = Integer.MAX_VALUE, min_z = Integer.MAX_VALUE;
-        int max_x = Integer.MIN_VALUE, max_y = Integer.MIN_VALUE, max_z = Integer.MIN_VALUE;
-
-        for (Range3D range : ranges) {
-            min_x = Math.min(min_x, range.min().x());
-            min_y = Math.min(min_y, range.min().y());
-            min_z = Math.min(min_z, range.min().z());
-
-            max_x = Math.max(max_x, range.max().x());
-            max_y = Math.max(max_y, range.max().y());
-            max_z = Math.max(max_z, range.max().z());
-        }
-
-        return Range3D.of(Point3D.of(min_x, min_y, min_z), Point3D.of(max_x, max_y, max_z));
-    }
-
     public static Range3D of(Point3D from, Point3D to) {
         return new Range3D(from, to);
     }
@@ -76,24 +56,78 @@ public record Range3D(Point3D min, Point3D max) {
                 Math.abs(1 + range.max.z() - range.min.z());
     }
 
-    public boolean overlap(Range3D other) {
-        return contains(other) ||
-                (((min.x() >= other.min.x() && min.x() <= other.max.x()) && (min.y() >= other.min.y() && min.y() <= other.max.y()) && (min.z() >= other.min.z() && min.z() <= other.max.z())) ||
-                        ((max.x() >= other.min.x() && max.x() <= other.max.x()) && (max.y() >= other.min.y() && max.y() <= other.max.y()) && (max.z() >= other.min.z() && max.z() <= other.max.z())));
+    public static List<Range3D> carve(Range3D toSplit, Range3D other) {
+        final List<Range3D> split = new ArrayList<>();
+
+        if (!toSplit.overlap(other))
+            return List.of(toSplit);
+
+        // 1 - When the split has overlap to the left of the current command according to the X-axix
+        if (toSplit.min().x() <= other.min().x() && other.min().x() <= toSplit.max().x()) {
+            // Add block that ends at the minX of the next command range
+            final Optional<Range3D> temp = toSplit.maxX(other.min().x() - 1);
+            if (temp.isPresent()) {
+                split.add(temp.get());
+                toSplit = toSplit.minX(other.min().x()).get();
+            }
+        }
+
+        // 2 - When the split has overlap to the right of the current command according to the X-axix
+        if (toSplit.min().x() <= other.max().x() && other.max().x() <= toSplit.max().x()) {
+            // Add block that ends at the minX of the next command range
+            final Optional<Range3D> temp = toSplit.minX(other.max().x() + 1);
+            if (temp.isPresent()) {
+                split.add(temp.get());
+                toSplit = toSplit.maxX(other.max().x()).get();
+            }
+        }
+
+        // 3 - When the split has overlap below of the current command according to the Y-axix
+        if (toSplit.min().y() <= other.min().y() && other.min().y() <= toSplit.max().y()) {
+            // Add block that ends at the minX of the next command range
+            final Optional<Range3D> temp = toSplit.maxY(other.min().y() - 1);
+            if (temp.isPresent()) {
+                split.add(temp.get());
+                toSplit = toSplit.minY(other.min().y()).get();
+            }
+        }
+
+        // 4 -  When the split has overlap above the current command according to the Y-axix
+        if (toSplit.min().y() <= other.max().y() && other.max().y() <= toSplit.max().y()) {
+            // Add block that ends at the minX of the next command range
+            final Optional<Range3D> temp = toSplit.minY(other.max().y() + 1);
+            if (temp.isPresent()) {
+                split.add(temp.get());
+                toSplit = toSplit.maxY(other.max().y()).get();
+            }
+        }
+
+        // 5 - When the split has overlap in front of the current command according to the Z-axix
+        if (toSplit.min().z() <= other.min().z() && other.min().z() <= toSplit.max().z()) {
+            // Add block that ends at the minX of the next command range
+            final Optional<Range3D> temp = toSplit.maxZ(other.min().z() - 1);
+            if (temp.isPresent()) {
+                split.add(temp.get());
+                toSplit = toSplit.minZ(other.min().z()).get();
+            }
+        }
+
+        // 6 -  When the split has overlap behind the current command according to the Z-axix
+        if (toSplit.min().z() <= other.max().z() && other.max().z() <= toSplit.max().z()) {
+            // Add block that ends at the minX of the next command range
+            final Optional<Range3D> temp = toSplit.minZ(other.max().z() + 1);
+            if (temp.isPresent()) {
+                split.add(temp.get());
+                toSplit = toSplit.maxZ(other.max().z()).get();
+            }
+        }
+        return split;
     }
 
-    public Optional<Range3D> carve(Range3D other) {
-        if (!overlap(other))
-            return Optional.empty();
-
-        int min_x = Math.max(min.x(), other.min.x());
-        int max_x = Math.min(max.x(), other.max.x());
-        int min_y = Math.max(min.y(), other.min.y());
-        int max_y = Math.min(max.y(), other.max.y());
-        int min_z = Math.max(min.z(), other.min.z());
-        int max_z = Math.min(max.z(), other.max.z());
-
-        return Optional.of(Range3D.of(Point3D.of(min_x, min_y, min_z), Point3D.of(max_x, max_y, max_z)));
+    public boolean overlap(Range3D other) {
+        return (min.x() <= other.min.x() && other.min.x() <= max.x() || other.min.x() <= min.x() && min.x() <= other.max.x()) &&
+                (min.y() <= other.min.y() && other.min.y() <= max.y() || other.min.y() <= min.y() && min.y() <= other.max.y()) &&
+                (min.z() <= other.min.z() && other.min.z() <= max.z() || other.min.z() <= min.z() && min.z() <= other.max.z());
     }
 
     public boolean contains(Range3D other) {
@@ -108,9 +142,42 @@ public record Range3D(Point3D min, Point3D max) {
 
     public Set<Point3D> toSet() {
         return IntStream.range(min.x(), max.x() + 1).mapToObj(x ->
-            IntStream.range(min.y(), max.y() + 1).mapToObj(y ->
-                IntStream.range(min.z(), max.z() + 1).mapToObj(z-> Point3D.of(x, y, z)).collect(Collectors.toSet())
-        ).flatMap(Collection::stream).collect(Collectors.toSet()))
+                        IntStream.range(min.y(), max.y() + 1).mapToObj(y ->
+                                IntStream.range(min.z(), max.z() + 1).mapToObj(z -> Point3D.of(x, y, z)).collect(Collectors.toSet())
+                        ).flatMap(Collection::stream).collect(Collectors.toSet()))
                 .flatMap(Collection::stream).collect(Collectors.toSet());
+    }
+
+    public List<Range3D> carve(Range3D other) {
+        return carve(this, other);
+    }
+
+    public Optional<Range3D> minX(int minX) {
+        return Optional.ofNullable(minX <= max.x() ? new Range3D(Point3D.of(minX, min.y(), min.z()), max) : null);
+    }
+
+    public Optional<Range3D> minY(int minY) {
+        return Optional.ofNullable(minY <= max.y() ? new Range3D(Point3D.of(min.x(), minY, min.z()), max) : null);
+    }
+
+    public Optional<Range3D> minZ(int minZ) {
+        return Optional.ofNullable(minZ <= max.z() ? new Range3D(Point3D.of(min.x(), min.y(), minZ), max) : null);
+    }
+
+    public Optional<Range3D> maxX(int maxX) {
+        return Optional.ofNullable(min.x() <= maxX ? new Range3D(min, Point3D.of(maxX, max.y(), max.z())) : null);
+    }
+
+    public Optional<Range3D> maxY(int maxY) {
+        return Optional.ofNullable(min.y() <= maxY ? new Range3D(min, Point3D.of(max.x(), maxY, max.z())) : null);
+    }
+
+    public Optional<Range3D> maxZ(int maxZ) {
+        return Optional.ofNullable(min.z() <= maxZ ? new Range3D(min, Point3D.of(max.x(), max.y(), maxZ)) : null);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("x=%d..%d,y=%d..%d,z=%d..%d", min.x(), max.x(), min.y(), max.y(), min.z(), max.z());
     }
 }

@@ -20,9 +20,12 @@ public class Day22 extends Day {
 
     @Override
     public void part1() {
-        final Reactor reactor = new Reactor();
-        reactor.process(commands);
+        System.out.println("The number of cubes on after limited processing is " + Reactor.processLimited(commands));
+    }
 
-        System.out.println("The number of cubes on is " + reactor.size());
+
+    @Override
+    public void part2() {
+        System.out.println("The number of cubes on is " + Reactor.process(commands));
     }
 }
