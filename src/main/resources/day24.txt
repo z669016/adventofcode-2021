@@ -1,0 +1,252 @@
+inp w       -> digit 1                      W=DIGIT-1
+mul x 0     x = 0 (nop)
+add x z     x += z (nop)
+mod x 26    x %= 26 (nop)
+div z 1     z /= 1 (nop)
+add x 10    x += 10 (nop)
+eql x w     x = (x == w ? 1 : 0) (nop)
+eql x 0     x = (x == 0 ? 1 : 0)            X=1
+mul y 0     y *= 0 (nop)
+add y 25    y += 25                         Y=25
+mul y x     y *= x                          Y=25
+add y 1     y += 1                          Y=26
+mul z y     z *= y (nop)
+mul y 0     y *= 0                          Y=0
+add y w     y += w                          Y=GIGIT-1
+add y 12    y += 12                         Y=(DIGIT-1 + 12)
+mul y x     y *= x                          Y=(DIGIT-1 + 12)
+add z y     z += y                          Z=(DIGIT-1 + 12)
+inp w       -> digit 2
+mul x 0     x *= 0                          X=0
+add x z     x += z                          X=(DIGIT-1 + 12)
+mod x 26    x %= 26                         X=(DIGIT-1 + 12)
+div z 1     z /= 1                          Z=(DIGIT-1 + 12)
+add x 12    x += 12                         X=(DIGIT-1 + 24)
+eql x w     x = (x == w ? 1: 0)             X=0
+eql x 0     x = (x == 0 ? 1: 0)             X=1
+mul y 0     y *= 0                          Y=0
+add y 25    y += 25                         Y=25
+mul y x     y *= x                          Y=25
+add y 1     y += 1                          Y=26
+mul z y     z *= y                          Z=(DIGIT-1 + 12) * 26 = (26*DIGIT-1 + 312)
+mul y 0     y *= 0                          Y=0
+add y w     y += w                          Y=DIGIT-2
+add y 7     y += 7                          Y=(DIGIT2 + 7)
+mul y x     y *= x                          Y=(DIGIT2 + 7)
+add z y     z += y                          Z=(26*DIGIT-1 + 312) + (DIGIT2 + 7) = 26*DIGIT-1 + DIGIT-2 + 319
+inp w       w -> digit 3                    W=DIGIT-3
+mul x 0     x *= 0                          X=0
+add x z     x += z                          X=26*DIGIT-1 + DIGIT-2 + 319
+mod x 26    x %= 26                         X=(26*DIGIT-1 + DIGIT-2 + 319) % 26
+div z 1     z /= 1                          Z=26*DIGIT-1 + DIGIT-2 + 319
+add x 10    x += 10                         X=(26*DIGIT-1 + DIGIT-2 + 319) % 26 + 10
+eql x w     x = (x == w ? 1 : 0)            X=0
+eql x 0     x = (x == 0 ? 1 : 0)            X=1
+mul y 0     y *= 0                          Y=0
+add y 25    y += 25                         Y=25
+mul y x     y *= x                          Y=25
+add y 1     Y += 1                          Y=26
+mul z y     z *= y                          Z=((26*DIGIT-1 + DIGIT-2 + 319) * 26) = 676*DIGIT-1 + 26*DIGIT-2 + 8294
+mul y 0     y *= 0                          Y=0
+add y w     y += w                          Y=DIGIT-3
+add y 8     y += 8                          Y=(DIGIT-3 + 8)
+mul y x     Y *= x                          Y=(DIGIT-3 + 8)
+add z y     z += y                          Z=676*DIGIT-1 + 26*DIGIT-2 + DIGIT-3 + 8304
+inp w       w = DIGIT-4                     W=DIGIT-4
+mul x 0     x *= 0                          X=0
+add x z     x += z                          X=676*DIGIT-1 + 26*DIGIT-2 + DIGIT-3 + 8304
+mod x 26    x %= 26                         X=(676*DIGIT-1 + 26*DIGIT-2 + DIGIT-3 + 8304) % 26
+div z 1     z /= 1                          Z=676*DIGIT-1 + 26*DIGIT-2 + DIGIT-3 + 8304
+add x 12    x += 12                         X=(676*DIGIT-1 + 26*DIGIT-2 + DIGIT-3 + 8304) % 26 + 12
+eql x w     x = (x == w ? 1 : 0)            X=0
+eql x 0     x = (x == 0 ? 1 : 0)            X=1
+mul y 0     y *= 0                          Y=0
+add y 25    y += 25                         Y=25
+mul y x     y *= x                          Y=25
+add y 1     Y += 1                          Y=26
+mul z y     z *= y                          Z=(676*DIGIT-1 + 26*DIGIT-2 + DIGIT-3 + 8304) * 26=26^3*DIGIT-1 + 26^2*DIGIT2 + 26 *DIGIT-3 + 215904
+mul y 0     y *= 0                          Y=0
+add y w     y += w                          Y=DIGIT-4
+add y 8     y += 8                          Y=DIGIT-4 + 8
+mul y x     y *= x                          Y=DIGIT-4 + 8
+add z y     z += y                          Z=(676*DIGIT-1 + 26*DIGIT-2 + DIGIT-3 + 8304) * 26=26^3*DIGIT-1 + 26^2*DIGIT2 + 26 *DIGIT-3 + DIGIT-4 + 215904
+inp w       w = digit-5                     W=DIGIT-5
+mul x 0     x *= 0                          X=0
+add x z     x += z                          X=26^3*DIGIT-1 + 26^2*DIGIT2 + 26 *DIGIT-3 + DIGIT-4 + 215904
+mod x 26    x %= 26                         X=26^3*DIGIT-1 + 26^2*DIGIT2 + 26 *DIGIT-3 + DIGIT-4 + 215904) % 26
+div z 1     z /= 1                          Z=26^3*DIGIT-1 + 26^2*DIGIT2 + 26 *DIGIT-3 + DIGIT-4 + 215904
+add x 11    x += 11                         X=(26^3*DIGIT-1 + 26^2*DIGIT2 + 26 *DIGIT-3 + DIGIT-4 + 215904) % 26 + 11
+eql x w     x = (x == w ? 1 : 0)            X=0
+eql x 0     x = (x == 0 ? 1 : 0)            X=1
+mul y 0     y *= 0                          Y=0
+add y 25    y += 25                         Y=25
+mul y x     y *= x                          Y=25
+add y 1     y += 1                          y=26
+mul z y     z *= y                          Z=(26^3*DIGIT-1 + 26^2*DIGIT2 + 26*DIGIT-3 + DIGIT-4 + 215904) * 26 = 26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + 5613504
+mul y 0     y *= 0                          Y=0
+add y w     y += w                          Y=DIGIT-5
+add y 15    y += 15                         Y=DIGIT-5 + 15
+mul y x     y *= x                          Y=DIGIT-5 + 15
+add z y     z += y                          Z=26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + DIGIT-5 + 5613519
+inp w       w = digit-6                     W=DIGIT-6
+mul x 0     x *= 0                          X=0
+add x z     x += z                          X=26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + DIGIT-5 + 5613519
+mod x 26    x %= 26                         x=(26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + DIGIT-5 + 5613519) % 26
+div z 26    z /= 26                         Z=(26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + DIGIT-5 + 5613519) / 26 = 26^3*DIGIT-1 + 26^2*DIGIT2 + 26^1*DIGIT-3 + DIGIT-4 + DIGIT-5/26 + 215904
+add x -16   x += -16                        X=(26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + DIGIT-5 + 5613519) % 26 - 16
+eql x w     x = (x == w ? 1 : 0)            X=0
+eql x 0     x = (x ==0 ? 1 : 0)             X=1
+mul y 0     y *= 0                          Y=0
+add y 25    y += 25                         Y=25
+mul y x     y *= x                          Y=25
+add y 1     y += 1                          Y=26
+mul z y     z *= 26                         Z=(26^3*DIGIT-1 + 26^2*DIGIT2 + 26^1*DIGIT-3 + DIGIT-4 + DIGIT-5/26 + 215904) * 26 = 26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + DIGIT-5 + 5613504
+mul y 0     y *= 0                          Y=0
+add y w     y += w                          Y=DIGIT-6
+add y 12    Y += 12                         Y=DIGIT-6 + 12
+mul y x     y *= x                          Y=DIGIT-6 + 12
+add z y     z += y                          Z=26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + DIGIT-5 + DIGIT-6 + 5613516
+inp w       w = digit-7                     W = DIGIT-7
+mul x 0     x *= 0                          X=0
+add x z     x += z
+mod x 26
+div z 1
+add x 10
+eql x w     x = (x == w ? 1 : 0)            X=0
+eql x 0     x = (x == 0 ? 1 : 0)            X=1
+mul y 0                                     Y=0
+add y 25
+mul y x
+add y 1                                     Y=26
+mul z y                                     Z=(26^4*DIGIT-1 + 26^3*DIGIT2 + 26^2*DIGIT-3 + 26*DIGIT-4 + DIGIT-5 + DIGIT-6 + 5613516) * 26 = 26^5*DIGIT-1 + 26^4*DIGIT2 + 26^3*DIGIT-3 + 26^2*DIGIT-4 + 26*DIGIT-5 + 26*DIGIT-6 + (5613516 * 26)
+mul y 0                                     Y=0
+add y w                                     Y=DIGIT-7
+add y 8                                     Y=DIGIT-7+8
+mul y x                                     Y=DIGIT-7+8
+add z y                                     Z=26^5*DIGIT-1 + 26^4*DIGIT2 + 26^3*DIGIT-3 + 26^2*DIGIT-4 + 26*DIGIT-5 + 26*DIGIT-6 + DIGIT-7 + (5613516 * 26)+8
+inp w       w = digit-8                     W=DIGIT-8
+mul x 0                                     X=0
+add x z
+mod x 26
+div z 26                                    Z/=26
+add x -11
+eql x w
+eql x 0                                     X=1
+mul y 0
+add y 25
+mul y x
+add y 1                                     Y=26
+mul z y                                     Z=26^5*DIGIT-1 + 26^4*DIGIT2 + 26^3*DIGIT-3 + 26^2*DIGIT-4 + 26*DIGIT-5 + 26*DIGIT-6 + DIGIT-7 + (5613516 * 26)+8
+mul y 0
+add y w                                     Y=DIGIT-8
+add y 13                                    Y=DIGIT-8 + 13
+mul y x
+add z y                                     Z=26^5*DIGIT-1 + 26^4*DIGIT2 + 26^3*DIGIT-3 + 26^2*DIGIT-4 + 26*DIGIT-5 + 26*DIGIT-6 + DIGIT-7 + DIGIT-8 + (5613516 * 26)+21
+inp w       w = digit-9                     W=DIGIT-9
+mul x 0                                     X=0
+add x z
+mod x 26
+div z 26                                    Z /= 26
+add x -13
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1                                     Y=26
+mul z y                                     Z *=26
+mul y 0
+add y w                                     Y=DIGIT-9
+add y 3                                     Y=DIGIT-9 + 3
+mul y x
+add z y                                     Z=26^5*DIGIT-1 + 26^4*DIGIT2 + 26^3*DIGIT-3 + 26^2*DIGIT-4 + 26*DIGIT-5 + 26*DIGIT-6 + DIGIT-7 + DIGIT-8 + DIGIT-9 + (5613516 * 26)+24
+inp w       w = digit-10
+mul x 0                                     X=0
+add x z
+mod x 26
+div z 1
+add x 13
+eql x w     x = (x == w ? 1 : 0)            X=0
+eql x 0                                     X=1
+mul y 0
+add y 25
+mul y x
+add y 1                                     Y=26
+mul z y                                     Z=26^6*DIGIT-1 + 26^5*DIGIT2 + 26^4*DIGIT-3 + 26^3*DIGIT-4 + 26^2*DIGIT-5 + 26^2*DIGIT-6 + 26*DIGIT-7 + 26*DIGIT-8 + 26*DIGIT-9 + (5613516 * 26^2)+24*26
+mul y 0
+add y w                                     Y=DIGIT-10
+add y 13                                    Y=DIGIT-10+13
+mul y x
+add z y     z += y
+inp w       w = digit-11
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -8
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3
+mul y x
+add z y
+inp w       w = digit-12
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -1
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 9
+mul y x
+add z y
+inp w       w = digit-13
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -4
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 4
+mul y x
+add z y
+inp w       w = digit-14
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -14
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 13
+mul y x
+add z y

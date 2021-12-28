@@ -11,11 +11,13 @@ public class Burrow implements Comparable<Burrow> {
     private final char[][] floorPlan;
     private final Map<Point, Amphipod> pods;
     private final long energyUsed;
+    private final int roomSize;
 
     public Burrow(char[][] floorPlan, Map<Point, Amphipod> pods) {
         this.floorPlan = floorPlan;
         this.pods = pods;
         energyUsed = pods.values().stream().mapToLong(Amphipod::energyUsed).sum();
+        roomSize = floorPlan.length == 5 ? 2 : 4;
     }
 
     public static Burrow of(List<String> lines) {
@@ -101,6 +103,11 @@ public class Burrow implements Comparable<Burrow> {
                     line[pod.location().x()] = pod.symbol();
 
             sb.append(String.valueOf(line));
+            if (y == 0) {
+                sb.append(" (");
+                sb.append(energyUsed);
+                sb.append(")");
+            }
             sb.append('\n');
         }
         return sb.toString();

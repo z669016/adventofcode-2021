@@ -49,7 +49,7 @@ from start to end of the vent and update ```position``` using the direction (jus
 
 I created a static method to create an OceanFloor from the input data using a filter, which determines if a vent
 should be included or not. For part 2 the filter always returns true, for part 1 it only returns true if X or Y of
-the start and end point are equal (so the vents are a straight horizontal or vertical line.
+the start and end point are equal (so the vents are a straight horizontal or vertical line).
 
 ## Day 6
 For part 1 the brute force method ```LanternFishModel.progress(...)``` worked like a charm (just create a list and 
@@ -244,3 +244,10 @@ above according to y-axis, and the block in front and behind according to z-axis
 commands and returns the sum of the range sizes (```point3DCount```) of all on-commands. I refactored part 1 to use
 the same approach as well.
 
+## Day 23
+A search approach again, and looking at the simplicity of the board, it is probably exploding the options. To limit
+the runtime, I used a priority queue and once basis functions seemed to work, I started to add avoiding possible 
+dead ends. That worked well for part 1 but got me into trouble again at part 2. After some debugging, I found lots of
+duplicated state in the queue ... indeed I forgot to remember the visited states ... OMG ... this was so stupid.
+
+After adding visited stated (never visit them again), runtime was fine 3.3 second for part 1 and 2.3 second for part 2.

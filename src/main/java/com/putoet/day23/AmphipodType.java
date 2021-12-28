@@ -1,10 +1,10 @@
 package com.putoet.day23;
 
 public enum AmphipodType {
-    AMBER(1,'A'),
-    BRONZE(10,'B'),
-    COPPER(1000,'C'),
-    DESERT(1000,'D');
+    AMBER(1, 'A'),
+    BRONZE(10, 'B'),
+    COPPER(100, 'C'),
+    DESERT(1000, 'D');
 
     private final int energy;
     private final char symbol;
