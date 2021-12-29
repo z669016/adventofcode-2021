@@ -251,3 +251,43 @@ dead ends. That worked well for part 1 but got me into trouble again at part 2. 
 duplicated state in the queue ... indeed I forgot to remember the visited states ... OMG ... this was so stupid.
 
 After adding visited stated (never visit them again), runtime was fine 3.3 second for part 1 and 2.3 second for part 2.
+
+## Day 24
+Now this was something I didn't expect at all. I wouldn't have solved without help of Reddit, and even then it took me a
+while before I understood the challenge and the logic behind it.
+
+Of course, I started with writing an ALU and MONAD, knowing that finding a 14 digit number would take ages doing it 
+brute force.
+
+In the code the Z-variable is being used as a stack (yes, a stack), by multiplying the current Z-value with 26  
+and adding another value to it (w + constant). The X-variable is used to pop the top of the stack (add x z; mod x 26;)
+
+Overall the code contains 14 blocks, one foreach digit in the input. 7 blocks become a push, which are the ones that 
+contain "add x <constant>" with a constant that ensures the next "eql x w" to fail). The other7 blocks become a pop that
+check if the latest input digit equals the top of the stack + constant.
+
+Once I got the concept, I annotated the puzzle input (```src/main/resources/day24.txt```).
+
+For my input the code blocks translated into
+```
+push digit(1) + 12
+push digit(2) + 7
+push digit(3) + 8
+push digit(4) + 8
+push digit(5) + 15
+check digit(6) == pop - 16 ==> digit(6) == digit(5) + 15 - 16 == digit(5) - 1
+push digit(7) + 8
+check digit(8) == pop - 11 ==> digit(8) == digit(7) + 8 - 11 == digit(7) - 3
+check digit(9) == pop - 13 ==> digit(9) == digit(4) + 8 - 13 == digit(4) - 5
+push digit(10) + 13
+check digit(11) == pop - 8 ==> digit(11) == digit(10) + 13 - 8 == digit(10) + 5
+check digit(12) == pop - 1 ==> digit(12) == digit(3) + 8 - 1 == digit(3) + 7
+check digit(13) == pop - 4 ==> digit(13) == digit(2) + 7 - 4 == digit(2) + 3
+check digit(14) == pop - 14 ==> digit(14) == digit(1) + 12 - 14 == digit(1) - 2
+```
+
+Once I had this figured out, part 1 was to find the biggest number (what gives you the highest number one
+each position), and for part 2 the same with the lowest possible number.
+
+Amazing, how someone can think of such a puzzle...
+
