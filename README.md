@@ -291,3 +291,16 @@ each position), and for part 2 the same with the lowest possible number.
 
 Amazing, how someone can think of such a puzzle...
 
+## Day 25
+The final challenge... in general not too difficult. Move characters around in a grid from left to right 
+round-robin and from top to bottom, also round-robin. All characters left to right move at the same time, 
+and all characters top-down move at the same time. Characters don't move if the next position is occupied before
+the move. The caveat is in checking the empty spot.
+I've created a ```SeaFloor``` class that holds the grid and creates a new instance for each move. Well, it actually
+creates two, the first to do the left to right move and the second for the top-down move. The ```step``` method
+performs the transformations and returns a ```Pair``` with the new transformed SeaFloor and the number characters
+moved.
+
+
+
+
