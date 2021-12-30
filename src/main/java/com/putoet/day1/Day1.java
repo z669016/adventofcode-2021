@@ -19,21 +19,10 @@ public class Day1 extends Day {
         day.challenge();
     }
 
-    public static List<Integer> groupsOfThree(List<Integer> measurements) {
-        final List<Integer> newMeasurements = new ArrayList<>();
-
-        int one = measurements.get(0);
-        int two = measurements.get(1);
-        for (int x = 2; x < measurements.size(); x++) {
-            final int three = measurements.get(x);
-            newMeasurements.add(one + two + three);
-            one = two;
-            two = three;
-        }
-        return newMeasurements;
-    }
-
     public static int countIncreases(List<Integer> measurements) {
+        assert measurements != null;
+        assert !measurements.isEmpty();
+
         int count = 0;
         int prev = measurements.get(0);
         for (int x = 1; x < measurements.size(); x++) {
@@ -45,6 +34,22 @@ public class Day1 extends Day {
         }
 
         return count;
+    }
+
+    public static List<Integer> groupsOfThree(List<Integer> measurements) {
+        assert measurements != null;
+        assert measurements.size() > 2;
+
+        final List<Integer> newMeasurements = new ArrayList<>();
+        int one = measurements.get(0);
+        int two = measurements.get(1);
+        for (int x = 2; x < measurements.size(); x++) {
+            final int three = measurements.get(x);
+            newMeasurements.add(one + two + three);
+            one = two;
+            two = three;
+        }
+        return newMeasurements;
     }
 
     public void part1() {
