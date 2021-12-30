@@ -14,7 +14,7 @@ public abstract class Day {
         final Day day = new Day1(args);
         day.challenge();
     }
-    
+
     public void challenge() {
         final StopWatch part1Timer = StopWatch.createStarted();
         part1();
