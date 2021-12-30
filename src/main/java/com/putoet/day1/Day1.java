@@ -14,12 +14,9 @@ public class Day1 extends Day {
         this.measurements = ResourceLines.intList("/day1.txt");
     }
 
-    public void part1() {
-        System.out.println("Number of increases is " + countIncreases(measurements));
-    }
-
-    public void part2() {
-        System.out.println("Number of 'groups of three' increases is " + countIncreases(groupsOfThree(measurements)));
+    public static void main(String[] args) {
+        final Day day = new Day1(args);
+        day.challenge();
     }
 
     public static List<Integer> groupsOfThree(List<Integer> measurements) {
@@ -48,5 +45,13 @@ public class Day1 extends Day {
         }
 
         return count;
+    }
+
+    public void part1() {
+        System.out.println("Number of increases is " + countIncreases(measurements));
+    }
+
+    public void part2() {
+        System.out.println("Number of 'groups of three' increases is " + countIncreases(groupsOfThree(measurements)));
     }
 }

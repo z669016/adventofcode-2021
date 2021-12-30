@@ -10,11 +10,6 @@ public abstract class Day {
         this.args = args;
     }
 
-    public static void main(String[] args) {
-        final Day day = new Day1(args);
-        day.challenge();
-    }
-
     public void challenge() {
         final StopWatch part1Timer = StopWatch.createStarted();
         part1();
