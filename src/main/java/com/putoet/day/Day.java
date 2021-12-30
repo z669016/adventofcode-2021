@@ -1,5 +1,6 @@
 package com.putoet.day;
 
+import com.putoet.day1.Day1;
 import org.apache.commons.lang3.time.StopWatch;
 
 public abstract class Day {
@@ -9,6 +10,11 @@ public abstract class Day {
         this.args = args;
     }
 
+    public static void main(String[] args) {
+        final Day day = new Day1(args);
+        day.challenge();
+    }
+    
     public void challenge() {
         final StopWatch part1Timer = StopWatch.createStarted();
         part1();
