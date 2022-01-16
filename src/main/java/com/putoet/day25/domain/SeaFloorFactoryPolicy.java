@@ -12,7 +12,6 @@ import java.util.List;
 
 public class SeaFloorFactoryPolicy implements Policy<List<String>, SeaFloor> {
     public static final String VIOLATION = "Cannot convert \"%s\" into a valid sea floor.";
-
     private static final char EMPTY = '.';
 
     private SeaFloorFactoryPolicy() {

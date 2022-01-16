@@ -13,13 +13,6 @@ public record SeaCucumber(Id id, SeaCucumberType type, Point location) implement
         assert location != null;
     }
 
-    public SeaCucumber moveTo(Point to) {
-        final SeaCucumberMoveToSpec moveSpec = new SeaCucumberMoveToSpec(to);
-        moveSpec.enforce(this);
-
-        return new SeaCucumber(this.id, type, to);
-    }
-
     public char symbol() {
         return type.toString().charAt(0);
     }

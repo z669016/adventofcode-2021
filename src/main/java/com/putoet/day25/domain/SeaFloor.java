@@ -12,7 +12,7 @@ public record SeaFloor(Id id, Point size, List<SeaCucumber> cucumbers) implement
     public static final char EMPTY = '.';
 
     public SeaFloor {
-        final SeaCucumberWithinSizeSpec sizeSpec = new SeaCucumberWithinSizeSpec(size);
+        final var sizeSpec = new SeaCucumberWithinSizeSpec(size);
         cucumbers.forEach(sizeSpec::enforce);
     }
 
@@ -24,7 +24,6 @@ public record SeaFloor(Id id, Point size, List<SeaCucumber> cucumbers) implement
         }
 
         cucumbers.forEach(cucumber -> grid[cucumber.location().y()][cucumber.location().x()] = cucumber.symbol());
-
         return Arrays.stream(grid).map(String::valueOf).collect(Collectors.joining("\n"));
     }
 }

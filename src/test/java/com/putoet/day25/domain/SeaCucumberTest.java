@@ -18,17 +18,6 @@ class SeaCucumberTest {
     }
 
     @Test
-    void moveTo() {
-        final SeaCucumber west = cucumber.moveTo(Point.WEST);
-        assertNotEquals(west, cucumber);
-        assertEquals(west.id(), cucumber.id());
-        assertEquals(west.type(), cucumber.type());
-        assertEquals(Point.WEST, west.location());
-
-        assertThrows(SpecificationViolation.class, () -> cucumber.moveTo(Point.SOUTH));
-    }
-
-    @Test
     void location() {
         assertEquals(Point.ORIGIN, cucumber.location());
     }
@@ -67,6 +56,5 @@ class SeaCucumberTest {
     void testEquals() {
         assertEquals(cucumber, cucumber);
         assertNotEquals(cucumber, null);
-        assertNotEquals(cucumber, cucumber.moveTo(Point.WEST));
     }
 }
