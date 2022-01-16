@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SeaFloorTimeServiceTest {
-    private final String STEP0 = """
+    private static final String STEP0 = """
             v...>>.vv>
             .vv>>.vv..
             >>.>v>...v
@@ -17,7 +17,7 @@ class SeaFloorTimeServiceTest {
             v.v..>>v.v
             ....v..v.>""";
 
-    private final String STEP1 = """
+    private static final String STEP1 = """
             ....>.>v.>
             v.v>.>v.v.
             >v>>..>v..

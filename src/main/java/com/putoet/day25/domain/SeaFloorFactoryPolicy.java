@@ -23,7 +23,7 @@ public class SeaFloorFactoryPolicy implements Policy<List<String>, SeaFloor> {
 
     public static SeaFloor from(String map) {
         if (map == null)
-            throw new PolicyViolation(String.format(VIOLATION, null));
+            throw new PolicyViolation(String.format(VIOLATION, "null"));
 
         return getInstance().apply(Arrays.asList(map.split("\n")));
     }
@@ -35,7 +35,7 @@ public class SeaFloorFactoryPolicy implements Policy<List<String>, SeaFloor> {
     @Override
     public SeaFloor apply(List<String> from) {
         if (from == null)
-            throw new PolicyViolation(String.format("Cannot convert \"%s\" into a valid sea floor.", from));
+            throw new PolicyViolation("Cannot convert \"null\" into a valid sea floor.");
 
         try {
             int maxY = 0, maxX = 0;

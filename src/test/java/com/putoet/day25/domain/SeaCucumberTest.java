@@ -2,7 +2,6 @@ package com.putoet.day25.domain;
 
 import com.putoet.grid.Point;
 import com.putoet.hex.domain.Id;
-import com.putoet.hex.domain.SpecificationViolation;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
