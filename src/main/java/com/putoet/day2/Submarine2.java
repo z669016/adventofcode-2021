@@ -1,6 +1,6 @@
 package com.putoet.day2;
 
-public class Submarine2 extends Submarine {
+class Submarine2 extends Submarine {
     private long aim;
 
     public Submarine move(Command command) {

@@ -1,5 +1,5 @@
 package com.putoet.day2;
 
-public enum Direction {
+enum Direction {
     FORWARD, DOWN, UP
 }

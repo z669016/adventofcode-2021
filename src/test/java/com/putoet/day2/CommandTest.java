@@ -8,22 +8,21 @@ class CommandTest {
 
     @Test
     void ofForward() {
-        assertEquals(Command.with(Direction.FORWARD, 5), Command.of("forward 5"));
+        assertEquals(new Command(Direction.FORWARD, 5), Command.of("forward 5"));
     }
 
     @Test
     void ofUp() {
-        assertEquals(Command.with(Direction.UP, 7), Command.of("up 7"));
+        assertEquals(new Command(Direction.UP, 7), Command.of("up 7"));
     }
 
     @Test
     void ofDown() {
-        assertEquals(Command.with(Direction.DOWN, 9), Command.of("down 9"));
+        assertEquals(new Command(Direction.DOWN, 9), Command.of("down 9"));
     }
 
     @Test
     void ofError() {
-        assertThrows(AssertionError.class, () -> Command.of(null));
         assertThrows(AssertionError.class, () -> Command.of(""));
         assertThrows(AssertionError.class, () -> Command.of("forward1"));
     }

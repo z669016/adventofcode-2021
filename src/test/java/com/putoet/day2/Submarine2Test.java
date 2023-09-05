@@ -8,7 +8,7 @@ class Submarine2Test {
 
     @Test
     void move() {
-        final Submarine2 submarine = new Submarine2();
+        final var submarine = new Submarine2();
         SubmarineTest.commands.stream()
                 .map(Command::of)
                 .forEach(submarine::move);

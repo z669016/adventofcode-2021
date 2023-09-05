@@ -2,7 +2,7 @@ package com.putoet.day2;
 
 import java.util.List;
 
-public class Submarine {
+class Submarine {
     protected long depth;
     protected long horizontalPosition;
 
