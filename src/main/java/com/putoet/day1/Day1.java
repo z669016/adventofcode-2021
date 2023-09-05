@@ -11,7 +11,7 @@ public class Day1 extends Day {
 
     public Day1(String[] args) {
         super(args);
-        this.measurements = ResourceLines.intList("/day1.txt");
+        this.measurements = ResourceLines.list("/day1.txt", Integer::parseInt);
     }
 
     public static void main(String[] args) {

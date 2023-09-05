@@ -32,8 +32,6 @@ public class Diagnostics {
         final long ones = countOnes(diagnostics, x);
         final int size = diagnostics.size();
 
-        if (ones > size / 2.0)
-            return '1';
         if (ones < size / 2.0)
             return '0';
         return '1';

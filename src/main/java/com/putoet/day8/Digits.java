@@ -1,6 +1,6 @@
 package com.putoet.day8;
 
-import com.putoet.statistics.Permutator;
+import org.paukov.combinatorics3.Generator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,9 +23,9 @@ public class Digits {
     );
 
     public static final List<String> ENCODINGS =
-            new Permutator<Character>().permute(List.of('a', 'b', 'c', 'd', 'e', 'f', 'g')).stream()
+            Generator.permutation('a', 'b', 'c', 'd', 'e', 'f', 'g').simple().stream()
                     .map(list -> list.stream().map(Object::toString).collect(Collectors.joining()))
-                    .collect(Collectors.toList());
+                    .toList();
 
     public static String encoding(List<String> samples) {
         for (String encoding : ENCODINGS) {
