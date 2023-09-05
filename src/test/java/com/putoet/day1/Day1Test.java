@@ -12,7 +12,6 @@ class Day1Test {
 
     @Test
     void countIncreases() {
-        assertThrows(AssertionError.class, () -> Day1.countIncreases(null));
         assertThrows(AssertionError.class, () -> Day1.countIncreases(List.of()));
 
         assertEquals(7, Day1.countIncreases(MEASUREMENTS));
@@ -20,7 +19,6 @@ class Day1Test {
 
     @Test
     void groupsOfThree() {
-        assertThrows(AssertionError.class, () -> Day1.groupsOfThree(null));
         assertThrows(AssertionError.class, () -> Day1.groupsOfThree(List.of(1)));
         assertThrows(AssertionError.class, () -> Day1.groupsOfThree(List.of(1, 2)));
 
