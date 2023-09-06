@@ -1,19 +1,20 @@
 package com.putoet.day17;
 
 import com.putoet.grid.Point;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public record ProbeLauncher(Point topLeft, Point bottomRight) {
+record ProbeLauncher(@NotNull Point topLeft, @NotNull Point bottomRight) {
     public Optional<Point> highest(List<Point> hits) {
         return hits.stream().max(Comparator.comparing(Point::y));
     }
 
     public List<Point> hits() {
-        final List<Point> list = new ArrayList<>();
+        final var list = new ArrayList<Point>();
 
-        for (int xDelta = 1; xDelta <= bottomRight.x(); xDelta++) {
-            for (int yDelta = bottomRight.y(); yDelta <= Math.abs(bottomRight.y()); yDelta++) {
+        for (var xDelta = 1; xDelta <= bottomRight.x(); xDelta++) {
+            for (var yDelta = bottomRight.y(); yDelta <= Math.abs(bottomRight.y()); yDelta++) {
                 if (hits(xDelta, yDelta))
                     list.add(Point.of(xDelta, yDelta));
             }
@@ -23,8 +24,8 @@ public record ProbeLauncher(Point topLeft, Point bottomRight) {
     }
 
     public boolean hits(int xDelta, int yDelta) {
-        int x = 0;
-        int y = 0;
+        var x = 0;
+        var y = 0;
 
         while (x < topLeft.x() && y > topLeft.y()) {
             x += xDelta;
@@ -49,8 +50,8 @@ public record ProbeLauncher(Point topLeft, Point bottomRight) {
     }
 
     public int maxHeight(Point velocity) {
-        int height = 0;
-        int yDelta = velocity.y();
+        var height = 0;
+        var yDelta = velocity.y();
 
         while (yDelta > 0) {
             height += yDelta;
