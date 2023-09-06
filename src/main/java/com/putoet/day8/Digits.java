@@ -1,5 +1,6 @@
 package com.putoet.day8;
 
+import org.jetbrains.annotations.NotNull;
 import org.paukov.combinatorics3.Generator;
 
 import java.util.Arrays;
@@ -27,8 +28,8 @@ public class Digits {
                     .map(list -> list.stream().map(Object::toString).collect(Collectors.joining()))
                     .toList();
 
-    public static String encoding(List<String> samples) {
-        for (String encoding : ENCODINGS) {
+    public static String encoding(@NotNull List<String> samples) {
+        for (var encoding : ENCODINGS) {
             if (samples.stream().allMatch(sample -> decode(encoding, sample).isPresent()))
                 return encoding;
         }
@@ -36,15 +37,13 @@ public class Digits {
         throw new IllegalArgumentException("No encoding found for " + samples);
     }
 
-    public static OptionalInt decode(String encoding, List<String> digits) {
-        assert encoding != null;
+    public static OptionalInt decode(@NotNull String encoding, @NotNull List<String> digits) {
         assert encoding.length() == 7;
-        assert digits != null;
         assert digits.size() == 4;
 
-        int value = 0;
-        for (String s : digits) {
-            final OptionalInt digit = decode(encoding, s);
+        var value = 0;
+        for (var s : digits) {
+            final var digit = decode(encoding, s);
             if (digit.isEmpty())
                 return OptionalInt.empty();
 
@@ -54,23 +53,21 @@ public class Digits {
     }
 
 
-    public static OptionalInt decode(String encoding, String digit) {
-        assert encoding != null;
+    public static OptionalInt decode(@NotNull String encoding, @NotNull String digit) {
         assert encoding.length() == 7;
-        assert digit != null;
 
-        final Map<String, Integer> mapper = mapper(encoding);
-        final Integer decoded = mapper.get(sortedDigits(digit));
+        final var mapper = mapper(encoding);
+        final var decoded = mapper.get(sortedDigits(digit));
         return decoded != null ? OptionalInt.of(decoded) : OptionalInt.empty();
     }
 
     private static String sortedDigits(String digits) {
-        final char[] temp = digits.toCharArray();
+        final var temp = digits.toCharArray();
         Arrays.sort(temp);
         return String.valueOf(temp);
     }
 
-    public static Map<String, Integer> mapper(String encoding) {
+    public static Map<String, Integer> mapper(@NotNull String encoding) {
         return Map.of(
                 encodingFor(0, encoding), 0,
                 encodingFor(1, encoding), 1,
@@ -86,7 +83,7 @@ public class Digits {
     }
 
     private static String encodingFor(int number, String encoding) {
-        final char[] characters = switch (number) {
+        final var characters = switch (number) {
             case 0 -> new char[]{encoding.charAt(0), encoding.charAt(1), encoding.charAt(2), encoding.charAt(4), encoding.charAt(5), encoding.charAt(6)};
             case 1 -> new char[]{encoding.charAt(2), encoding.charAt(5)};
             case 2 -> new char[]{encoding.charAt(0), encoding.charAt(2), encoding.charAt(3), encoding.charAt(4), encoding.charAt(6)};

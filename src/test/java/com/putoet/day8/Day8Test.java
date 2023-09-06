@@ -1,34 +1,34 @@
 package com.putoet.day8;
 
-import org.junit.jupiter.api.BeforeEach;
+import com.putoet.resources.ResourceLines;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Day8Test {
-    private Day8 day8;
-
-    @BeforeEach
-    void setup() {
-        day8 = new Day8(new String[0]);
-    }
+    private static final List<SignalPattern> signalPatterns =
+            ResourceLines.list("/day8.txt").stream()
+                .map(SignalPattern::of)
+                .toList();
 
     @Test
-    void countUniqueNumbers() {
-        assertEquals(26, day8.countUniqueNumbers());
+    void countUniqueSignalPatterns() {
+        assertEquals(26, Day8.countUniqueSignalPatterns(signalPatterns));
     }
 
     @Test
     void decodeList() {
-        int[] expected = new int[]{8394, 9781, 1197, 9361, 4873, 8418, 4548, 1625, 8717, 4315};
-        for (int i = 0; i < expected.length; i++) {
-            final SignalPattern signalPattern = day8.signalPatterns().get(i);
-            assertEquals(expected[i], day8.decode(signalPattern).getAsInt());
+        final var expected = new int[]{8394, 9781, 1197, 9361, 4873, 8418, 4548, 1625, 8717, 4315};
+        for (var i = 0; i < expected.length; i++) {
+            final var signalPattern = signalPatterns.get(i);
+            assertEquals(expected[i], Day8.decode(signalPattern).orElseThrow());
         }
     }
 
     @Test
     void decode() {
-        assertEquals(61229, day8.decode());
+        assertEquals(61229, Day8.decode(signalPatterns));
     }
 }
