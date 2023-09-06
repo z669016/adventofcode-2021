@@ -9,7 +9,7 @@ class VentTest {
 
     @Test
     void of() {
-        final Vent vent = Vent.of("0,9 -> 5,9");
+        final var vent = Vent.of("0,9 -> 5,9");
         assertEquals(Point.of(0, 9), vent.start());
         assertEquals(Point.of(5, 9), vent.end());
     }

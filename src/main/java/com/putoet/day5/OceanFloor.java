@@ -2,34 +2,27 @@ package com.putoet.day5;
 
 import com.putoet.grid.Grid;
 import com.putoet.grid.Point;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
-public record OceanFloor(Grid grid, List<Vent> vents) {
-    public OceanFloor {
-        assert grid != null;
-        assert vents != null;
-    }
-
-    public static OceanFloor of(List<String> input, Predicate<Vent> filter) {
-        assert input != null;
-
-        final List<Vent> vents = Vent.of(input);
-        final char[][] grid = initGrid(vents, filter);
+record OceanFloor(@NotNull Grid grid, @NotNull List<Vent> vents) {
+    public static OceanFloor of(@NotNull List<Vent> vents, Predicate<Vent> filter) {
+        final var grid = initGrid(vents, filter);
 
         return new OceanFloor(new Grid(grid), vents);
     }
 
     private static char[][] initGrid(List<Vent> vents, Predicate<Vent> filter) {
-        final char[][] grid = grid(vents);
+        final var grid = grid(vents);
 
-        for (Vent vent : vents) {
+        for (var vent : vents) {
             if (filter.test(vent)) {
-                final Point direction = direction(vent);
+                final var direction = direction(vent);
 
-                Point point = vent.start();
+                var point = vent.start();
                 while (!point.equals(vent.end())) {
                     map(grid, point);
                     point = point.add(direction);
@@ -41,13 +34,12 @@ public record OceanFloor(Grid grid, List<Vent> vents) {
         return grid;
     }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     private static char[][] grid(List<Vent> vents) {
-        final int maxX = vents.stream().mapToInt(vent -> Math.max(vent.start().x(), vent.end().x())).max().getAsInt();
-        final int maxY = vents.stream().mapToInt(vent -> Math.max(vent.start().y(), vent.end().y())).max().getAsInt();
+        final var maxX = vents.stream().mapToInt(vent -> Math.max(vent.start().x(), vent.end().x())).max().orElseThrow();
+        final var maxY = vents.stream().mapToInt(vent -> Math.max(vent.start().y(), vent.end().y())).max().orElseThrow();
 
-        final char[][] grid = new char[maxY + 1][maxX + 1];
-        for (char[] row : grid) {
+        final var grid = new char[maxY + 1][maxX + 1];
+        for (var row : grid) {
             Arrays.fill(row, '.');
         }
         return grid;
@@ -84,6 +76,7 @@ public record OceanFloor(Grid grid, List<Vent> vents) {
             else
                 direction = Point.NORTH_WEST;
         }
+
         return direction;
     }
 
