@@ -1,38 +1,28 @@
 package com.putoet.day19;
 
-import com.putoet.day.Day;
 import com.putoet.grid.Point3D;
 import com.putoet.resources.ResourceLines;
-import org.javatuples.Pair;
+import com.putoet.utils.Timer;
 
 import java.util.List;
 
-public class Day19 extends Day {
-    private final List<Scanner> scanners;
-    private List<Point3D> scannerLocations;
-
-    protected Day19(String[] args) {
-        super(args);
-
-        scanners = Scanners.of(ResourceLines.list("/day19.txt"));
-    }
-
+public class Day19 {
     public static void main(String[] args) {
-        final Day day = new Day19(args);
-        day.challenge();
+        final var scanners = Scanners.of(ResourceLines.list("/day19.txt"));
+        final var scannerLocations = Timer.run(() -> part1(scanners));
+        Timer.run(() -> part2(scannerLocations));
     }
 
-    @Override
-    public void part1() {
-        final Pair<Scanner,List<Point3D>> locations = Scanners.scannerLocations(scanners);
-        scannerLocations = locations.getValue1();
-
+    static List<Point3D> part1(List<Scanner> scanners) {
+        final var locations = Scanners.scannerLocations(scanners);
+        final var scannerLocations = locations.getValue1();
         final Scanner baseScanner = locations.getValue0();
         System.out.println("There are " + baseScanner.beacons().size() + " beacons");
+
+        return scannerLocations;
     }
 
-    @Override
-    public void part2() {
+    static void part2(List<Point3D> scannerLocations) {
         System.out.println("There maximum distance between two scanners is " + Scanners.maxDistance(scannerLocations));
     }
 }

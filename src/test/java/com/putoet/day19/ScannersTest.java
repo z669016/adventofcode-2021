@@ -2,7 +2,6 @@ package com.putoet.day19;
 
 import com.putoet.grid.Point3D;
 import com.putoet.resources.ResourceLines;
-import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,24 +14,24 @@ class ScannersTest {
 
     @Test
     void beaconCount() {
-        final Pair<Scanner,List<Point3D>> scannerLocations = Scanners.scannerLocations(scanners);
+        final var scannerLocations = Scanners.scannerLocations(scanners);
         assertEquals(79, scannerLocations.getValue0().beacons().size());
     }
 
     @Test
     void longestDistance() {
-        final List<Point3D> scannerLocations = Scanners.scannerLocations(scanners).getValue1();
+        final var scannerLocations = Scanners.scannerLocations(scanners).getValue1();
         assertEquals(3621, Scanners.maxDistance(scannerLocations));
     }
 
     @Test
     void rotations() {
-        final Point3D point = Point3D.of(1, 2, 3);
+        final var point = Point3D.of(1, 2, 3);
         assertEquals(allRotations(), Point3D.rotations(point));
     }
 
     List<Point3D> allRotations() {
-        final List<Point3D> rotations = new ArrayList<>();
+        final var rotations = new ArrayList<Point3D>();
         rotations.add(Point3D.of(1, 3, -2));
         rotations.add(Point3D.of(-3, 1, -2));
         rotations.add(Point3D.of(-1, -3, -2));
