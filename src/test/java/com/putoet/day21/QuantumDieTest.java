@@ -8,7 +8,7 @@ class QuantumDieTest {
 
     @Test
     void get() {
-        final Die die = new QuantumDie();
+        final var die = new QuantumDie();
 
         assertEquals(1, die.get());
         assertEquals(2, die.get());

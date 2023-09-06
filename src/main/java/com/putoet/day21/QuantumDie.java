@@ -1,6 +1,6 @@
 package com.putoet.day21;
 
-public class QuantumDie implements Die {
+class QuantumDie implements Die {
     public int turns = 0;
     public int number = 1;
 

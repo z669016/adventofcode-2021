@@ -1,21 +1,20 @@
 package com.putoet.day21;
 
 import org.javatuples.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DiracDice {
+class DiracDice {
     private final boolean quantum;
     private final Die die;
     private int positionOne;
     private int positionTwo;
     private boolean turnOne = true;
 
-    public DiracDice(int startPos1, int startPos2, Die die) {
-        assert die != null;
-
+    public DiracDice(int startPos1, int startPos2, @NotNull Die die) {
         this.positionOne = startPos1;
         this.positionTwo = startPos2;
         this.die = die;
@@ -35,8 +34,8 @@ public class DiracDice {
     }
 
     private Pair<BigInteger, BigInteger> playRegular(int endScore) {
-        long score1 = 0;
-        long score2 = 0;
+        var score1 = 0L;
+        var score2 = 0L;
         while (score1 < endScore && score2 < endScore) {
             if (turnOne) {
                 positionOne = nextPosition(positionOne, die.get() % 10);
@@ -52,7 +51,7 @@ public class DiracDice {
     }
 
     private Pair<BigInteger, BigInteger> playQuantum(int endScore) {
-        final Map<String, Pair<BigInteger, BigInteger>> cache = new HashMap<>();
+        final var cache = new HashMap<String, Pair<BigInteger, BigInteger>>();
         return playQuantum(cache, 0, 0, positionOne, positionTwo, 0, 0, endScore);
     }
 
@@ -66,7 +65,7 @@ public class DiracDice {
                                                      int endScore) {
 
         // a new universe was started after each throw, continue with playerOne if turn < 3
-        boolean turnOne = turn < 3;
+        var turnOne = turn < 3;
 
         // Return (1,0) if player one has won
         if (scoreOne >= endScore)
@@ -83,22 +82,22 @@ public class DiracDice {
         }
 
         // the winner count starts at 0 for each universe
-        BigInteger winsOne = BigInteger.ZERO;
-        BigInteger winsTwo = BigInteger.ZERO;
+        var winsOne = BigInteger.ZERO;
+        var winsTwo = BigInteger.ZERO;
 
         // if turn == 2 this is the last turn for player one, and his score must be updated
-        boolean lastThrowOne = turn == 2;
+        var lastThrowOne = turn == 2;
         // if turn == 5 this is the last turn for player two, and his score must be updated
-        boolean lastThrowTwo = turn == 5;
+        var lastThrowTwo = turn == 5;
 
         // calculate the turn for the next universe
-        int nextTurn = (turn + 1) % 6;
+        var nextTurn = (turn + 1) % 6;
 
         // roll the dice three times and create three new universes
-        for (int roll = 1; roll <= 3; roll++) {
+        for (var roll = 1; roll <= 3; roll++) {
 
             // get the result from the new universe
-            final Pair<BigInteger, BigInteger> pair = playQuantum(
+            final var pair = playQuantum(
                     cache,
                     turnOne && lastThrowOne ? scoreOne + nextPosition(positionOne, roll) : scoreOne,
                     !turnOne && lastThrowTwo ? scoreTwo + nextPosition(positionTwo, roll) : scoreTwo,
@@ -115,7 +114,7 @@ public class DiracDice {
         }
 
         // cache the results
-        final Pair<BigInteger, BigInteger> pair = Pair.with(winsOne, winsTwo);
+        final var pair = Pair.with(winsOne, winsTwo);
         cache.put(cacheKey, pair);
 
         return pair;

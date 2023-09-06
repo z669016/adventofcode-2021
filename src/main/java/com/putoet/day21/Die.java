@@ -1,6 +1,6 @@
 package com.putoet.day21;
 
-public interface Die {
+interface Die {
     int get();
     int turns();
 }
