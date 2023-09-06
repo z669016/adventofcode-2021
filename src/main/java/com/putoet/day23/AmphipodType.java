@@ -1,6 +1,6 @@
 package com.putoet.day23;
 
-public enum AmphipodType {
+enum AmphipodType {
     AMBER(1, 'A'),
     BRONZE(10, 'B'),
     COPPER(100, 'C'),

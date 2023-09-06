@@ -1,35 +1,32 @@
 package com.putoet.day23;
 
 import com.putoet.grid.Point;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Burrow implements Comparable<Burrow> {
+class Burrow implements Comparable<Burrow> {
     public static final char OPEN = '.';
 
     private final char[][] floorPlan;
     private final Map<Point, Amphipod> pods;
     private final long energyUsed;
-    private final int roomSize;
 
-    public Burrow(char[][] floorPlan, Map<Point, Amphipod> pods) {
+    public Burrow(char[][] floorPlan, @NotNull Map<Point, Amphipod> pods) {
         this.floorPlan = floorPlan;
         this.pods = pods;
         energyUsed = pods.values().stream().mapToLong(Amphipod::energyUsed).sum();
-        roomSize = floorPlan.length == 5 ? 2 : 4;
     }
 
-    public static Burrow of(List<String> lines) {
-        assert lines != null;
+    public static Burrow of(@NotNull List<String> lines) {
+        final var floorPlan = new char[lines.size()][];
+        final var pods = new HashMap<Point, Amphipod>();
+        var id = 1;
 
-        final char[][] floorPlan = new char[lines.size()][];
-        final Map<Point, Amphipod> pods = new HashMap<>();
-        int id = 1;
-
-        for (int y = 0; y < lines.size(); y++) {
+        for (var y = 0; y < lines.size(); y++) {
             floorPlan[y] = lines.get(y).toCharArray();
-            for (int x = 0; x < floorPlan[y].length; x++) {
+            for (var x = 0; x < floorPlan[y].length; x++) {
                 switch (floorPlan[y][x]) {
                     case 'A' -> {
                         pods.put(Point.of(x, y), new Amphipod(id, AmphipodType.AMBER, Point.of(x, y), 0));
@@ -57,7 +54,7 @@ public class Burrow implements Comparable<Burrow> {
         return new Burrow(floorPlan, pods);
     }
 
-    public boolean isOpen(Point point) {
+    public boolean isOpen(@NotNull Point point) {
         if (point.y() < 0 || point.y() >= floorPlan.length)
             return false;
 
@@ -74,12 +71,12 @@ public class Burrow implements Comparable<Burrow> {
         return pods.values();
     }
 
-    public Optional<Amphipod> podAt(Point point) {
+    public Optional<Amphipod> podAt(@NotNull Point point) {
         return Optional.ofNullable(pods.get(point));
     }
 
-    public Burrow move(Amphipod pod) {
-        final Map<Point, Amphipod> nextPods = new HashMap<>(
+    public Burrow move(@NotNull Amphipod pod) {
+        final var nextPods = new HashMap<>(
                 pods.entrySet().stream()
                         .filter(entry -> entry.getValue().id() != pod.id())
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
@@ -94,11 +91,11 @@ public class Burrow implements Comparable<Burrow> {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        for (int y = 0; y < floorPlan.length; y++) {
-            char[] line = Arrays.copyOf(floorPlan[y], floorPlan[y].length);
+        final var sb = new StringBuilder();
+        for (var y = 0; y < floorPlan.length; y++) {
+            final var line = Arrays.copyOf(floorPlan[y], floorPlan[y].length);
 
-            for (Amphipod pod : pods.values())
+            for (var pod : pods.values())
                 if (pod.location().y() == y)
                     line[pod.location().x()] = pod.symbol();
 
@@ -114,7 +111,7 @@ public class Burrow implements Comparable<Burrow> {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@NotNull Object o) {
         if (this == o) return true;
         if (!(o instanceof Burrow burrow)) return false;
         return pods.equals(burrow.pods);
@@ -126,7 +123,7 @@ public class Burrow implements Comparable<Burrow> {
     }
 
     @Override
-    public int compareTo(Burrow other) {
+    public int compareTo(@NotNull Burrow other) {
         return Long.compare(energyUsed, other.energyUsed);
     }
 }

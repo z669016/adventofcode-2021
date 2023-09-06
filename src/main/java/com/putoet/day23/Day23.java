@@ -1,38 +1,24 @@
 package com.putoet.day23;
 
-import com.putoet.day.Day;
 import com.putoet.resources.ResourceLines;
+import com.putoet.utils.Timer;
 
-import java.util.Optional;
-
-public class Day23 extends Day {
-
-    protected Day23(String[] args) {
-        super(args);
-    }
+public class Day23 {
 
     public static void main(String[] args) {
-        final Day day = new Day23(args);
-        day.challenge();
+        Timer.run(Day23::part1);
+        Timer.run(Day23::part2);
     }
 
-    @Override
-    public void part1() {
-        final Burrow burrow = Burrow.of(ResourceLines.list("/day23.txt"));
-        final Optional<BurrowSearch.BurrowNode> node = BurrowSearch.bfs(burrow);
-        if (node.isEmpty())
-            System.out.println("No solution found");
-        else
-            System.out.println("the least energy required to organize the amphipods is " + node.get().state().energyUsed());
+    static void part1() {
+        final var burrow = Burrow.of(ResourceLines.list("/day23.txt"));
+        final var node = BurrowSearch.bfs(burrow).orElseThrow();
+        System.out.println("the least energy required to organize the amphipods is " + node.state().energyUsed());
     }
 
-    @Override
-    public void part2() {
-        final Burrow burrow = Burrow.of(ResourceLines.list("/day23-2.txt"));
-        final Optional<BurrowSearch.BurrowNode> node = BurrowSearch.bfs(burrow);
-        if (node.isEmpty())
-            System.out.println("No solution found");
-        else
-            System.out.println("the least energy required to organize the unfolded amphipods is " + node.get().state().energyUsed());
+    static void part2() {
+        final var burrow = Burrow.of(ResourceLines.list("/day23-2.txt"));
+        final var node = BurrowSearch.bfs(burrow).orElseThrow();
+        System.out.println("the least energy required to organize the unfolded amphipods is " + node.state().energyUsed());
     }
 }
