@@ -1,40 +1,27 @@
 package com.putoet.day20;
 
-import com.putoet.day.Day;
 import com.putoet.resources.ResourceLines;
+import com.putoet.utils.Timer;
 
 import java.util.List;
 
-public class Day20 extends Day {
-    private final ImageEnhancer enhancer;
-    private final Image image;
-
-    protected Day20(String[] args) {
-        super(args);
-
-        final List<String> lines = ResourceLines.list("/day20.txt");
-        enhancer = new ImageEnhancer(lines.get(0).toCharArray());
-        image = Image.of(lines.subList(2, lines.size()));
-    }
-
+public class Day20 {
     public static void main(String[] args) {
-        final Day day = new Day20(args);
-        day.challenge();
+        final List<String> lines = ResourceLines.list("/day20.txt");
+        final var enhancer = new ImageEnhancer(lines.get(0).toCharArray());
+        final var image = Image.of(lines.subList(2, lines.size()));
+
+        Timer.run(() -> part1(enhancer, image));
+        Timer.run(() -> part2(enhancer, image));
     }
 
-    @Override
-    public void part1() {
-        System.out.println(image.size());
-        final Image enhanced = enhancer.enhance(image, 2);
+    static void part1(ImageEnhancer enhancer, Image image) {
+        final var enhanced = enhancer.enhance(image, 2);
         System.out.println("pixels are lit in the resulting image is " + enhanced.pixelsLit());
-        System.out.println(enhanced.size());
     }
 
-    @Override
-    public void part2() {
-        System.out.println(image.size());
-        final Image enhanced = enhancer.enhance(image, 50);
+    static void part2(ImageEnhancer enhancer, Image image) {
+        final var enhanced = enhancer.enhance(image, 50);
         System.out.println("pixels are lit in the resulting image is " + enhanced.pixelsLit());
-        System.out.println(enhanced.size());
     }
 }

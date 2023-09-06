@@ -34,19 +34,19 @@ class ImageEnhancerTest {
 
     @BeforeEach
     void setup() {
-        final List<String> lines = ResourceLines.list("/day20.txt");
+        final var lines = ResourceLines.list("/day20.txt");
         enhancer = new ImageEnhancer(lines.get(0).toCharArray());
         image = Image.of(lines.subList(2, lines.size()));
     }
 
     @Test
     void forChar() {
-        final String[] numbers = new String[] {"...", "..#", ".#.", ".##", "#..", "#.#", "##.", "###"};
-        int value = 0;
-        for (String x : numbers) {
-            for (String y : numbers) {
-                for (String z : numbers) {
-                    String number = x + y + z;
+        final var numbers = new String[] {"...", "..#", ".#.", ".##", "#..", "#.#", "##.", "###"};
+        var value = 0;
+        for (var x : numbers) {
+            for (var y : numbers) {
+                for (var z : numbers) {
+                    final var number = x + y + z;
                     assertEquals(value, ImageEnhancer.index(number.toCharArray()));
                     value++;
                 }
@@ -56,20 +56,20 @@ class ImageEnhancerTest {
 
     @Test
     void enhance() {
-        final Image enhanced = enhancer.enhance(image);
+        final var enhanced = enhancer.enhance(image);
         assertEquals(STEP1, enhanced.toString());
     }
 
     @Test
     void enhanceTwice() {
-        final Image enhanced = enhancer.enhance(image, 2);
+        final var enhanced = enhancer.enhance(image, 2);
         assertEquals(STEP2, enhanced.toString());
         assertEquals(35, enhanced.pixelsLit());
     }
 
     @Test
     void enhanceMore() {
-        final Image enhanced = enhancer.enhance(image, 50);
+        final var enhanced = enhancer.enhance(image, 50);
         assertEquals(3351, enhanced.pixelsLit());
     }
 }

@@ -1,13 +1,14 @@
 package com.putoet.day20;
 
 import com.putoet.grid.Point;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public record Image(char[][] grid) {
+record Image(char[][] grid) {
     public static final char LIT = '#';
     public static final char DARK = '.';
 
@@ -15,24 +16,22 @@ public record Image(char[][] grid) {
         Objects.requireNonNull(grid);
     }
 
-    public static Image of(List<String> lines) {
-        assert lines != null;
-
-        char[][] grid = new char[lines.size()][];
-        for (int i = 0; i < lines.size();i++)
+    public static Image of(@NotNull List<String> lines) {
+        final var grid = new char[lines.size()][];
+        for (var i = 0; i < lines.size();i++)
             grid[i] = lines.get(i).toCharArray();
 
         return new Image(grid);
     }
 
-    public static Image of(String line) {
+    public static Image of(@NotNull String line) {
         return of(Arrays.stream(line.split("\n")).toList());
     }
 
     public int pixelsLit() {
-        int count = 0;
-        for (char[] row : grid) {
-            for (char c : row)
+        var count = 0;
+        for (var row : grid) {
+            for (var c : row)
                 if (c == LIT)
                     count++;
         }
