@@ -1,22 +1,22 @@
 package com.putoet.day11;
 
 import com.putoet.grid.Point;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
 
-public record Cavern(Octopus[][] octopuses) {
+record Cavern(Octopus[][] octopuses) {
 
-    public static Cavern of(List<String> lines) {
-        assert lines != null;
-        assert lines.size() > 0;
+    public static Cavern of(@NotNull List<String> lines) {
+        assert !lines.isEmpty();
 
-        final Octopus[][] octopuses = new Octopus[lines.size()][lines.get(0).length()];
-        for (int y = 0; y < lines.size(); y++) {
-            final String line = lines.get(y);
-            for (int x = 0; x < line.length(); x++) {
+        final var octopuses = new Octopus[lines.size()][lines.get(0).length()];
+        for (var y = 0; y < lines.size(); y++) {
+            final var line = lines.get(y);
+            for (var x = 0; x < line.length(); x++) {
                 assert Character.isDigit(line.charAt(x));
-                final int energyLevel = line.charAt(x) - '0';
+                final var energyLevel = line.charAt(x) - '0';
                 octopuses[y][x] = new Octopus(Point.of(x, y), energyLevel);
             }
         }
@@ -27,10 +27,10 @@ public record Cavern(Octopus[][] octopuses) {
     }
 
     private static void wire(Octopus[][] octopuses) {
-        for (int y = 0; y < octopuses.length; y++) {
-            final int max = octopuses[y].length;
+        for (var y = 0; y < octopuses.length; y++) {
+            final var max = octopuses[y].length;
 
-            for (int x = 0; x < max; x++) {
+            for (var x = 0; x < max; x++) {
                 if (y > 0) {
                     if (x > 0) octopuses[y][x].addNeighbour(octopuses[y - 1][x - 1]);
                     octopuses[y][x].addNeighbour(octopuses[y - 1][x]);
@@ -51,13 +51,13 @@ public record Cavern(Octopus[][] octopuses) {
 
     public int step() {
         Arrays.stream(octopuses).flatMap(Arrays::stream).forEach(Octopus::raise);
-        boolean flashed;
-        int count = 0;
+        var flashed = false;
+        var count = 0;
 
         do {
             flashed = false;
-            for (Octopus[] octopus : octopuses)
-                for (Octopus value : octopus) {
+            for (var octopus : octopuses)
+                for (var value : octopus) {
                     if (value.flash()) {
                         count++;
                         flashed = true;
@@ -74,8 +74,8 @@ public record Cavern(Octopus[][] octopuses) {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        for (Octopus[] line : octopuses) {
+        final var sb = new StringBuilder();
+        for (var line : octopuses) {
             for (Octopus octopus : line) {
                 sb.append(octopus.energyLevel());
             }

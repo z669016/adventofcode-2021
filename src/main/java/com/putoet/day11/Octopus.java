@@ -1,17 +1,18 @@
 package com.putoet.day11;
 
 import com.putoet.grid.Point;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Octopus {
+class Octopus {
     public List<Octopus> neighbours = new ArrayList<>();
     private final Point id;
     private int energyLevel;
     private boolean flashed;
 
-    public Octopus(Point id, int energyLevel) {
+    public Octopus(@NotNull Point id, int energyLevel) {
         this.id = id;
         this.energyLevel = energyLevel;
     }
@@ -38,10 +39,6 @@ public class Octopus {
     private void raiseNotFlashed() {
         if (!flashed)
             energyLevel++;
-    }
-
-    public void step() {
-        flashed = false;
     }
 
     public void addNeighbour(Octopus neighbour) {

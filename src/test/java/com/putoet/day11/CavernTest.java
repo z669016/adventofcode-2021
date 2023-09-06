@@ -29,7 +29,7 @@ class CavernTest {
 
     @Test
     void step() {
-        int count = cavern.step();
+        var count = cavern.step();
         assertEquals("34543\n40004\n50005\n40004\n34543\n", cavern.toString());
         assertEquals(9, count);
 
@@ -40,16 +40,16 @@ class CavernTest {
 
     @Test
     void steps() {
-        final List<String> input = ResourceLines.list("/day11.txt");
-        final Cavern cavern = Cavern.of(input);
+        final var input = ResourceLines.list("/day11.txt");
+        final var cavern = Cavern.of(input);
 
-        int count = 0;
-        for (int i = 0; i < 10; i++)
+        var count = 0;
+        for (var i = 0; i < 10; i++)
             count += cavern.step();
 
         assertEquals(204, count);
 
-        for (int i = 10; i < 100; i++)
+        for (var i = 10; i < 100; i++)
             count += cavern.step();
 
         assertEquals(1656, count);
@@ -62,8 +62,8 @@ class CavernTest {
 
     @Test
     void allFlash() {
-        final List<String> input = ResourceLines.list("/day11.txt");
-        final Cavern cavern = Cavern.of(input);
+        final var input = ResourceLines.list("/day11.txt");
+        final var cavern = Cavern.of(input);
 
         int count = 1;
         while (cavern.step() != cavern.size())

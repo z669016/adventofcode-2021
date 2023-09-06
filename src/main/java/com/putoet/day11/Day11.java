@@ -1,37 +1,30 @@
 package com.putoet.day11;
 
-import com.putoet.day.Day;
 import com.putoet.resources.ResourceLines;
+import com.putoet.utils.Timer;
 
 import java.util.List;
 
-public class Day11 extends Day {
-    private final List<String> input;
-
-    protected Day11(String[] args) {
-        super(args);
-        input = ResourceLines.list("/day11.txt");
-    }
-
+public class Day11 {
     public static void main(String[] args) {
-        final Day day = new Day11(args);
-        day.challenge();
+        final List<String> input = ResourceLines.list("/day11.txt");
+
+        Timer.run(() -> part1(input));
+        Timer.run(() -> part2(input));
     }
 
-    @Override
-    public void part1() {
-        int count = 0;
-        final Cavern cavern = Cavern.of(input);
-        for (int i = 0; i < 100; i++)
+    static void part1(List<String> input) {
+        var count = 0;
+        final var cavern = Cavern.of(input);
+        for (var i = 0; i < 100; i++)
             count += cavern.step();
 
         System.out.println("total flashes after 100 steps is " + count);
     }
 
-    @Override
-    public void part2() {
-        int count = 1;
-        final Cavern cavern = Cavern.of(input);
+    static void part2(List<String> input) {
+        var count = 1;
+        final var cavern = Cavern.of(input);
         while (cavern.step() != cavern.size())
             count++;
 
