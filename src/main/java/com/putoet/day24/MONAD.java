@@ -1,20 +1,21 @@
 package com.putoet.day24;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-public record MONAD(String[] instructions) {
+record MONAD(String[] instructions) {
     public MONAD {
         assert instructions != null;
     }
 
-    public static MONAD of(List<String> lines) {
+    public static MONAD of(@NotNull List<String> lines) {
         return new MONAD(lines.toArray(new String[0]));
     }
 
-    public long run(String number) {
-        assert number != null;
+    public long run(@NotNull String number) {
         assert number.length() == 14;
         assert number.matches("^\\d+$");
 
@@ -27,11 +28,11 @@ public record MONAD(String[] instructions) {
             }
         });
 
-        for (int ip = 0; ip < instructions.length; ip++) {
-            if (instructions[ip].length() == 0)
+        for (var ip = 0; ip < instructions.length; ip++) {
+            if (instructions[ip].isEmpty())
                 continue;
 
-            final String[] split = instructions[ip].split(" ");
+            final var split = instructions[ip].split(" ");
             switch (split[0]) {
                 case "#" -> alu.nop();
                 case "inp" -> alu.inp(split[1]);
@@ -47,7 +48,7 @@ public record MONAD(String[] instructions) {
         return alu.z();
     }
 
-    public long shortcut(String number) {
+    public long shortcut(@NotNull String number) {
         // push digit(1) + 12
         // push digit(2) + 7
         // push digit(3) + 8
@@ -63,7 +64,7 @@ public record MONAD(String[] instructions) {
         // check digit(13) == pop - 4 ==> digit(13) == digit(2) + 7 - 4 == digit(2) + 3
         // check digit(14) == pop - 14 ==> digit(14) == digit(1) + 12 - 14 == digit(1) - 2
 
-        final int[] digit = IntStream.range(0, number.length()).map(i -> number.charAt(i) - '0').toArray();
+        final var digit = IntStream.range(0, number.length()).map(i -> number.charAt(i) - '0').toArray();
         System.out.println();
         if (digit[5] == digit[4] - 1 &&
                 digit[7] == digit[6] - 3 &&

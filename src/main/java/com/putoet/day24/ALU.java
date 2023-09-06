@@ -2,7 +2,7 @@ package com.putoet.day24;
 
 import java.util.function.Supplier;
 
-public class ALU {
+class ALU {
     private final Supplier<Long> input;
 
     private long w, x, y, z;
