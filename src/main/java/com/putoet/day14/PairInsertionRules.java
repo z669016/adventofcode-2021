@@ -1,20 +1,20 @@
 package com.putoet.day14;
 
 import org.javatuples.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public record PairInsertionRules(String template, Map<String, PairInsertionRule> rules) {
-    public static PairInsertionRules of(List<String> input) {
-        assert input != null;
+record PairInsertionRules(@NotNull String template, @NotNull Map<String, PairInsertionRule> rules) {
+    public static PairInsertionRules of(@NotNull List<String> input) {
         assert input.size() > 2;
 
-        final Iterator<String> iter = input.iterator();
-        final String template = iter.next();
+        final var iter = input.iterator();
+        final var template = iter.next();
         iter.next();
 
-        final List<PairInsertionRule> rules = new ArrayList<>();
+        final var rules = new ArrayList<PairInsertionRule>();
         while (iter.hasNext())
             rules.add(PairInsertionRule.of(iter.next()));
 
@@ -24,14 +24,14 @@ public record PairInsertionRules(String template, Map<String, PairInsertionRule>
     public Pair<String, Map<String, Long>> transform(int count) {
         assert count >= 0;
 
-        Map<String, Long> transformed = combinationMap(template);
-        String lastElement = template.substring(template.length() - 2);
+        var transformed = combinationMap(template);
+        var lastElement = template.substring(template.length() - 2);
         while (count > 0) {
-            final Map<String, Long> next = new HashMap<>();
-            for (Map.Entry<String, Long> entry : transformed.entrySet()) {
-                final PairInsertionRule rule = rules.get(entry.getKey());
-                final String first = rule.first();
-                final String second = rule.second();
+            final var next = new HashMap<String, Long>();
+            for (var entry : transformed.entrySet()) {
+                final var rule = rules.get(entry.getKey());
+                final var first = rule.first();
+                final var second = rule.second();
                 next.put(first, next.getOrDefault(first, 0L) + entry.getValue());
                 next.put(second, next.getOrDefault(second, 0L) + entry.getValue());
 
@@ -46,47 +46,47 @@ public record PairInsertionRules(String template, Map<String, PairInsertionRule>
         return Pair.with(lastElement, transformed);
     }
 
-    public Pair<String, Long> mostCommonElement(Pair<String, Map<String, Long>> transformed) {
+    public Pair<String, Long> mostCommonElement(@NotNull Pair<String, Map<String, Long>> transformed) {
         assert transformed.getValue0() != null;
         assert transformed.getValue1() != null;
-        assert transformed.getValue1().size() > 0;
+        assert !transformed.getValue1().isEmpty();
 
-        final Map<String, Long> elementMap = elementMap(transformed);
+        final var elementMap = elementMap(transformed);
         return elementMap.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(e -> Pair.with(e.getKey(), e.getValue()))
-                .get();
+                .orElseThrow();
     }
 
-    public Pair<String, Long> leastCommonElement(Pair<String, Map<String, Long>> transformed) {
+    public Pair<String, Long> leastCommonElement(@NotNull Pair<String, Map<String, Long>> transformed) {
         assert transformed.getValue0() != null;
         assert transformed.getValue1() != null;
-        assert transformed.getValue1().size() > 0;
+        assert !transformed.getValue1().isEmpty();
 
         final Map<String, Long> elementMap = elementMap(transformed);
         return elementMap.entrySet().stream()
                 .min(Map.Entry.comparingByValue())
                 .map(e -> Pair.with(e.getKey(), e.getValue()))
-                .get();
+                .orElseThrow();
     }
 
     private Map<String, Long> combinationMap(String template) {
-        final Map<String, Long> elementMap = new HashMap<>();
+        final var elementMap = new HashMap<String , Long>();
 
-        for (int i = 0; i < template.length() - 1; i++) {
-            final String key = template.substring(i, i + 2);
+        for (var i = 0; i < template.length() - 1; i++) {
+            final var key = template.substring(i, i + 2);
             elementMap.put(key, elementMap.getOrDefault(key, 0L) + 1);
         }
         return elementMap;
     }
 
     private Map<String, Long> elementMap(Pair<String, Map<String, Long>> transformed) {
-        final String lastElement = transformed.getValue0();
-        final Map<String, Long> combinationMap = transformed.getValue1();
+        final var lastElement = transformed.getValue0();
+        final var combinationMap = transformed.getValue1();
 
-        final Map<String, Long> elementMap = new HashMap<>();
+        final var elementMap = new HashMap<String, Long>();
         combinationMap.forEach((key, value) -> {
-            final String element = key.substring(0, 1);
+            final var element = key.substring(0, 1);
             elementMap.put(element, elementMap.getOrDefault(element, 0L) + value);
         });
         elementMap.put(lastElement.substring(1), elementMap.getOrDefault(lastElement.substring(1), 0L) + 1);

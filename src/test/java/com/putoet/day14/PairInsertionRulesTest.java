@@ -4,8 +4,6 @@ import com.putoet.resources.ResourceLines;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PairInsertionRulesTest {
@@ -13,7 +11,7 @@ class PairInsertionRulesTest {
 
     @Test
     void commonElement() {
-        Pair<String,Map<String,Long>> transformed = insertionRules.transform(10);
+        var transformed = insertionRules.transform(10);
         assertEquals(Pair.with("B", 1749L), insertionRules.mostCommonElement(transformed));
         assertEquals(Pair.with("H", 161L), insertionRules.leastCommonElement(transformed));
 

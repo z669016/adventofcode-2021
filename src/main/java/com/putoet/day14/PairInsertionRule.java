@@ -1,10 +1,10 @@
 package com.putoet.day14;
 
-public record PairInsertionRule(String from, String insert) {
-    public static PairInsertionRule of(String rule) {
-        assert rule != null;
+import org.jetbrains.annotations.NotNull;
 
-        final String[] split = rule.split(" -> ");
+record PairInsertionRule(@NotNull String from, @NotNull String insert) {
+    public static PairInsertionRule of(@NotNull String rule) {
+        final var split = rule.split(" -> ");
         if (split.length != 2 || split[0].length() != 2 || split[1].length() != 1)
             throw new IllegalArgumentException("Invalid insertion rule " + rule);
 
