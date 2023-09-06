@@ -1,11 +1,12 @@
 package com.putoet.day16;
 
 import org.javatuples.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.stream.Collectors;
 
-public class PacketParser implements Iterator<Pair<Token, Long>> {
+class PacketParser implements Iterator<Pair<Token, Long>> {
     public static final int LITERAL_VALUE = 4;
     public static final int LENGTH_TYPE_11 = '1';
     private final String binaryData;
@@ -17,20 +18,23 @@ public class PacketParser implements Iterator<Pair<Token, Long>> {
         this.state = ParserState.BEFORE_VERSION;
     }
 
-    public static PacketParser ofHexData(String hexData) {
-        final String data = hexData.chars().mapToObj(i -> hexToBinary((char) i)).collect(Collectors.joining());
+    public static PacketParser ofHexData(@NotNull String hexData) {
+        final var data = hexData.chars()
+                .mapToObj(i -> hexToBinary((char) i))
+                .collect(Collectors.joining());
+
         return new PacketParser(data);
     }
 
-    public static PacketParser ofBinaryData(String binaryData) {
+    public static PacketParser ofBinaryData(@NotNull String binaryData) {
         return new PacketParser(binaryData);
     }
 
     public static String hexToBinary(char hex) {
         assert (hex >= '0' && hex <= '9') || (hex >= 'A' && hex <= 'F');
 
-        final int value = Integer.parseInt(String.valueOf(hex), 16);
-        final StringBuilder bin = new StringBuilder(Integer.toBinaryString(value));
+        final var value = Integer.parseInt(String.valueOf(hex), 16);
+        final var bin = new StringBuilder(Integer.toBinaryString(value));
         while (bin.length() < 4)
             bin.insert(0, "0");
 
@@ -57,8 +61,8 @@ public class PacketParser implements Iterator<Pair<Token, Long>> {
             throw new IllegalStateException("Binary data left is " + (binaryData.length() - offset)
                     + " bits, no packet of " + length + " available");
 
-        final String data = binaryData.substring(offset, offset + (int) length);
-        offset += length;
+        final var data = binaryData.substring(offset, offset + (int) length);
+        offset += (int) length;
         return PacketParser.ofBinaryData(data);
     }
 
@@ -79,8 +83,7 @@ public class PacketParser implements Iterator<Pair<Token, Long>> {
                 yield pairWith(Token.VERSION, takeVersion());
             }
             case BEFORE_TYPE_ID -> {
-                final Pair<Token, Long> pair = pairWith(Token.TYPE_ID, takeTypeId());
-
+                final var pair = pairWith(Token.TYPE_ID, takeTypeId());
                 if (pair.getValue1() == LITERAL_VALUE)
                     state = ParserState.BEFORE_LITERAL_VALUE;
                 else {
@@ -109,22 +112,22 @@ public class PacketParser implements Iterator<Pair<Token, Long>> {
     }
 
     private String takeLength15() {
-        final String data = binaryData.substring(offset, offset + 15);
+        final var data = binaryData.substring(offset, offset + 15);
         offset += 15;
         return data;
     }
 
     private String takeLength11() {
-        final String data = binaryData.substring(offset, offset + 11);
+        final var data = binaryData.substring(offset, offset + 11);
         offset += 11;
         return data;
     }
 
     private String takeLiteralValue() {
-        final StringBuilder sb = new StringBuilder();
-        boolean last;
+        final var sb = new StringBuilder();
+        var last = false;
         do {
-            final String valueBlock = takeValueBlock();
+            final var valueBlock = takeValueBlock();
             sb.append(valueBlock.substring(1));
             last = valueBlock.charAt(0) == '0';
         } while (!last);
@@ -132,19 +135,19 @@ public class PacketParser implements Iterator<Pair<Token, Long>> {
     }
 
     private String takeValueBlock() {
-        final String valueBlock = binaryData.substring(offset, offset + 5);
+        final var valueBlock = binaryData.substring(offset, offset + 5);
         offset += 5;
         return valueBlock;
     }
 
     private String takeTypeId() {
-        final String data = binaryData.substring(offset, offset + 3);
+        final var data = binaryData.substring(offset, offset + 3);
         offset += 3;
         return data;
     }
 
     private String takeVersion() {
-        final String data = binaryData.substring(offset, offset + 3);
+        final var data = binaryData.substring(offset, offset + 3);
         offset += 3;
         return data;
     }

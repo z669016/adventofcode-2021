@@ -1,6 +1,6 @@
 package com.putoet.day16;
 
-public enum Token {
+enum Token {
     VERSION,
     TYPE_ID,
     LITERAL_VALUE,

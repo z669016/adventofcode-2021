@@ -1,6 +1,5 @@
 package com.putoet.day16;
 
-import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,8 +30,8 @@ class PacketParserTest {
 
     @Test
     void sample1() {
-        final String binaryData = "110100101111111000101000";
-        final PacketParser parser = PacketParser.ofBinaryData(binaryData);
+        final var binaryData = "110100101111111000101000";
+        final var parser = PacketParser.ofBinaryData(binaryData);
 
         expectNext(Token.VERSION, 6, parser);
         expectNext(Token.TYPE_ID, 4, parser);
@@ -44,15 +43,15 @@ class PacketParserTest {
 
     @Test
     void sample2() {
-        final String operatorPacket = "38006F45291200";
-        final PacketParser parser = PacketParser.ofHexData(operatorPacket);
+        final var operatorPacket = "38006F45291200";
+        final var parser = PacketParser.ofHexData(operatorPacket);
 
         assertEquals("00111000000000000110111101000101001010010001001000000000", parser.data());
         expectNext(Token.VERSION, 1, parser);
         expectNext(Token.TYPE_ID, 6, parser);
         expectNext(Token.SUB_PACKET_LENGTH, 27, parser);
 
-        final PacketParser sub = parser.subPacket(27);
+        final var sub = parser.subPacket(27);
         expectNext(Token.END, -1, parser);
 
         expectNext(Token.VERSION, 6, sub);
@@ -68,8 +67,8 @@ class PacketParserTest {
 
     @Test
     void sample3() {
-        final String operatorPacket = "EE00D40C823060";
-        final PacketParser parser = PacketParser.ofHexData(operatorPacket);
+        final var operatorPacket = "EE00D40C823060";
+        final var parser = PacketParser.ofHexData(operatorPacket);
 
         assertEquals("11101110000000001101010000001100100000100011000001100000", parser.data());
         expectNext(Token.VERSION, 7, parser);
@@ -91,11 +90,9 @@ class PacketParserTest {
         expectNext(Token.END, -1, parser);
     }
 
-    private Pair<Token, Long> expectNext(Token token, long value, PacketParser parser) {
-        final Pair<Token, Long> pair = parser.next();
+    private void expectNext(Token token, long value, PacketParser parser) {
+        final var pair = parser.next();
         assertEquals(token, pair.getValue0());
         assertEquals(value, pair.getValue1());
-
-        return pair;
     }
 }

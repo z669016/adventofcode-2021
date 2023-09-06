@@ -1,31 +1,23 @@
 package com.putoet.day16;
 
-import com.putoet.day.Day;
 import com.putoet.resources.ResourceLines;
+import com.putoet.utils.Timer;
 
-public class Day16 extends Day {
-    private final String input;
-
-    protected Day16(String[] args) {
-        super(args);
-
-        input = ResourceLines.line("/day16.txt");
-    }
-
+public class Day16 {
     public static void main(String[] args) {
-        final Day day = new Day16(args);
-        day.challenge();
+        final var input = ResourceLines.line("/day16.txt");
+
+        Timer.run(() -> part1(input));
+        Timer.run(() -> part2(input));
     }
 
-    @Override
-    public void part1() {
-        final long count = Calculator.addVersionNumbers(input);
+    static void part1(String input) {
+        final var count = Calculator.addVersionNumbers(input);
         System.out.println("if you add up the version numbers in all packets you get " + count);
     }
 
-    @Override
-    public void part2() {
-        final long value = Calculator.compute(input);
+    static void part2(String input) {
+        final var value = Calculator.compute(input);
         System.out.println("if you evaluate the expression represented by your hexadecimal-encoded BITS transmission you get " + value);
     }
 }
