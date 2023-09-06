@@ -1,27 +1,29 @@
 package com.putoet.day3;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class Diagnostics {
-    public static int gammaRating(List<String> diagnostics){
-        assertDiagnostics(diagnostics);
+class Diagnostics {
+    public static int gammaRating(@NotNull List<String> diagnostics){
+        assert !diagnostics.isEmpty();
 
         return mostFrequentRating(diagnostics, '1');
     }
 
-    public static int epsilonRating(List<String> diagnostics){
-        assertDiagnostics(diagnostics);
+    public static int epsilonRating(@NotNull List<String> diagnostics){
+        assert !diagnostics.isEmpty();
 
         return mostFrequentRating(diagnostics, '0');
     }
 
-    private static int mostFrequentRating(List<String> diagnostics, char toCount){
-        final int length = diagnostics.get(0).length();
+    private static int mostFrequentRating(@NotNull List<String> diagnostics, char toCount){
+        final var length = diagnostics.get(0).length();
 
-        int rating = 0;
-        for (int x = 0; x < length; x++) {
+        var rating = 0;
+        for (var x = 0; x < length; x++) {
             rating = (rating << 1) + (mostFrequent(diagnostics, x) == toCount ? 1 : 0);
         }
 
@@ -29,8 +31,8 @@ public class Diagnostics {
     }
 
     private static char mostFrequent(List<String> diagnostics, int x) {
-        final long ones = countOnes(diagnostics, x);
-        final int size = diagnostics.size();
+        final var ones = countOnes(diagnostics, x);
+        final var size = diagnostics.size();
 
         if (ones < size / 2.0)
             return '0';
@@ -41,24 +43,24 @@ public class Diagnostics {
         return diagnostics.stream().map(diagnostic -> diagnostic.charAt(x)).filter(c -> c == '1').count();
     }
 
-    public static int oxygenGeneratorRating(List<String> diagnostics) {
-        assertDiagnostics(diagnostics);
+    public static int oxygenGeneratorRating(@NotNull List<String> diagnostics) {
+        assert !diagnostics.isEmpty();
 
         return filterRating(diagnostics, (mostFrequent, charAt) -> mostFrequent != charAt);
     }
 
-    public static int co2ScrubberRating(List<String> diagnostics) {
-        assertDiagnostics(diagnostics);
+    public static int co2ScrubberRating(@NotNull List<String> diagnostics) {
+        assert !diagnostics.isEmpty();
 
         return filterRating(diagnostics, (mostFrequent, charAt) -> mostFrequent == charAt);
     }
 
     private static int filterRating(List<String> diagnostics, BiFunction<Character,Character,Boolean> filter) {
-        final List<String> values = new ArrayList<>(diagnostics);
+        final var values = new ArrayList<>(diagnostics);
 
-        int x = 0;
+        var x = 0;
         while (values.size() > 1 && x < diagnostics.get(0).length()) {
-            final int finalX = x;
+            final var finalX = x;
             values.removeIf(value -> filter.apply(mostFrequent(values, finalX), value.charAt(finalX)));
             x++;
         }
@@ -67,12 +69,5 @@ public class Diagnostics {
             throw new IllegalStateException("Invalid list filtered " + values);
 
         return Integer.parseInt(values.get(0), 2);
-    }
-
-    private static void assertDiagnostics(List<String> diagnostics) {
-        assert diagnostics != null;
-        assert !diagnostics.isEmpty();
-        assert diagnostics.get(0) != null;
-        assert diagnostics.get(0).length() > 0;
     }
 }
