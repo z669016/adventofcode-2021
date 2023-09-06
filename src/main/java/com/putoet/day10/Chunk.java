@@ -1,29 +1,29 @@
 package com.putoet.day10;
 
 import org.javatuples.Pair;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Stack;
 
-public class Chunk {
+class Chunk {
     public static char[] OPEN_SYMBOL = new char[] {'(', '{', '[', '<'};
     public final static String OPEN = String.valueOf(OPEN_SYMBOL);
     public static char[] CLOSE_SYMBOL = new char[] {')', '}', ']', '>'};
     public final static String CLOSE = String.valueOf(CLOSE_SYMBOL);
 
-    public static Pair<State,String> validate(String line) {
-        assert line != null;
-        assert line.length() > 0;
+    public static Pair<State,String> validate(@NotNull String line) {
+        assert !line.isEmpty();
 
-        final Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < line.length(); i++) {
-            final char c = line.charAt(i);
-            int open = OPEN.indexOf(c);
+        final var stack = new Stack<Integer>();
+        for (var i = 0; i < line.length(); i++) {
+            final var c = line.charAt(i);
+            var open = OPEN.indexOf(c);
 
             if (open != -1)
                 stack.push(open);
             else {
-                final int close = CLOSE.indexOf(c);
+                final var close = CLOSE.indexOf(c);
                 if (close == -1)
                     throw new IllegalStateException("Found invalid character in line " + line + " at offset " + i + "'" + c + "'");
 
@@ -37,7 +37,7 @@ public class Chunk {
         }
 
         if (!stack.isEmpty()) {
-            final StringBuilder sb = new StringBuilder();
+            final var sb = new StringBuilder();
             while (!stack.isEmpty())
                 sb.append(CLOSE_SYMBOL[stack.pop()]);
             return Pair.with(State.INCOMPLETE, sb.toString());
@@ -46,7 +46,7 @@ public class Chunk {
         return Pair.with(State.VALID, null);
     }
 
-    public static List<String> corrupted(List<String> lines) {
+    public static List<String> corrupted(@NotNull List<String> lines) {
         return lines.stream()
                 .map(Chunk::validate)
                 .filter(pair -> pair.getValue0() == State.CORRUPTED)
@@ -54,7 +54,7 @@ public class Chunk {
                 .toList();
     }
 
-    public static List<String> incomplete(List<String> lines) {
+    public static List<String> incomplete(@NotNull List<String> lines) {
         return lines.stream()
                 .map(Chunk::validate)
                 .filter(pair -> pair.getValue0() == State.INCOMPLETE)
@@ -75,14 +75,14 @@ public class Chunk {
     }
 
     public static long incompleteScore(List<String> uncompleted) {
-        final List<Long> scores = uncompleted.stream().map(Chunk::incompleteScore).sorted().toList();
-        final int middle = scores.size() / 2;
+        final var scores = uncompleted.stream().map(Chunk::incompleteScore).sorted().toList();
+        final var middle = scores.size() / 2;
         return scores.get(middle);
     }
 
     public static long incompleteScore(String uncompleted) {
-        long score = 0;
-        for (int i = 0;i < uncompleted.length(); i++) {
+        var score = 0L;
+        for (var i = 0;i < uncompleted.length(); i++) {
             score *= 5;
             score += switch (uncompleted.charAt(i)) {
                 case ')' -> 1;

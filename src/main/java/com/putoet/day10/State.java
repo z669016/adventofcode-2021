@@ -1,5 +1,5 @@
 package com.putoet.day10;
 
-public enum State {
+enum State {
     VALID, INCOMPLETE, CORRUPTED
 }

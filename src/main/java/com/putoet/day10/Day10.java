@@ -1,32 +1,25 @@
 package com.putoet.day10;
 
-import com.putoet.day.Day;
 import com.putoet.resources.ResourceLines;
+import com.putoet.utils.Timer;
 
 import java.util.List;
 
-public class Day10 extends Day {
-    private final List<String> input;
-
-    protected Day10(String[] args) {
-        super(args);
-        input = ResourceLines.list("/day10.txt");
-    }
-
+public class Day10  {
     public static void main(String[] args) {
-        final Day day = new Day10(args);
-        day.challenge();
+        final var input = ResourceLines.list("/day10.txt");
+
+        Timer.run(() -> part1(input));
+        Timer.run(() -> part2(input));
     }
 
-    @Override
-    public void part1() {
-        final List<String> corrupted = Chunk.corrupted(input);
+    static void part1(List<String> input) {
+        final var corrupted = Chunk.corrupted(input);
         System.out.println("The total syntax error score for those errors is "+ Chunk.corruptedScore(corrupted));
     }
 
-    @Override
-    public void part2() {
-        final List<String> uncompleted = Chunk.incomplete(input);
+    static void part2(List<String> input) {
+        final var uncompleted = Chunk.incomplete(input);
         System.out.println("The total syntax error score for those errors is "+ Chunk.incompleteScore(uncompleted));
     }
 }

@@ -1,7 +1,5 @@
 package com.putoet.day10;
 
-import com.putoet.day10.Chunk;
-import com.putoet.day10.State;
 import com.putoet.resources.ResourceLines;
 import org.javatuples.Pair;
 import org.junit.jupiter.api.Test;
@@ -21,7 +19,7 @@ class ChunkTest {
         assertEquals(State.VALID, Chunk.validate("[<>({}){}[([])<>]]").getValue0());
         assertEquals(State.VALID, Chunk.validate("(((((((((())))))))))").getValue0());
 
-        Pair<State, String> pair = Chunk.validate("(]");
+        var pair = Chunk.validate("(]");
         assertEquals(Pair.with(State.CORRUPTED, "]"), pair);
         pair = Chunk.validate("{()()()>");
         assertEquals(Pair.with(State.CORRUPTED, ">"), pair);
@@ -33,18 +31,18 @@ class ChunkTest {
 
     @Test
     void corrupted() {
-        final List<String> corrupted = Chunk.corrupted(input);
+        final var corrupted = Chunk.corrupted(input);
         assertEquals(26397, Chunk.corruptedScore(corrupted));
     }
 
     @Test
-    void uncomplete() {
-        final List<String> uncompleted = Chunk.incomplete(input);
+    void incomplete() {
+        final var uncompleted = Chunk.incomplete(input);
         assertEquals(288957, Chunk.incompleteScore(uncompleted));
     }
 
     @Test
-    void uncompeteScoreSingle() {
+    void incompleteScoreSingle() {
         assertEquals(288957, Chunk.incompleteScore("}}]])})]"));
         assertEquals(5566, Chunk.incompleteScore(")}>]})"));
         assertEquals(1480781, Chunk.incompleteScore("}}>}>))))"));
