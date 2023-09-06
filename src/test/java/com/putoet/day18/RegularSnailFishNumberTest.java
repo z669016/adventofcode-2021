@@ -22,7 +22,7 @@ class RegularSnailFishNumberTest {
 
     @Test
     void setParent() {
-        final CompoundSnailFishNumber compound = mock(CompoundSnailFishNumber.class);
+        final var compound = mock(RegularSnailFishNumber.class);
         number.setParent(compound);
 
         assertEquals(compound,number.parent());
@@ -38,7 +38,7 @@ class RegularSnailFishNumberTest {
         number.add(SnailFishNumbers.of(7));
         assertEquals(18L,number.magnitude());
 
-        final CompoundSnailFishNumber compound = mock(CompoundSnailFishNumber.class);
+        final var compound = mock(CompoundSnailFishNumber.class);
         assertThrows(IllegalArgumentException.class, () -> number.add(compound));
     }
 
@@ -49,7 +49,7 @@ class RegularSnailFishNumberTest {
 
     @Test
     void split() {
-        final SnailFishNumber split = number.split();
+        final var split = number.split();
         assertEquals(27L, split.magnitude());
     }
 
@@ -70,8 +70,8 @@ class RegularSnailFishNumberTest {
 
     @Test
     void moveLeftFrom() {
-        final SnailFishNumber other = SnailFishNumbers.of(9);
-        final SnailFishNumber compound = mock(CompoundSnailFishNumber.class);
+        final var other = SnailFishNumbers.of(9);
+        final var compound = mock(CompoundSnailFishNumber.class);
         number.setParent(compound);
         number.moveLeftFrom(other, compound);
         assertEquals(20L, number.magnitude());
@@ -81,8 +81,8 @@ class RegularSnailFishNumberTest {
 
     @Test
     void moveRightFrom() {
-        final SnailFishNumber other = SnailFishNumbers.of(7);
-        final SnailFishNumber compound = mock(CompoundSnailFishNumber.class);
+        final var other = SnailFishNumbers.of(7);
+        final var compound = mock(CompoundSnailFishNumber.class);
         number.setParent(compound);
         number.moveRightFrom(other, compound);
         assertEquals(18L, number.magnitude());

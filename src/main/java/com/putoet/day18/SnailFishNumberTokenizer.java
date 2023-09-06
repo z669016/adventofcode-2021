@@ -1,13 +1,15 @@
 package com.putoet.day18;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Iterator;
 
-public class SnailFishNumberTokenizer implements Iterator<String> {
+class SnailFishNumberTokenizer implements Iterator<String> {
     private final String text;
     private int offset;
 
-    public SnailFishNumberTokenizer(String text) {
-        assert text != null && text.strip().length() > 0;
+    public SnailFishNumberTokenizer(@NotNull String text) {
+        assert !text.isBlank();
         this.text = text.strip();
         this.offset = 0;
     }
@@ -19,7 +21,7 @@ public class SnailFishNumberTokenizer implements Iterator<String> {
 
     @Override
     public String next() {
-        String token = text.substring(offset, offset + 1);
+        var token = text.substring(offset, offset + 1);
         if ("[".equals(token)) {
             offset++;
             return token;
@@ -31,7 +33,7 @@ public class SnailFishNumberTokenizer implements Iterator<String> {
             return token;
         }
 
-        final StringBuilder sb = new StringBuilder();
+        final var sb = new StringBuilder();
         while (Character.isDigit(text.charAt(offset))) {
             sb.append(text.charAt(offset));
             offset++;

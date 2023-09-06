@@ -2,8 +2,9 @@ package com.putoet.day18;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Triple;
+import org.jetbrains.annotations.NotNull;
 
-public class RegularSnailFishNumber implements SnailFishNumber {
+class RegularSnailFishNumber implements SnailFishNumber {
     private SnailFishNumber parent;
     private int value;
 
@@ -27,7 +28,7 @@ public class RegularSnailFishNumber implements SnailFishNumber {
     }
 
     @Override
-    public SnailFishNumber add(SnailFishNumber number) {
+    public SnailFishNumber add(@NotNull SnailFishNumber number) {
         if (number instanceof RegularSnailFishNumber other)
             this.value = this.value + other.value;
         else
@@ -70,17 +71,15 @@ public class RegularSnailFishNumber implements SnailFishNumber {
     }
 
     @Override
-    public void moveRightFrom(SnailFishNumber number, SnailFishNumber from) {
-        assert number != null;
+    public void moveRightFrom(@NotNull SnailFishNumber number, @NotNull SnailFishNumber from) {
         assert number instanceof RegularSnailFishNumber;
-        assert from != null;
         assert from.equals(parent);
 
         add(number);
     }
 
     @Override
-    public void moveLeftFrom(SnailFishNumber number, SnailFishNumber from) {
+    public void moveLeftFrom(@NotNull SnailFishNumber number, @NotNull SnailFishNumber from) {
         moveRightFrom(number, from);
     }
 

@@ -10,13 +10,13 @@ class SnailFishNumbersTest {
 
     @Test
     void of() {
-        final String text = "[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]";
+        final var text = "[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]";
         assertEquals(text, SnailFishNumbers.of(text).toString());
     }
 
     @Test
     void ofList() {
-        final List<String> list = List.of(
+        final var list = List.of(
                 "[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]",
                 "[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]",
                 "[[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]",
@@ -29,7 +29,7 @@ class SnailFishNumbersTest {
                 "[[[[4,2],2],6],[8,7]]"
         );
 
-        final List<SnailFishNumber> numbers = SnailFishNumbers.of(list);
+        final var numbers = SnailFishNumbers.of(list);
         assertEquals(list, numbers.stream().map(Object::toString).toList());
     }
 }

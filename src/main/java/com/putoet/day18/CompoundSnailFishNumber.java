@@ -2,13 +2,14 @@ package com.putoet.day18;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Triple;
+import org.jetbrains.annotations.NotNull;
 
-public class CompoundSnailFishNumber implements SnailFishNumber {
+class CompoundSnailFishNumber implements SnailFishNumber {
     private SnailFishNumber left;
     private SnailFishNumber right;
     private SnailFishNumber parent;
 
-    public CompoundSnailFishNumber(SnailFishNumber left, SnailFishNumber right) {
+    public CompoundSnailFishNumber(@NotNull SnailFishNumber left, @NotNull SnailFishNumber right) {
         this.left = left;
         this.right = right;
 
@@ -37,8 +38,8 @@ public class CompoundSnailFishNumber implements SnailFishNumber {
     }
 
     @Override
-    public SnailFishNumber add(SnailFishNumber other) {
-        final CompoundSnailFishNumber compound = new CompoundSnailFishNumber(this, other);
+    public SnailFishNumber add(@NotNull SnailFishNumber other) {
+        final var compound = new CompoundSnailFishNumber(this, other);
         this.setParent(compound);
         other.setParent(compound);
 
@@ -79,7 +80,7 @@ public class CompoundSnailFishNumber implements SnailFishNumber {
             return true;
 
         if (left.canExplode()) {
-            final Triple<SnailFishNumber, SnailFishNumber, SnailFishNumber> triple = left.explode();
+            final var triple = left.explode();
             left = triple.getRight();
             left.setParent(this);
             parent.moveLeftFrom(triple.getLeft(), this);
@@ -88,7 +89,7 @@ public class CompoundSnailFishNumber implements SnailFishNumber {
         }
 
         if (right.canExplode()) {
-            final Triple<SnailFishNumber, SnailFishNumber, SnailFishNumber> triple = right.explode();
+            final var triple = right.explode();
             right = triple.getRight();
             right.setParent(this);
             parent.moveRightFrom(triple.getMiddle(), this);
@@ -116,14 +117,11 @@ public class CompoundSnailFishNumber implements SnailFishNumber {
             return true;
         }
 
-        if (right.reduceSplit())
-            return true;
-
-        return false;
+        return right.reduceSplit();
     }
 
     @Override
-    public void moveRightFrom(SnailFishNumber number, SnailFishNumber from) {
+    public void moveRightFrom(@NotNull SnailFishNumber number, @NotNull SnailFishNumber from) {
         if (from.equals(parent))
             right.moveRightFrom(number, this);
 
@@ -135,7 +133,7 @@ public class CompoundSnailFishNumber implements SnailFishNumber {
     }
 
     @Override
-    public void moveLeftFrom(SnailFishNumber number, SnailFishNumber from) {
+    public void moveLeftFrom(@NotNull SnailFishNumber number, @NotNull SnailFishNumber from) {
         if (from.equals(parent))
             left.moveLeftFrom(number, this);
 

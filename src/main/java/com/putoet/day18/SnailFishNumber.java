@@ -1,15 +1,16 @@
 package com.putoet.day18;
 
 import org.apache.commons.lang3.tuple.Triple;
+import org.jetbrains.annotations.NotNull;
 
-public interface SnailFishNumber {
+interface SnailFishNumber {
     SnailFishNumber parent();
 
     void setParent(SnailFishNumber parent);
 
     long magnitude();
 
-    SnailFishNumber add(SnailFishNumber other);
+    SnailFishNumber add(@NotNull SnailFishNumber other);
 
     boolean canSplit();
 
@@ -20,7 +21,7 @@ public interface SnailFishNumber {
     Triple<SnailFishNumber, SnailFishNumber, SnailFishNumber> explode();
 
     default boolean reduce() {
-        boolean reduced;
+        var reduced = false;
         do {
             reduced = reduceExplosion();
             if (!reduced)
@@ -33,13 +34,13 @@ public interface SnailFishNumber {
     boolean reduceExplosion();
     boolean reduceSplit();
 
-    void moveRightFrom(SnailFishNumber number, SnailFishNumber from);
+    void moveRightFrom(@NotNull SnailFishNumber number, @NotNull SnailFishNumber from);
 
-    void moveLeftFrom(SnailFishNumber number, SnailFishNumber from);
+    void moveLeftFrom(@NotNull SnailFishNumber number, @NotNull SnailFishNumber from);
 
     default int depth() {
-        int depth = 0;
-        SnailFishNumber p = parent();
+        var depth = 0;
+        var p = parent();
         while (p != null) {
             depth++;
             p = p.parent();

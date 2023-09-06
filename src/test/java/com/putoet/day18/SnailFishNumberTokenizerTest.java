@@ -8,8 +8,8 @@ class SnailFishNumberTokenizerTest {
 
     @Test
     void next() {
-        final String text = "[[[[[9,8],1],2],3],4]";
-        final SnailFishNumberTokenizer tokenizer = new SnailFishNumberTokenizer(text);
+        final var text = "[[[[[9,8],1],2],3],4]";
+        final var tokenizer = new SnailFishNumberTokenizer(text);
         assertEquals("[", tokenizer.next());
         assertEquals("[", tokenizer.next());
         assertEquals("[", tokenizer.next());

@@ -5,8 +5,6 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,7 +29,7 @@ class CompoundSnailFishNumberTest {
 
     @Test
     void setParent() {
-        final CompoundSnailFishNumber compound = mock(CompoundSnailFishNumber.class);
+        final var compound = mock(CompoundSnailFishNumber.class);
         number.setParent(compound);
 
         assertEquals(compound,number.parent());
@@ -44,10 +42,10 @@ class CompoundSnailFishNumberTest {
 
     @Test
     void add() {
-        final CompoundSnailFishNumber compound = mock(CompoundSnailFishNumber.class);
+        final var compound = mock(CompoundSnailFishNumber.class);
         when(compound.toString()).thenReturn("[mock]");
 
-        final SnailFishNumber sum = number.add(compound);
+        final var sum = number.add(compound);
         assertEquals("[[1,2],[mock]]",sum.toString());
     }
 
@@ -72,9 +70,9 @@ class CompoundSnailFishNumberTest {
         reduceTest("[[[[6,7],[6,7]],[[7,7],[0,7]]],[[[8,7],[7,7]],[[8,8],[8,0]]]]", "[[[[2,4],7],[6,[0,5]]],[[[6,8],[2,8]],[[2,1],[4,5]]]]", "[[[[7,0],[7,7]],[[7,7],[7,8]]],[[[7,7],[8,8]],[[7,7],[8,7]]]]");
         reduceTest("[[[[7,0],[7,7]],[[7,7],[7,8]]],[[[7,7],[8,8]],[[7,7],[8,7]]]]", "[7,[5,[[3,8],[1,4]]]]", "[[[[7,7],[7,8]],[[9,5],[8,7]]],[[[6,8],[0,8]],[[9,9],[9,0]]]]");
 
-        final List<SnailFishNumber> numbers = SnailFishNumbers.of(ResourceLines.list("/day18.txt"));
-        SnailFishNumber root = numbers.get(0);
-        for (int idx = 1; idx < numbers.size(); idx++) {
+        final var numbers = SnailFishNumbers.of(ResourceLines.list("/day18.txt"));
+        var root = numbers.get(0);
+        for (var idx = 1; idx < numbers.size(); idx++) {
             root = root.add(numbers.get(idx));
             root.reduce();
         }
@@ -83,22 +81,22 @@ class CompoundSnailFishNumberTest {
     }
 
     void reduceTest(String from, String to) {
-        final SnailFishNumber number = SnailFishNumbers.of(from);
+        final var number = SnailFishNumbers.of(from);
         number.reduce();
         assertEquals(to, number.toString());
     }
 
     void reduceTest(String first, String second, String expected) {
-        SnailFishNumber number = SnailFishNumbers.of(first).add(SnailFishNumbers.of(second));
+        final var number = SnailFishNumbers.of(first).add(SnailFishNumbers.of(second));
         number.reduce();
         assertEquals(expected, number.toString());
     }
 
     @Test
     void sample2() {
-        final List<SnailFishNumber> numbers = SnailFishNumbers.of(ResourceLines.list("/day18-2.txt"));
-        SnailFishNumber root = numbers.get(0);
-        for (int idx = 1; idx < numbers.size(); idx++) {
+        final var numbers = SnailFishNumbers.of(ResourceLines.list("/day18-2.txt"));
+        var root = numbers.get(0);
+        for (var idx = 1; idx < numbers.size(); idx++) {
             root = root.add(numbers.get(idx));
             root.reduce();
         }
@@ -108,15 +106,15 @@ class CompoundSnailFishNumberTest {
 
     @Test
     void max() {
-        final List<String> input = ResourceLines.list("/day18-2.txt");
-        long max = Long.MIN_VALUE;
-        for (int a = 0; a < input.size(); a++) {
-            for (int b = 0; b < input.size(); b++) {
+        final var input = ResourceLines.list("/day18-2.txt");
+        var max = Long.MIN_VALUE;
+        for (var a = 0; a < input.size(); a++) {
+            for (var b = 0; b < input.size(); b++) {
                 if (b == a)
                     continue;
 
-                SnailFishNumber first = SnailFishNumbers.of(input.get(a));
-                SnailFishNumber second = SnailFishNumbers.of(input.get(b));
+                var first = SnailFishNumbers.of(input.get(a));
+                var second = SnailFishNumbers.of(input.get(b));
                 first = first.add(second);
                 first.reduce();
                 max = Math.max(max,first.magnitude());
