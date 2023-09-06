@@ -1,28 +1,21 @@
 package com.putoet.day13;
 
-import com.putoet.day.Day;
 import com.putoet.resources.ResourceLines;
+import com.putoet.utils.Timer;
 
 import java.util.List;
 
-public class Day13 extends Day {
-    private final List<String> input;
-
-    protected Day13(String[] args) {
-        super(args);
-        input = ResourceLines.list("/day13.txt");
-    }
-
+public class Day13  {
     public static void main(String[] args) {
-        final Day day = new Day13(args);
-        day.challenge();
+        final var input = ResourceLines.list("/day13.txt");
+        final List<FoldingInstruction> instructions = FoldingInstruction.of(input);
+        final var paper = TransparentPaper.of(input);
+
+        Timer.run(() -> part1(instructions.get(0), paper));
+        Timer.run(() -> part2(instructions, paper));
     }
 
-    @Override
-    public void part1() {
-        final FoldingInstruction instruction = FoldingInstruction.of(input).get(0);
-        TransparentPaper paper = TransparentPaper.of(input);
-
+    static void part1(FoldingInstruction instruction, TransparentPaper paper) {
         if (instruction.along() == FoldingInstruction.Along.X)
             paper = paper.foldLeft(instruction.offset());
         else
@@ -31,11 +24,7 @@ public class Day13 extends Day {
         System.out.println("The numer of dots after a single fold is " + paper.dots());
     }
 
-    @Override
-    public void part2() {
-        final List<FoldingInstruction> instructions = FoldingInstruction.of(input);
-        TransparentPaper paper = TransparentPaper.of(input);
-
+    static void part2(List<FoldingInstruction> instructions, TransparentPaper paper) {
         for (FoldingInstruction instruction :instructions) {
             if (instruction.along() == FoldingInstruction.Along.X)
                 paper = paper.foldLeft(instruction.offset());

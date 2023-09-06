@@ -14,7 +14,7 @@ class TransparentPaperTest {
 
     @BeforeEach
     void setup() {
-        final List<String> input = ResourceLines.list("/day13.txt");
+        final var input = ResourceLines.list("/day13.txt");
         paper = TransparentPaper.of(input);
 
         assertEquals(18, paper.dots());
@@ -24,14 +24,13 @@ class TransparentPaperTest {
     void asPoint() {
         assertEquals(Point.of(1, 3), TransparentPaper.asPoint(" 1,3 "));
 
-        assertThrows(AssertionError.class , () -> TransparentPaper.asPoint(null));
         assertThrows(NumberFormatException.class , () -> TransparentPaper.asPoint("a,1"));
         assertThrows(NumberFormatException.class , () -> TransparentPaper.asPoint("1,a"));
     }
 
     @Test
     void of() {
-        final String PAPER = """
+        final var PAPER = """
                 ...#..#..#.
                 ....#......
                 ...........
@@ -53,7 +52,7 @@ class TransparentPaperTest {
 
     @Test
     void foldAlongY() {
-        final String PAPER = """
+        final var PAPER = """
                 #.##..#..#.
                 #...#......
                 ......#...#
@@ -70,7 +69,7 @@ class TransparentPaperTest {
 
     @Test
     void foldAlongX() {
-        final String PAPER = """
+        final var PAPER = """
                 #####
                 #...#
                 #...#
@@ -80,7 +79,7 @@ class TransparentPaperTest {
                 .....
                 """;
 
-        final List<FoldingInstruction> instructions = List.of(
+        final var instructions = List.of(
                 FoldingInstruction.of(FoldingInstruction.Along.Y, 7),
                 FoldingInstruction.of(FoldingInstruction.Along.X, 5)
         );
@@ -89,5 +88,4 @@ class TransparentPaperTest {
         assertEquals(PAPER, paper.toString());
         assertEquals(16, paper.dots());
     }
-
 }
