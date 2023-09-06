@@ -38,7 +38,7 @@ class CaveTest {
 
     @Test
     void string() {
-        final String input = """
+        final var input = """
                 1163751742
                 1381373672
                 2136511328
@@ -55,7 +55,7 @@ class CaveTest {
 
     @Test
     void expand() {
-        final String input = """
+        final var input = """
                 11637517422274862853338597396444961841755517295286
                 13813736722492484783351359589446246169155735727126
                 21365113283247622439435873354154698446526571955763
@@ -107,7 +107,7 @@ class CaveTest {
                 56475739656758684176786979528789718163989182927419
                 67554889357866599146897761125791887223681299833479
                 """;
-        final Cave expanded = cave.expand(5);
+        final var expanded = cave.expand(5);
         assertEquals(input, expanded.toString());
     }
 }

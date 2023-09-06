@@ -3,8 +3,6 @@ package com.putoet.day15;
 import com.putoet.resources.ResourceLines;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,8 +11,7 @@ class CaveSearchTest {
 
     @Test
     void bfs() {
-        final Optional<CaveSearch.CaveNode> finish =
-                CaveSearch.bfs(cave.start(), CaveSearch.goalTest(cave), CaveSearch.successors(cave));
+        final var finish = CaveSearch.bfs(cave.start(), CaveSearch.goalTest(cave), CaveSearch.successors(cave));
 
         assertTrue(finish.isPresent());
         assertEquals(40, finish.get().totalRisk());
