@@ -4,7 +4,6 @@ import com.putoet.grid.Point3D;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,14 +16,14 @@ class Range3DTest {
 
     @Test
     void point3DCount() {
-        Range3D range = Range3D.of(Point3D.ORIGIN, Point3D.of(1, 1, 1));
+        final var range = Range3D.of(Point3D.ORIGIN, Point3D.of(1, 1, 1));
         assertEquals(8, range.point3DCount());
     }
 
     @Test
     void toSet() {
-        Range3D range = Range3D.of("x=10..12,y=10..12,z=10..12");
-        Set<Point3D> set = range.toSet();
+        var range = Range3D.of("x=10..12,y=10..12,z=10..12");
+        var set = range.toSet();
         assertEquals(27, set.size());
 
         range = Range3D.of("x=9..11,y=9..11,z=9..11");
@@ -68,10 +67,10 @@ class Range3DTest {
 
     @Test
     void split() {
-        final Range3D inner = Range3D.of(Point3D.of(-1,-1, -1), Point3D.of(1, 1, 1));
-        final Range3D outer = Range3D.of(Point3D.of(-3,-3, -3), Point3D.of(3, 3, 3));
+        final var inner = Range3D.of(Point3D.of(-1,-1, -1), Point3D.of(1, 1, 1));
+        final var outer = Range3D.of(Point3D.of(-3,-3, -3), Point3D.of(3, 3, 3));
 
-        final List<String> lines = List.of(
+        final var lines = List.of(
                 "x=-3..-2,y=-3..3,z=-3..3",
                 "x=2..3,y=-3..3,z=-3..3",
                 "x=-1..1,y=-3..-2,z=-3..3",
@@ -79,7 +78,7 @@ class Range3DTest {
                 "x=-1..1,y=-1..1,z=-3..-2",
                 "x=-1..1,y=-1..1,z=2..3"
         );
-        final List<Range3D> expected = Range3D.of(lines);
+        final var expected = Range3D.of(lines);
         assertEquals(expected, outer.carve(inner));
     }
 }

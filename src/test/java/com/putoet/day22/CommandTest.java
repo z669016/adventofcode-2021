@@ -14,7 +14,7 @@ class CommandTest {
 
     @Test
     void range() {
-        final Range3D expected = new Range3D(Point3D.of(-54112, -85059, -27449), Point3D.of(23432, 81175, 53682));
+        final var expected = new Range3D(Point3D.of(-54112, -85059, -27449), Point3D.of(23432, 81175, 53682));
         assertEquals(expected, Command.range(commands));
     }
 }
