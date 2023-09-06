@@ -1,4 +1,4 @@
-package com.putoet.day9;
+package com.putoet.day10;
 
 import com.putoet.day10.Chunk;
 import com.putoet.day10.State;

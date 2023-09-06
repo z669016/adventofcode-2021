@@ -1,28 +1,27 @@
 package com.putoet.day9;
 
 import com.putoet.grid.Point;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public record HeightMap(char[][] grid) {
+record HeightMap(char[][] grid) {
 
-    public static HeightMap of(List<String> map) {
-        assert map != null;
+    public static HeightMap of(@NotNull List<String> map) {
+        final var grid = new char[map.size()][];
 
-        final char[][] grid = new char[map.size()][];
-
-        for (int i = 0; i < map.size(); i++) {
+        for (var i = 0; i < map.size(); i++) {
             grid[i] = map.get(i).toCharArray();
         }
         return new HeightMap(grid);
     }
 
     public List<Point> lowest() {
-        final List<Point> lowest = new ArrayList<>();
+        final var lowest = new ArrayList<Point>();
 
-        for (int y = 0; y < grid.length; y++) {
-            for (int x = 0; x < grid[y].length; x++) {
-                char valueAt = grid[y][x];
+        for (var y = 0; y < grid.length; y++) {
+            for (var x = 0; x < grid[y].length; x++) {
+                final var valueAt = grid[y][x];
                 if (valueAt < valueAtLowestAdjacent(x, y))
                     lowest.add(Point.of(x, y));
             }
@@ -31,7 +30,7 @@ public record HeightMap(char[][] grid) {
     }
 
     private char valueAtLowestAdjacent(int x, int y) {
-        int lowest = Integer.MAX_VALUE;
+        var lowest = Integer.MAX_VALUE;
         if (x > 0)
             lowest = Math.min(lowest, grid[y][x - 1]);
         if (x + 1 < grid[y].length)
@@ -44,29 +43,28 @@ public record HeightMap(char[][] grid) {
         return (char) lowest;
     }
 
-    public int riskLevel(List<Point> points) {
+    public int riskLevel(@NotNull List<Point> points) {
         return points.stream().mapToInt(this::riskLevel).sum();
     }
 
-    public int riskLevel(Point point) {
+    public int riskLevel(@NotNull Point point) {
         contains(point);
 
         return grid[point.y()][point.x()] - '0' + 1;
     }
 
     private void contains(Point point) {
-        assert point != null;
         assert point.y() >= 0;
         assert point.x() >= 0;
         assert point.y() < grid.length;
         assert point.x() < grid[point.y()].length;
     }
 
-    public Set<Point> basin(Point lowest) {
+    public Set<Point> basin(@NotNull Point lowest) {
         contains(lowest);
 
-        final Set<Point> basin = new HashSet<>();
-        final Queue<Point> queue = new LinkedList<>();
+        final var basin = new HashSet<Point>();
+        final var queue = new LinkedList<Point>();
 
         queue.offer(lowest);
         while (!queue.isEmpty()) {
@@ -75,22 +73,22 @@ public record HeightMap(char[][] grid) {
                 basin.add(point);
 
                 if (point.x() > 0) {
-                    final Point next = Point.of(point.x() - 1, point.y());
+                    final var next = Point.of(point.x() - 1, point.y());
                     if (!basin.contains(next))
                         queue.offer(next);
                 }
                 if (point.x() + 1 < grid[point.y()].length) {
-                    final Point next = Point.of(point.x() + 1, point.y());
+                    final var next = Point.of(point.x() + 1, point.y());
                     if (!basin.contains(next))
                         queue.offer(next);
                 }
                 if (point.y() > 0) {
-                    final Point next = Point.of(point.x(), point.y() - 1);
+                    final var next = Point.of(point.x(), point.y() - 1);
                     if (!basin.contains(next))
                         queue.offer(next);
                 }
                 if (point.y() + 1 < grid.length) {
-                    final Point next = Point.of(point.x(), point.y() + 1);
+                    final var next = Point.of(point.x(), point.y() + 1);
                     if (!basin.contains(next))
                         queue.offer(next);
                 }
@@ -101,8 +99,8 @@ public record HeightMap(char[][] grid) {
     }
 
     public List<Set<Point>> largestBasins() {
-        final List<Point> lowest = lowest();
-        final List<Set<Point>> basins = new ArrayList<>(lowest.stream().map(this::basin).toList());
+        final var lowest = lowest();
+        final var basins = new ArrayList<>(lowest.stream().map(this::basin).toList());
         basins.sort(Comparator.comparing(Set::size));
 
         while (basins.size() > 3)

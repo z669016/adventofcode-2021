@@ -1,36 +1,25 @@
 package com.putoet.day9;
 
-import com.putoet.day.Day;
-import com.putoet.grid.Point;
 import com.putoet.resources.ResourceLines;
+import com.putoet.utils.Timer;
 
-import java.util.List;
-import java.util.Set;
-
-public class Day9 extends Day {
-    private final HeightMap heightMap;
-
-    protected Day9(String[] args) {
-        super(args);
-        heightMap = HeightMap.of(ResourceLines.list("/day9.txt"));
-    }
-
+public class Day9 {
     public static void main(String[] args) {
-        final Day day = new Day9(args);
-        day.challenge();
+        final var heightMap = HeightMap.of(ResourceLines.list("/day9.txt"));
+
+        Timer.run(() -> part1(heightMap));
+        Timer.run(() -> part2(heightMap));
     }
 
-    @Override
-    public void part1() {
-        final List<Point> lowest = heightMap.lowest();
+    static void part1(HeightMap heightMap) {
+        final var lowest = heightMap.lowest();
         System.out.println("The risk level for the height map is " + heightMap.riskLevel(lowest));
     }
 
-    @Override
-    public void part2() {
-        final List<Set<Point>> largest = heightMap.largestBasins();
+    static void part2(HeightMap heightMap) {
+        final var largest = heightMap.largestBasins();
 
         System.out.println("Score for the 3 largest asins is "
-                + largest.get(0).size() * largest.get(1).size() * largest.get(2).size());
+                           + largest.get(0).size() * largest.get(1).size() * largest.get(2).size());
     }
 }
