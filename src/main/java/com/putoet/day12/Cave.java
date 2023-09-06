@@ -1,12 +1,16 @@
 package com.putoet.day12;
 
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Cave implements Comparable<Cave> {
+class Cave implements Comparable<Cave> {
     private final List<Cave> neighbours = new ArrayList<>();
     private final String name;
+    @Getter
     private final boolean small;
 
     public Cave(String name) {
@@ -16,10 +20,6 @@ public class Cave implements Comparable<Cave> {
 
     public String name() {
         return name;
-    }
-
-    public boolean isSmall() {
-        return small;
     }
 
     public List<Cave> neighbours() {
@@ -49,7 +49,7 @@ public class Cave implements Comparable<Cave> {
     }
 
     @Override
-    public int compareTo(Cave other) {
+    public int compareTo(@NotNull Cave other) {
         return name.compareTo(other.name);
     }
 }

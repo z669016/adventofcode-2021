@@ -1,38 +1,24 @@
 package com.putoet.day12;
 
-import com.putoet.day.Day;
 import com.putoet.resources.ResourceLines;
+import com.putoet.utils.Timer;
 
-import java.util.List;
-
-public class Day12 extends Day {
-    private final List<String> input;
-
-    protected Day12(String[] args) {
-        super(args);
-        input = ResourceLines.list("/day12.txt");
-    }
+public class Day12 {
 
     public static void main(String[] args) {
-        final Day day = new Day12(args);
-        day.challenge();
+        final var maze = Maze.of(ResourceLines.list("/day12.txt"));
+
+        Timer.run(() -> part1(maze));
+        Timer.run(() -> part2(maze));
     }
 
-    @Override
-    public void part1() {
-        final Maze maze = Maze.of(input);
-        final List<MazeSeach.CaveNode> paths =
-                MazeSeach.paths(maze.start(), MazeSeach.goalTest(maze), MazeSeach::successors);
-
+    static void part1(Maze maze) {
+        final var paths = MazeSearch.paths(maze.start(), MazeSearch.goalTest(maze), MazeSearch::successors);
         System.out.println("The number of paths through this cave system that visit small caves at most once is " + paths.size());
     }
 
-    @Override
-    public void part2() {
-        final Maze maze = Maze.of(input);
-        final List<MazeSeach.CaveNode> paths =
-                MazeSeach.paths(maze.start(), MazeSeach.goalTest(maze), MazeSeach::successorsOneSmall);
-
+    static void part2(Maze maze) {
+        final var paths = MazeSearch.paths(maze.start(), MazeSearch.goalTest(maze), MazeSearch::successorsOneSmall);
         System.out.println("The number of paths through this cave system that visits one small caves at most twice is " + paths.size());
     }
 }
