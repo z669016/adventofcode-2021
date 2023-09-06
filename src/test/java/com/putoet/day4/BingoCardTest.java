@@ -24,15 +24,15 @@ class BingoCardTest {
 
     @Test
     void of() {
-        final BingoCard board = BingoCard.of(BOARD);
+        final var board = BingoCard.of(BOARD);
         assertArrayEquals(NUMBERS, board.numbers());
     }
 
 
     @Test
     void score() {
-        final BingoCard board = BingoCard.of(BOARD);
-        final List<Integer> calls = List.of(7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21);
+        final var board = BingoCard.of(BOARD);
+        final var calls = List.of(7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21);
         calls.forEach(number -> assertFalse(board.call(number)));
 
         assertTrue(board.call(24));
@@ -41,7 +41,7 @@ class BingoCardTest {
 
     @Test
     void callRow() {
-        final BingoCard board = BingoCard.of(BOARD);
+        final var board = BingoCard.of(BOARD);
 
         assertFalse(board.call(17));
         assertFalse(board.call(14));
@@ -52,7 +52,7 @@ class BingoCardTest {
 
     @Test
     void callColumn() {
-        final BingoCard board = BingoCard.of(BOARD);
+        final var board = BingoCard.of(BOARD);
 
         assertFalse(board.call(15));
         assertFalse(board.call(23));
