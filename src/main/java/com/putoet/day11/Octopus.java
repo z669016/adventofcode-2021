@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Octopus {
-    public List<Octopus> neighbours = new ArrayList<>();
+    private final List<Octopus> neighbours = new ArrayList<>();
     private final Point id;
     private int energyLevel;
     private boolean flashed;

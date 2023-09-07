@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Stack;
 
 class Chunk {
-    public static char[] OPEN_SYMBOL = new char[] {'(', '{', '[', '<'};
+    public static final char[] OPEN_SYMBOL = new char[] {'(', '{', '[', '<'};
     public final static String OPEN = String.valueOf(OPEN_SYMBOL);
-    public static char[] CLOSE_SYMBOL = new char[] {')', '}', ']', '>'};
+    public static final char[] CLOSE_SYMBOL = new char[] {')', '}', ']', '>'};
     public final static String CLOSE = String.valueOf(CLOSE_SYMBOL);
 
     public static Pair<State,String> validate(@NotNull String line) {

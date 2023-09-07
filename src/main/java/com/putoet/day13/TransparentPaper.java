@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 class TransparentPaper {
-    public static char EMPTY = '.';
-    public static char DOT = '#';
+    public static final char EMPTY = '.';
+    public static final char DOT = '#';
 
     private final char[][] grid;
     private final int my;

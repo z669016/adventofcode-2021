@@ -29,16 +29,16 @@ class DigitsTest {
     void decode() {
         final String encoding = "deafgbc";
 
-        assertEquals(8, Digits.decode(encoding, "acedgfb").getAsInt());
-        assertEquals(5, Digits.decode(encoding, "cdfbe").getAsInt());
-        assertEquals(2, Digits.decode(encoding, "gcdfa").getAsInt());
-        assertEquals(3, Digits.decode(encoding, "fbcad").getAsInt());
-        assertEquals(7, Digits.decode(encoding, "dab").getAsInt());
-        assertEquals(9, Digits.decode(encoding, "cefabd").getAsInt());
-        assertEquals(6, Digits.decode(encoding, "cdfgeb").getAsInt());
-        assertEquals(4, Digits.decode(encoding, "eafb").getAsInt());
-        assertEquals(0, Digits.decode(encoding, "cagedb").getAsInt());
-        assertEquals(1, Digits.decode(encoding, "ab").getAsInt());
+        assertEquals(8, Digits.decode(encoding, "acedgfb").orElseThrow());
+        assertEquals(5, Digits.decode(encoding, "cdfbe").orElseThrow());
+        assertEquals(2, Digits.decode(encoding, "gcdfa").orElseThrow());
+        assertEquals(3, Digits.decode(encoding, "fbcad").orElseThrow());
+        assertEquals(7, Digits.decode(encoding, "dab").orElseThrow());
+        assertEquals(9, Digits.decode(encoding, "cefabd").orElseThrow());
+        assertEquals(6, Digits.decode(encoding, "cdfgeb").orElseThrow());
+        assertEquals(4, Digits.decode(encoding, "eafb").orElseThrow());
+        assertEquals(0, Digits.decode(encoding, "cagedb").orElseThrow());
+        assertEquals(1, Digits.decode(encoding, "ab").orElseThrow());
     }
 
     @Test
@@ -46,6 +46,6 @@ class DigitsTest {
         final String encoding = "deafgbc";
 
         assertEquals(encoding, Digits.encoding(List.of("acedgfb", "cdfbe", "gcdfa", "fbcad", "dab", "cefabd", "cdfgeb", "eafb", "cagedb", "ab")));
-        assertEquals(5353, Digits.decode(encoding, List.of("cdfeb", "fcadb", "cdfeb", "fcadb")).getAsInt());
+        assertEquals(5353, Digits.decode(encoding, List.of("cdfeb", "fcadb", "cdfeb", "fcadb")).orElseThrow());
     }
 }
