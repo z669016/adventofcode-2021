@@ -179,7 +179,8 @@ It also took a while to have the right order of actions. I stored the numbers in
 for explosions going from left to right  depth first. That's fine for explosions, which only occur at the lowest level,
 This fails on split actions that can occur on every level, so those need to be taken left to right top first.
 
-It's almost frustrating how quickly the answer gets calculated compared to the time it took towrite the correct code :-(
+It's almost frustrating how quickly the answer gets calculated compared to the time it took tow rite the correct 
+code :-(
 
 ## Day 19
 My goodness, that caused me quite some headache. My initial idea, was to use scanner 0 as the base scanner, and assume 
@@ -256,14 +257,14 @@ After adding visited stated (never visit them again), runtime was fine 3.3 secon
 Now this was something I didn't expect at all. I wouldn't have solved without help of Reddit, and even then it took me a
 while before I understood the challenge and the logic behind it.
 
-Of course, I started with writing an ALU and MONAD, knowing that finding a 14 digit number would take ages doing it 
+Of course, I started with writing an ALU and MONAD, knowing that finding a 14-digit number would take ages doing it 
 brute force.
 
 In the code the Z-variable is being used as a stack (yes, a stack), by multiplying the current Z-value with 26  
 and adding another value to it (w + constant). The X-variable is used to pop the top of the stack (add x z; mod x 26;)
 
 Overall the code contains 14 blocks, one foreach digit in the input. 7 blocks become a push, which are the ones that 
-contain "add x <constant>" with a constant that ensures the next "eql x w" to fail). The other7 blocks become a pop that
+contain "add x <constant>" with a constant that ensures the next "eql x w" to fail. The other 7 blocks become a pop that
 check if the latest input digit equals the top of the stack + constant.
 
 Once I got the concept, I annotated the puzzle input (```src/main/resources/day24.txt```).
